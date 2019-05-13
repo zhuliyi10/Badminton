@@ -1,0 +1,1 @@
+include ':app', ':commonlib', ':video', ':interactions'
