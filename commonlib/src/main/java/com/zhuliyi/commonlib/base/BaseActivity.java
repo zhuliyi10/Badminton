@@ -18,18 +18,24 @@ package com.zhuliyi.commonlib.base;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.zhuliyi.commonlib.base.delegate.IActivity;
+import com.zhuliyi.commonlib.base.lifecycle.ActivityLifecycleable;
 import com.zhuliyi.commonlib.mvp.IPresenter;
+import com.zhuliyi.commonlib.utils.AppUtils;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 
 /**
  * Despcription : 因为 Java 只能单继承,所以如果要用到需要继承特定 {@link Activity} 的三方库,那你就需要自己自定义 {@link Activity}
@@ -37,15 +43,19 @@ import butterknife.Unbinder;
  * Author : Leory
  * Time : 2018-04-15
  */
-public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity {
+public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity ,ActivityLifecycleable {
     protected final String TAG = this.getClass().getSimpleName();
-
+    private final BehaviorSubject<ActivityEvent> mLifecycleSubject = BehaviorSubject.create();
     private Unbinder unbinder;
     @Inject
     @Nullable
     protected P presenter;
 
-
+    @NonNull
+    @Override
+    public final Subject<ActivityEvent> provideLifecycleSubject() {
+        return mLifecycleSubject;
+    }
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
@@ -54,6 +64,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupActivityComponent(AppUtils.obtainAppComponent());
         try {
             int layoutResID = initView(savedInstanceState);
             //如果 initView 返回 0, 框架则不会调用 setContentView(), 当然也不会 Bind ButterKnife

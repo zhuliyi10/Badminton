@@ -40,6 +40,7 @@ public class GlobalConfigModule {
     private ClientModule.RetrofitConfiguration retrofitConfiguration;
     private ClientModule.OkHttpConfiguration okHttpConfiguration;
     private ClientModule.GsonConfiguration gsonConfiguration;
+    private ClientModule.RxCacheConfiguration mRxCacheConfiguration;
     private Cache.Factory cacheFactory;
     private GlobalConfigModule(Builder builder) {
         this.httpUrl = builder.httpUrl;
@@ -50,6 +51,7 @@ public class GlobalConfigModule {
         this.retrofitConfiguration = builder.retrofitConfiguration;
         this.okHttpConfiguration = builder.okHttpConfiguration;
         this.gsonConfiguration = builder.gsonConfiguration;
+        this.mRxCacheConfiguration = builder.rxCacheConfiguration;
         this.cacheFactory=builder.cacheFactory;
     }
 
@@ -115,6 +117,12 @@ public class GlobalConfigModule {
 
     @Singleton
     @Provides
+    @Nullable
+    ClientModule.RxCacheConfiguration provideRxCacheConfiguration() {
+        return mRxCacheConfiguration;
+    }
+    @Singleton
+    @Provides
     Cache.Factory provideCacheFactory(final Application application){
         return  cacheFactory==null?new Cache.Factory() {
             @NonNull
@@ -144,6 +152,7 @@ public class GlobalConfigModule {
         private ClientModule.RetrofitConfiguration retrofitConfiguration;
         private ClientModule.OkHttpConfiguration okHttpConfiguration;
         private ClientModule.GsonConfiguration gsonConfiguration;
+        private ClientModule.RxCacheConfiguration rxCacheConfiguration;
         private Cache.Factory cacheFactory;
         public Builder baseUrl(String baseUrl) {
             if (TextUtils.isEmpty(baseUrl)) {
@@ -187,6 +196,10 @@ public class GlobalConfigModule {
 
         public Builder gsonConfiguration(ClientModule.GsonConfiguration gsonConfiguration) {
             this.gsonConfiguration = gsonConfiguration;
+            return this;
+        }
+        public Builder rxCacheConfiguration(ClientModule.RxCacheConfiguration rxCacheConfiguration) {
+            this.rxCacheConfiguration = rxCacheConfiguration;
             return this;
         }
         public Builder cacheFactory(Cache.Factory cacheFactory) {

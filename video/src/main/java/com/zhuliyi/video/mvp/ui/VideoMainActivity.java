@@ -3,24 +3,15 @@ package com.zhuliyi.video.mvp.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zhuliyi.commonlib.base.BaseActivity;
 import com.zhuliyi.commonlib.di.component.AppComponent;
-import com.zhuliyi.commonlib.di.component.DaggerAppComponent;
-import com.zhuliyi.commonlib.image.ImageConfig;
-import com.zhuliyi.commonlib.utils.AppUtils;
-import com.zhuliyi.commonlib.utils.ToastUtils;
 import com.zhuliyi.interactions.RouterHub;
 import com.zhuliyi.video.R;
+import com.zhuliyi.video.di.component.DaggerVideoComponent;
 import com.zhuliyi.video.mvp.contract.VideoListContract;
 import com.zhuliyi.video.mvp.presenter.VideoPresenter;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Describe : 视频主页
@@ -34,7 +25,11 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerVideoComponent.builder()
+                .view(this)
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
     }
 
     @Override

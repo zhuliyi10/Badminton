@@ -52,6 +52,7 @@ dependencies {
     api rootProject.ext.dependencies["rxcache2"]
     api rootProject.ext.dependencies["rxlifecycle2"]
     api rootProject.ext.dependencies["rxlifecycle2-android"]
+    api rootProject.ext.dependencies["rxcache-jolyglot-gson"]
     //dagger2
     api rootProject.ext.dependencies["dagger2"]
     annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]

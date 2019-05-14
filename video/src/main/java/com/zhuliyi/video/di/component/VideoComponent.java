@@ -17,6 +17,7 @@ import dagger.Component;
 @ActivityScope
 @Component(modules = VideoModule.class,dependencies = AppComponent.class)
 public interface VideoComponent {
+
     void inject(VideoMainActivity activity);
 
     @Component.Builder

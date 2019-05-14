@@ -7,6 +7,7 @@ import com.zhuliyi.commonlib.base.delegate.AppDelegate;
 import com.zhuliyi.commonlib.di.module.AppModule;
 import com.zhuliyi.commonlib.di.module.ClientModule;
 import com.zhuliyi.commonlib.di.module.GlobalConfigModule;
+import com.zhuliyi.commonlib.http.IRepositoryManager;
 import com.zhuliyi.commonlib.image.ImageLoader;
 
 import java.io.File;
@@ -30,6 +31,12 @@ public interface AppComponent {
     //图片管理器,用于加载图片的管理类,默认使用 Glide ,使用策略模式,可在运行时替换框架
     ImageLoader imageLoader();
 
+    /**
+     * 用于管理网络请求层, 以及数据缓存层
+     *
+     * @return {@link IRepositoryManager}
+     */
+    IRepositoryManager repositoryManager();
 
     //缓存文件根目录(RxCache 和 Glide 的缓存都已经作为子文件夹放在这个根目录下),应该将所有缓存都放到这个根目录下,便于管理和清理,可在 GlobalConfigModule 里配置
     File cacheFile();
