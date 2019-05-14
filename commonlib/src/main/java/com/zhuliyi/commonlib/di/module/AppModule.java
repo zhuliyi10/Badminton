@@ -1,5 +1,9 @@
 package com.zhuliyi.commonlib.di.module;
 
+import com.zhuliyi.commonlib.http.IRepositoryManager;
+import com.zhuliyi.commonlib.http.RepositoryManager;
+
+import dagger.Binds;
 import dagger.Module;
 
 /**
@@ -9,6 +13,7 @@ import dagger.Module;
  */
 
 @Module
-public class AppModule {
-
+public abstract class AppModule {
+    @Binds
+    abstract IRepositoryManager bindRepositoryManager(RepositoryManager repositoryManager);
 }

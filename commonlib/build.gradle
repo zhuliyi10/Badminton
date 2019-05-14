@@ -2,7 +2,10 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
-
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
@@ -47,6 +50,8 @@ dependencies {
     api rootProject.ext.dependencies["rxjava2"]
     api rootProject.ext.dependencies["rxandroid2"]
     api rootProject.ext.dependencies["rxcache2"]
+    api rootProject.ext.dependencies["rxlifecycle2"]
+    api rootProject.ext.dependencies["rxlifecycle2-android"]
     //dagger2
     api rootProject.ext.dependencies["dagger2"]
     annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]

@@ -10,6 +10,7 @@ ext {
     version = [
             supportVersion    : "28.0.0",
             dagger2Version    : "2.15",
+            rxlifecycle2SdkVersion  : "2.2.2",
             retorfitVersion   : "2.4.0",
             glideVersion      : "4.6.1",
             butterknifeVersion: "8.8.1"
@@ -36,6 +37,8 @@ ext {
             "rxjava2"                      : "io.reactivex.rxjava2:rxjava:2.1.12",
             "rxandroid2"                   : "io.reactivex.rxjava2:rxandroid:2.0.2",
             "rxcache2"                     : "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x",
+            "rxlifecycle2"                 : "com.trello.rxlifecycle2:rxlifecycle:${version["rxlifecycle2SdkVersion"]}",
+            "rxlifecycle2-android"         : "com.trello.rxlifecycle2:rxlifecycle-android:${version["rxlifecycle2SdkVersion"]}",
             "dagger2"                      : "com.google.dagger:dagger:${version["dagger2Version"]}",
             "dagger2-compiler"             : "com.google.dagger:dagger-compiler:${version["dagger2Version"]}",
             "androideventbus"              : "org.simple:androideventbus:1.0.5.1",
