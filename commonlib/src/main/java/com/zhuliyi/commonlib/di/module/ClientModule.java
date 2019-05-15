@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zhuliyi.commonlib.http.GlobalHttpHandler;
+import com.zhuliyi.commonlib.http.log.LogInterceptor;
 import com.zhuliyi.commonlib.utils.FileUtils;
 
 import java.io.File;
@@ -37,15 +38,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Date : 2018-06-12
  */
 @Module
-public class ClientModule {
+public abstract class ClientModule {
     private static final int TIME_OUT = 10;//s
+
     @Singleton
     @Provides
     static Retrofit provideRetrofit(Application application, @Nullable RetrofitConfiguration configuration, Retrofit.Builder builder, OkHttpClient client, HttpUrl httpUrl, Gson gson) {
         builder.baseUrl(httpUrl)
                 .client(client);
-        if(configuration!=null){
-            configuration.configRetrofit(application,builder);
+        if (configuration != null) {
+            configuration.configRetrofit(application, builder);
         }
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson));
@@ -54,10 +56,11 @@ public class ClientModule {
 
     @Singleton
     @Provides
-    static OkHttpClient provideClient(Application application, OkHttpClient.Builder builder,  @Nullable List<Interceptor> interceptors, @Nullable final OkHttpConfiguration configuration, @Nullable final GlobalHttpHandler handler){
+    static OkHttpClient provideClient(Application application, OkHttpClient.Builder builder,Interceptor interceptor, @Nullable List<Interceptor> interceptors,  @Nullable final OkHttpConfiguration configuration, @Nullable GlobalHttpHandler handler) {
         builder.connectTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .readTimeout(TIME_OUT,TimeUnit.SECONDS);
-        if(handler!=null) {
+                .readTimeout(TIME_OUT, TimeUnit.SECONDS)
+                .addNetworkInterceptor(interceptor);
+        if (handler != null) {
             builder.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
@@ -65,16 +68,19 @@ public class ClientModule {
                 }
             });
         }
-        if(interceptors!=null){
-            for (Interceptor interceptor1:interceptors){
+        if (interceptors != null) {
+            for (Interceptor interceptor1 : interceptors) {
                 builder.addInterceptor(interceptor1);
             }
         }
-        if(configuration!=null){
-            configuration.configOkHttp(application,builder);
+        if (configuration != null) {
+            configuration.configOkHttp(application, builder);
         }
         return builder.build();
     }
+    @Binds
+    abstract Interceptor bindInterceptor(LogInterceptor interceptor);
+
     @Singleton
     @Provides
     static Retrofit.Builder provideRetrofitBuilder() {
@@ -126,23 +132,26 @@ public class ClientModule {
 
     @Singleton
     @Provides
-    static Gson provideGson(Application application,@Nullable GsonConfiguration configuration){
-        GsonBuilder builder=new GsonBuilder();
+    static Gson provideGson(Application application, @Nullable GsonConfiguration configuration) {
+        GsonBuilder builder = new GsonBuilder();
         if (configuration != null) {
-            configuration.configGson(application,builder);
+            configuration.configGson(application, builder);
         }
         return builder.create();
     }
 
-    public interface GsonConfiguration{
-        void configGson(Context context,GsonBuilder builder);
+    public interface GsonConfiguration {
+        void configGson(Context context, GsonBuilder builder);
     }
+
     public interface RetrofitConfiguration {
         void configRetrofit(Context context, Retrofit.Builder builder);
     }
+
     public interface OkHttpConfiguration {
         void configOkHttp(Context context, OkHttpClient.Builder builder);
     }
+
     /**
      * {@link RxCache} 自定义配置接口
      */

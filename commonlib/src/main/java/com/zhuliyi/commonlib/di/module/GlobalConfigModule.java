@@ -10,6 +10,9 @@ import com.zhuliyi.commonlib.cache.CacheType;
 import com.zhuliyi.commonlib.cache.IntelligentCache;
 import com.zhuliyi.commonlib.cache.LruCache;
 import com.zhuliyi.commonlib.http.GlobalHttpHandler;
+import com.zhuliyi.commonlib.http.log.DefaultFormatPrinter;
+import com.zhuliyi.commonlib.http.log.FormatPrinter;
+import com.zhuliyi.commonlib.http.log.LogInterceptor;
 import com.zhuliyi.commonlib.image.BaseImageLoaderStrategy;
 import com.zhuliyi.commonlib.image.glide.GlideImageLoaderStrategy;
 import com.zhuliyi.commonlib.utils.FileUtils;
@@ -40,7 +43,9 @@ public class GlobalConfigModule {
     private ClientModule.RetrofitConfiguration retrofitConfiguration;
     private ClientModule.OkHttpConfiguration okHttpConfiguration;
     private ClientModule.GsonConfiguration gsonConfiguration;
-    private ClientModule.RxCacheConfiguration mRxCacheConfiguration;
+    private ClientModule.RxCacheConfiguration rxCacheConfiguration;
+    private LogInterceptor.Level printHttpLogLevel;
+    private FormatPrinter formatPrinter;
     private Cache.Factory cacheFactory;
     private GlobalConfigModule(Builder builder) {
         this.httpUrl = builder.httpUrl;
@@ -51,7 +56,9 @@ public class GlobalConfigModule {
         this.retrofitConfiguration = builder.retrofitConfiguration;
         this.okHttpConfiguration = builder.okHttpConfiguration;
         this.gsonConfiguration = builder.gsonConfiguration;
-        this.mRxCacheConfiguration = builder.rxCacheConfiguration;
+        this.rxCacheConfiguration = builder.rxCacheConfiguration;
+        this.printHttpLogLevel = builder.printHttpLogLevel;
+        this.formatPrinter = builder.formatPrinter;
         this.cacheFactory=builder.cacheFactory;
     }
 
@@ -119,7 +126,19 @@ public class GlobalConfigModule {
     @Provides
     @Nullable
     ClientModule.RxCacheConfiguration provideRxCacheConfiguration() {
-        return mRxCacheConfiguration;
+        return rxCacheConfiguration;
+    }
+
+    @Singleton
+    @Provides
+    LogInterceptor.Level providePrintHttpLogLevel() {
+        return printHttpLogLevel == null ? LogInterceptor.Level.ALL : printHttpLogLevel;
+    }
+
+    @Singleton
+    @Provides
+    FormatPrinter provideFormatPrinter() {
+        return formatPrinter == null ? new DefaultFormatPrinter() : formatPrinter;
     }
     @Singleton
     @Provides
@@ -153,6 +172,8 @@ public class GlobalConfigModule {
         private ClientModule.OkHttpConfiguration okHttpConfiguration;
         private ClientModule.GsonConfiguration gsonConfiguration;
         private ClientModule.RxCacheConfiguration rxCacheConfiguration;
+        private LogInterceptor.Level printHttpLogLevel;
+        private FormatPrinter formatPrinter;
         private Cache.Factory cacheFactory;
         public Builder baseUrl(String baseUrl) {
             if (TextUtils.isEmpty(baseUrl)) {
@@ -204,6 +225,16 @@ public class GlobalConfigModule {
         }
         public Builder cacheFactory(Cache.Factory cacheFactory) {
             this.cacheFactory = cacheFactory;
+            return this;
+        }
+
+        public Builder printHttpLogLevel(LogInterceptor.Level printHttpLogLevel) {//是否让框架打印 Http 的请求和响应信息
+            this.printHttpLogLevel = printHttpLogLevel;
+            return this;
+        }
+
+        public Builder formatPrinter(FormatPrinter formatPrinter) {
+            this.formatPrinter = formatPrinter;
             return this;
         }
 
