@@ -18,6 +18,7 @@ android {
                 arguments = [moduleName: project.getName()]
             }
         }
+
     }
 
     buildTypes {
@@ -50,6 +51,8 @@ dependencies {
 
     api rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+    //gsyVideoPlayer
+    api rootProject.ext.dependencies["gsyVideoPlayer"]
     //rx2
     api rootProject.ext.dependencies["rxjava2"]
     api rootProject.ext.dependencies["rxandroid2"]

@@ -11,6 +11,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.zhuliyi.commonlib.base.BaseActivity;
 import com.zhuliyi.commonlib.di.component.AppComponent;
 import com.zhuliyi.interactions.RouterHub;
@@ -73,6 +74,40 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
                 presenter.requestData(false);
             }
         });
+
+        rcv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager instanceof LinearLayoutManager) {
+                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+                    //获取最后一个可见view的位置
+                    int lastItemPosition = linearManager.findLastVisibleItemPosition();
+                    //获取第一个可见view的位置
+                    int firstItemPosition = linearManager.findFirstVisibleItemPosition();
+                    //大于0说明有播放
+                    if (GSYVideoManager.instance().getPlayPosition() >= 0) {
+                        //当前播放的位置
+                        int position = GSYVideoManager.instance().getPlayPosition();
+                        //对应的播放列表TAG
+                        if (GSYVideoManager.instance().getPlayTag().equals(videoAdapter.TAG)
+                                && (position < firstItemPosition || position > lastItemPosition)) {
+                            if (GSYVideoManager.isFullState(VideoMainActivity.this)) {
+                                return;
+                            }
+                            //如果滑出去了上面和下面就是否，和今日头条一样
+                            GSYVideoManager.releaseAllVideos();
+                            videoAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        });
     }
 
 
@@ -109,11 +144,29 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
             videoAdapter.addData(data);
         }
     }
+    @Override
+    public void onBackPressed() {
+        if (GSYVideoManager.backFromWindowFull(this)) {
+            return;
+        }
+        super.onBackPressed();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onPause() {
+        super.onPause();
+        GSYVideoManager.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GSYVideoManager.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GSYVideoManager.releaseAllVideos();
     }
 }

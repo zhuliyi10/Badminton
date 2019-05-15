@@ -6,41 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/image"
-        android:scaleType="centerCrop"
+    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+        android:id="@+id/detail_player"
         android:layout_width="match_parent"
         android:layout_height="202dp" />
-    <TextView
-        android:id="@+id/txt_play_count"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="4dp"
-        android:text="播放次数"
-        android:textSize="12sp"
-        android:textColor="@color/white"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:background="@drawable/bg_play_duration"
-        app:layout_constraintBottom_toBottomOf="@+id/image"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-    <TextView
-        android:id="@+id/txt_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:gravity="center"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_margin="16dp"
-        android:textSize="12sp"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_play_duration"
-        app:layout_constraintBottom_toBottomOf="@+id/image"
-        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/txt_title"
@@ -48,18 +17,37 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:text="标题"
+        android:layout_marginTop="4dp"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constrainedWidth="true"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_player" />
 
 
-
+    <TextView
+        android:id="@+id/txt_play_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="播放次数"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="12sp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/txt_title"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <TextView
+        android:text="时长"
+        android:id="@+id/txt_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="12sp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/txt_title"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>
