@@ -18,7 +18,9 @@ import io.reactivex.Observable;
  */
 public interface VideoListContract {
     interface View extends IView{
-        void showVideoList(List<VideoBean>data);//显示视频列表
+        void startLoadMore();
+        void endLoadMore();
+        void showVideoList(List<VideoBean>data,boolean refresh);//显示视频列表
     }
 
     interface Model extends IModel{
