@@ -5,6 +5,8 @@ import com.zhuliyi.commonlib.http.IRepositoryManager;
 import com.zhuliyi.commonlib.mvp.BaseModel;
 import com.zhuliyi.video.mvp.contract.VideoListContract;
 import com.zhuliyi.video.mvp.model.api.VideoApi;
+import com.zhuliyi.video.mvp.model.bean.VideoBaseResponse;
+import com.zhuliyi.video.mvp.model.bean.VideoListBean;
 
 import javax.inject.Inject;
 
@@ -27,7 +29,7 @@ public class VideoModel extends BaseModel implements VideoListContract.Model {
     }
 
     @Override
-    public Observable<Object> getVideoList(int num) {
+    public Observable<VideoBaseResponse<VideoListBean>> getVideoList(int num) {
         return repositoryManager.obtainRetrofitService(VideoApi.class)
                 .getVideoList(url, key, num, rnd, _csrf);
     }

@@ -1,5 +1,8 @@
 package com.zhuliyi.video.mvp.model.api;
 
+import com.zhuliyi.video.mvp.model.bean.VideoBaseResponse;
+import com.zhuliyi.video.mvp.model.bean.VideoListBean;
+
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -19,5 +22,5 @@ public interface VideoApi {
     })
     @FormUrlEncoded
     @POST
-    Observable<Object>getVideoList(@Url String url,@Field("k")String k, @Field("n")int n, @Field("rnd")String rnd, @Field("_csrf")String _csrf);
+    Observable<VideoBaseResponse<VideoListBean>>getVideoList(@Url String url, @Field("k")String k, @Field("n")int n, @Field("rnd")String rnd, @Field("_csrf")String _csrf);
 }

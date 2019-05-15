@@ -30,6 +30,7 @@ ext {
             "glide"                        : "com.github.bumptech.glide:glide:${version["glideVersion"]}",
             "glide-compiler"               : "com.github.bumptech.glide:compiler:${version["glideVersion"]}",
             //view
+            "autosize"                     : "me.jessyan:autosize:1.1.2",
             "BaseRecyclerViewAdapterHelper": "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30",
             "butterknife"                  : "com.jakewharton:butterknife:${version["butterknifeVersion"]}",
             "butterknife-compiler"         : "com.jakewharton:butterknife-compiler:${version["butterknifeVersion"]}",
