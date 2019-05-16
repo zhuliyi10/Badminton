@@ -73,6 +73,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
             StatusBarUtils.setStatusBarColor(this, R.color.white);//白色背景
         }else {
             //6.0以下默认白色文字
+            StatusBarUtils.setLightStatusBar(this, false);//黑色文字
             StatusBarUtils.setStatusBarColor(this, R.color.black);//黑色背景
         }
         setupActivityComponent(AppUtils.obtainAppComponent());
