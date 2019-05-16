@@ -29,6 +29,7 @@ import com.zhuliyi.commonlib.base.delegate.IActivity;
 import com.zhuliyi.commonlib.base.lifecycle.ActivityLifecycleable;
 import com.zhuliyi.commonlib.mvp.IPresenter;
 import com.zhuliyi.commonlib.utils.AppUtils;
+import com.zhuliyi.commonlib.utils.StatusBarUtils;
 
 import javax.inject.Inject;
 
@@ -64,6 +65,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtils.setLightStatusBar(this,true);
         setupActivityComponent(AppUtils.obtainAppComponent());
         try {
             int layoutResID = initView(savedInstanceState);
