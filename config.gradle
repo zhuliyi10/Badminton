@@ -37,6 +37,7 @@ ext {
             "butterknife"                  : "com.jakewharton:butterknife:${version["butterknifeVersion"]}",
             "butterknife-compiler"         : "com.jakewharton:butterknife-compiler:${version["butterknifeVersion"]}",
             "gsyVideoPlayer"               : "com.shuyu:GSYVideoPlayer:6.0.3",
+            "systembartint"                : "com.readystatesoftware.systembartint:systembartint:1.0.3",
             //tools
             "rxcache-jolyglot-gson"    : "com.github.VictorAlbertos.Jolyglot:gson:0.0.4",
             "rxjava2"                      : "io.reactivex.rxjava2:rxjava:2.1.12",

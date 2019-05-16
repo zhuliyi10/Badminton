@@ -53,6 +53,8 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     //gsyVideoPlayer
     api rootProject.ext.dependencies["gsyVideoPlayer"]
+    //android 4.4状态颜色修改
+    api rootProject.ext.dependencies["systembartint"]
     //rx2
     api rootProject.ext.dependencies["rxjava2"]
     api rootProject.ext.dependencies["rxandroid2"]

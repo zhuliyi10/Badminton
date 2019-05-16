@@ -17,6 +17,8 @@ package com.zhuliyi.commonlib.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +27,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.zhulilyi.commonlib.R;
 import com.zhuliyi.commonlib.base.delegate.IActivity;
 import com.zhuliyi.commonlib.base.lifecycle.ActivityLifecycleable;
 import com.zhuliyi.commonlib.mvp.IPresenter;
@@ -65,7 +68,13 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtils.setLightStatusBar(this,true);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            StatusBarUtils.setLightStatusBar(this, true);//黑色文字
+            StatusBarUtils.setStatusBarColor(this, R.color.white);//白色背景
+        }else {
+            //6.0以下默认白色文字
+            StatusBarUtils.setStatusBarColor(this, R.color.black);//黑色背景
+        }
         setupActivityComponent(AppUtils.obtainAppComponent());
         try {
             int layoutResID = initView(savedInstanceState);
