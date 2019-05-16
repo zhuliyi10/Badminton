@@ -14,6 +14,10 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.zhuliyi.commonlib.base.BaseActivity;
 import com.zhuliyi.commonlib.di.component.AppComponent;
+import com.zhuliyi.commonlib.utils.ToastUtils;
+import com.zhuliyi.commonlib.widget.XSDToolbar;
+import com.zhuliyi.commonlib.widget.morePop.MorePopBean;
+import com.zhuliyi.commonlib.widget.morePop.MorePopView;
 import com.zhuliyi.interactions.RouterHub;
 import com.zhuliyi.video.R;
 import com.zhuliyi.video.R2;
@@ -26,8 +30,9 @@ import com.zhuliyi.video.mvp.ui.adapter.VideoAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Describe : 视频主页
@@ -42,7 +47,12 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
     RecyclerView rcv;
     @BindView(R2.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R2.id.toolbar)
+    XSDToolbar toolbar;
+    @Inject
+    List<MorePopBean> morePopBeans;
     private VideoAdapter videoAdapter;
+
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -60,6 +70,21 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+
+        toolbar.addMorePopView(morePopBeans, new MorePopView.OnSelectListener() {
+            @Override
+            public void onItemClick(int pos, String name) {
+                presenter.setSelectPos(pos);
+                showMessage(name);
+            }
+        });
+        toolbar.getMorePopView().setSelectStateChange(true);
+        toolbar.setOnBackListener(new XSDToolbar.OnBackListener() {
+            @Override
+            public void onBackClick() {
+                finish();
+            }
+        });
         rcv.setLayoutManager(new LinearLayoutManager(this));
         rcv.setAdapter(videoAdapter = new VideoAdapter(new ArrayList<>()));
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -123,7 +148,7 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
 
     @Override
     public void showMessage(@NonNull String message) {
-
+        ToastUtils.showShort(message);
     }
 
     @Override
@@ -144,6 +169,7 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
             videoAdapter.addData(data);
         }
     }
+
     @Override
     public void onBackPressed() {
         if (GSYVideoManager.backFromWindowFull(this)) {
@@ -169,4 +195,5 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
         super.onDestroy();
         GSYVideoManager.releaseAllVideos();
     }
+
 }

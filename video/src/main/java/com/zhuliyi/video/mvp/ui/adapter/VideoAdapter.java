@@ -1,16 +1,18 @@
 package com.zhuliyi.video.mvp.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.zhuliyi.commonlib.base.BaseAdapter;
 import com.zhuliyi.commonlib.image.ImageConfig;
 import com.zhuliyi.commonlib.utils.AppUtils;
 import com.zhuliyi.video.R;
 import com.zhuliyi.video.mvp.model.bean.VideoBean;
+import com.zhuliyi.video.mvp.ui.widget.SampleCoverVideo;
 
 import java.util.List;
 
@@ -21,15 +23,18 @@ import java.util.List;
  */
 public class VideoAdapter extends BaseAdapter<VideoBean> {
     public static final String TAG = VideoAdapter.class.getSimpleName();
+    GSYVideoOptionBuilder gsyVideoOptionBuilder;
+
     public VideoAdapter(@Nullable List<VideoBean> data) {
         super(R.layout.item_video, data);
+        gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
     }
 
     @Override
     protected void convert(BaseViewHolder helper, VideoBean item) {
-        int position=helper.getAdapterPosition();
-        StandardGSYVideoPlayer videoPlayer = helper.getView(R.id.detail_player);
-        videoPlayer.setUpLazy(item.getVideourl(), true, null, null, "这是title");
+        int position = helper.getAdapterPosition();
+        SampleCoverVideo videoPlayer = helper.getView(R.id.detail_player);
+        videoPlayer.setUpLazy(item.getVideourl(), true, null, null, item.getTitle());
         //增加title
         videoPlayer.getTitleTextView().setVisibility(View.GONE);
         //设置返回键
@@ -41,38 +46,40 @@ public class VideoAdapter extends BaseAdapter<VideoBean> {
                 videoPlayer.startWindowFullscreen(mContext, false, true);
             }
         });
-        //防止错位设置
-        videoPlayer.setPlayTag(TAG);
-        videoPlayer.setPlayPosition(position);
-        //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
-        videoPlayer.setAutoFullWithSize(true);
-        //音频焦点冲突时是否释放
-        videoPlayer.setReleaseWhenLossAudio(false);
-        //全屏动画
-        videoPlayer.setShowFullAnimation(true);
-        //小屏时不触摸滑动
-        videoPlayer.setIsTouchWiget(false);
-//        if (item.getImgurl() != null) {
-//            String imageUrl;
-//            if (item.getImgurl().startsWith("http")) {
-//                imageUrl = item.getImgurl();
-//            } else {
-//                imageUrl = "http://www.zhibo.tv" + item.getImgurl();
-//            }
-//            ImageConfig config = new ImageConfig.Builder()
-//                    .url(imageUrl)
-//                    .imageView(helper.getView(R.id.image))
-//                    .build();
-//            AppUtils.obtainImageLoader().loadImage(mContext, config);
-//        }
+        ImageView imageView = new ImageView(mContext);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        gsyVideoOptionBuilder.setPlayTag(TAG)//防止错位设置
+                .setThumbImageView(imageView)
+                .setUrl(item.getVideourl())
+                .setCacheWithPlay(false)
+                .setRotateViewAuto(true)
+                .setPlayPosition(position)
+                .setAutoFullWithSize(true)//是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
+                .setShowFullAnimation(true)      //全屏动画
+                .setIsTouchWiget(false)      //小屏时不触摸滑动
+                .build(videoPlayer);
+
+        if (item.getImgurl() != null) {
+            String imageUrl;
+            if (item.getImgurl().startsWith("http")) {
+                imageUrl = item.getImgurl();
+            } else {
+                imageUrl = "http://www.zhibo.tv" + item.getImgurl();
+            }
+            ImageConfig config = new ImageConfig.Builder()
+                    .url(imageUrl)
+                    .imageView(imageView)
+                    .build();
+            AppUtils.obtainImageLoader().loadImage(mContext, config);
+        }
 
 
         helper.setText(R.id.txt_title, item.getTitle());
-        if(item.getTotalTimes()!=null){
-            helper.setVisible(R.id.txt_duration,true);
-            helper.setText(R.id.txt_duration, "时长："+item.getTotalTimes());
-        }else {
-            helper.setVisible(R.id.txt_duration,false);
+        if (item.getTotalTimes() != null) {
+            helper.setVisible(R.id.txt_duration, true);
+            helper.setText(R.id.txt_duration, "时长：" + getFormatDuration(item.getTotalTimes()));
+        } else {
+            helper.setVisible(R.id.txt_duration, false);
         }
 
         if (item.getPlaycount() != null) {
@@ -81,5 +88,17 @@ public class VideoAdapter extends BaseAdapter<VideoBean> {
         } else {
             helper.setVisible(R.id.txt_play_count, false);
         }
+    }
+
+
+    private String getFormatDuration(String time){
+        if(TextUtils.isDigitsOnly(time)){
+            int totalSecond=Integer.parseInt(time);
+            int min=totalSecond/60;
+            int second=totalSecond%60;
+            StringBuffer buffer=new StringBuffer().append(min).append(":").append(String.format("%02d",second));
+            return buffer.toString();
+        }
+        return time;
     }
 }

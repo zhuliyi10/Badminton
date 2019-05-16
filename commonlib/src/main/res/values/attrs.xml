@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--自定义标题栏-->
+    <declare-styleable name="XSDToolbar">
+        <!--主题的类型 定义背景，字体颜色-->
+        <!--默认白色主题-->
+        <attr name="theme_type" format="enum">
+            <enum name="white" value="0" />
+            <enum name="blue" value="1" />
+        </attr>
+        <!--是否显示左箭头-->
+        <attr name="left_back" format="boolean" />
+        <!--左边的文字-->
+        <attr name="left_text" format="string"/>
+        <attr name="left_text_color" format="color" />
+        <!--标题栏的背景-->
+        <attr name="bg_bar" format="color" />
+        <!--标题-->
+        <attr name="title_text" format="string" />
+        <!--标题颜色-->
+        <attr name="title_text_color" format="color" />
+        <!--右边文字-->
+        <attr name="right_text" format="string"/>
+        <!--右边文字的颜色-->
+        <attr name="right_text_color" format="color" />
+        <!--右边图标-->
+        <attr name="right_icon_res" format="reference" />
+        <!--显示分隔线-->
+        <attr name="show_divider" format="boolean" />
+
+    </declare-styleable>
+</resources>

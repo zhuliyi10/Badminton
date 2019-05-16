@@ -1,6 +1,6 @@
 package com.zhuliyi.video.mvp.presenter;
 
-import android.util.Log;
+import android.text.TextUtils;
 
 import com.zhuliyi.commonlib.di.scope.ActivityScope;
 import com.zhuliyi.commonlib.http.RxHandlerSubscriber;
@@ -10,6 +10,7 @@ import com.zhuliyi.video.mvp.model.bean.VideoBaseResponse;
 import com.zhuliyi.video.mvp.model.bean.VideoBean;
 import com.zhuliyi.video.mvp.model.bean.VideoListBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,6 +26,8 @@ import io.reactivex.schedulers.Schedulers;
 @ActivityScope
 public class VideoPresenter extends BasePresenter<VideoListContract.Model, VideoListContract.View> {
     private int lastPage = 0;
+    private int selectPos = 0;
+    private List<VideoBean> sourceData;
 
     @Inject
     public VideoPresenter(VideoListContract.Model model, VideoListContract.View rootView) {
@@ -34,7 +37,7 @@ public class VideoPresenter extends BasePresenter<VideoListContract.Model, Video
 
     public void requestData(boolean refresh) {
         if (refresh) lastPage = 0;
-        model.getVideoList(lastPage+1)
+        model.getVideoList(lastPage + 1)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> {
                     if (refresh) {
@@ -58,12 +61,82 @@ public class VideoPresenter extends BasePresenter<VideoListContract.Model, Video
                             if (response.getData() != null) {
                                 int count = response.getData().getTotalcount();
                                 lastPage++;
-                                List<VideoBean> videoList = response.getData().getList();
-                                Log.d(TAG, "onNext: " + videoList.toString());
-                                rootView.showVideoList(videoList, refresh);
+                                List<VideoBean> list = response.getData().getList();
+                                if (refresh) {
+                                    sourceData = list;
+                                } else {
+                                    if (sourceData == null) sourceData = new ArrayList<>();
+                                    sourceData.addAll(list);
+                                }
+                                updateListView(list, refresh);
+
                             }
                         }
                     }
                 });
+    }
+
+    /**
+     * 设置选中的位置
+     *
+     * @param pos
+     */
+    public void setSelectPos(int pos) {
+        this.selectPos = pos;
+        updateListView(null, true);
+    }
+
+    private void updateListView(List<VideoBean> list, boolean refresh) {
+        if (list == null) list = sourceData;
+        if (list != null) {
+            List<VideoBean> data = new ArrayList<>();
+            for (VideoBean bean : list) {
+                int second = -1;
+                if (!TextUtils.isEmpty(bean.getTotalTimes())) {
+                    second = getSecondTime(bean.getTotalTimes());
+                }
+                if (selectPos == 0) {
+                    data.add(bean);
+                } else if (selectPos == 1) {
+                    if (second < 60) {
+                        data.add(bean);
+                    }
+                } else if (selectPos == 2) {
+                    if (second >= 60) {
+                        data.add(bean);
+                    }
+                } else if (selectPos == 3) {
+                    if (second < 60 * 10) {
+                        data.add(bean);
+                    }
+                } else if (selectPos == 4) {
+                    if (second >= 60 * 10) {
+                        data.add(bean);
+                    }
+                } else if (selectPos == 5) {
+                    if (second < 60 * 30) {
+                        data.add(bean);
+                    }
+                } else if (selectPos == 6) {
+                    if (second >= 60 * 30) {
+                        data.add(bean);
+                    }
+                }
+            }
+            if(data.size()<=0){
+                requestData(false);
+
+            }
+            rootView.showVideoList(data, refresh);
+
+
+        }
+    }
+
+    private int getSecondTime(String time) {
+        if (TextUtils.isDigitsOnly(time)) {
+            return Integer.parseInt(time);
+        }
+        return -1;
     }
 }
