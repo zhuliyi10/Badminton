@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhuliyi.video">
+    package="com.leory.badminton.video">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:name="com.zhuliyi.video.mvp.ui.VideoMainActivity"/>
+            android:name=".mvp.ui.VideoMainActivity"/>
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.zhuliyi.video.mvp.ui.widget.SampleCoverVideo
+    <com.leory.badminton.video.mvp.ui.widget.SampleCoverVideo
         android:id="@+id/detail_player"
         android:layout_width="match_parent"
         android:layout_height="202dp" />

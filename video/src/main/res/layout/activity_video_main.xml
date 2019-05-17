@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zhuliyi.commonlib.widget.XSDToolbar
+    <com.leory.commonlib.widget.XSDToolbar
         android:id="@+id/toolbar"
         app:title_text="体育视频"
         android:layout_width="match_parent"
