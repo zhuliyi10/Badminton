@@ -99,6 +99,7 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
                 presenter.requestData(false);
             }
         });
+        refreshLayout.autoRefresh();
 
         rcv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -138,7 +139,6 @@ public class VideoMainActivity extends BaseActivity<VideoPresenter> implements V
 
     @Override
     public void showLoading() {
-
     }
 
     @Override

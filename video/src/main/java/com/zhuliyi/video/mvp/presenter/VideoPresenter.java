@@ -32,7 +32,6 @@ public class VideoPresenter extends BasePresenter<VideoListContract.Model, Video
     @Inject
     public VideoPresenter(VideoListContract.Model model, VideoListContract.View rootView) {
         super(model, rootView);
-        requestData(true);
     }
 
     public void requestData(boolean refresh) {
