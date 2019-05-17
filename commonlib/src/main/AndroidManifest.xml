@@ -10,8 +10,12 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!--<uses-sdk tools:overrideLibrary="com.shuyu.gsyvideoplayer,com.shuyu.gsyvideoplayer.armv7a-->
     <!--,com.shuyu.gsy.base,shuyu.com.androidvideocache"/>-->
+    <!--Android P系统的设备上 java.net.UnknownServiceException: CLEARTEXT communication to XXXXXXX not permitted by network security policy
+    所以要加上networkSecurityConfig配置-->
     <application
-        android:name=".base.BaseApplication">
+        android:name=".base.BaseApplication"
+        android:networkSecurityConfig="@xml/network_security_config">
+
         <meta-data
             android:name="com.leory.commonlib.base.delegate.GlobalConfiguration"
             android:value="ConfigModule"/>
