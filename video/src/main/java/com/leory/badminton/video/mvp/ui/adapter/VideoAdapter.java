@@ -1,5 +1,8 @@
 package com.leory.badminton.video.mvp.ui.adapter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -7,6 +10,7 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leory.badminton.video.R;
+import com.leory.commonlib.utils.ToastUtils;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.leory.commonlib.base.BaseAdapter;
 import com.leory.commonlib.image.ImageConfig;
@@ -75,6 +79,19 @@ public class VideoAdapter extends BaseAdapter<VideoBean> {
 
 
         helper.setText(R.id.txt_title, item.getTitle());
+        helper.getView(R.id.txt_title).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastUtils.showShort("播放地址已复制到剪贴板");
+                //获取剪贴板管理器：
+                ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                // 创建普通字符型ClipData
+                ClipData mClipData = ClipData.newPlainText("Label", item.getVideourl());
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                return true;
+            }
+        });
         if (item.getTotalTimes() != null) {
             helper.setVisible(R.id.txt_duration, true);
             helper.setText(R.id.txt_duration, "时长：" + getFormatDuration(item.getTotalTimes()));
