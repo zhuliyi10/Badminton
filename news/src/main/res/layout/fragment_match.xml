@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
+        android:id="@+id/spinner_year"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@color/bg_gray"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_width="120dp"
+        android:layout_height="30dp"/>
+    <com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
+        android:id="@+id/spinner_finish"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/spinner_year"
+        android:background="@color/bg_gray"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_width="120dp"
+        android:layout_height="30dp"/>
+
+</android.support.constraint.ConstraintLayout>

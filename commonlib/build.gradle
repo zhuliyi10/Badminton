@@ -18,6 +18,10 @@ dependencies {
     api rootProject.ext.dependencies["gsyVideoPlayer"]
     //android 4.4状态颜色修改
     api rootProject.ext.dependencies["systembartint"]
+    //指示器
+    api rootProject.ext.dependencies["MagicIndicator"]
+    //java 爬虫
+    api 'org.jsoup:jsoup:1.9.2'
     //rx2
     api rootProject.ext.dependencies["rxjava2"]
     api rootProject.ext.dependencies["rxandroid2"]

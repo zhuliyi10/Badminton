@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Describe : 视频adapter
- * Author : zhuly
+ * Author : leory
  * Date : 2019-05-15
  */
 public class VideoAdapter extends BaseAdapter<VideoBean> {

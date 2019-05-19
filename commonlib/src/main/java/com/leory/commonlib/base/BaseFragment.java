@@ -24,9 +24,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.leory.commonlib.base.delegate.IFragment;
+import com.leory.commonlib.base.lifecycle.FragmentLifecycleable;
 import com.leory.commonlib.mvp.IPresenter;
+import com.leory.commonlib.utils.AppUtils;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 
 
 /**
@@ -36,16 +43,31 @@ import javax.inject.Inject;
  * Author : Leory
  * Time : 2018-04-15
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable {
     protected final String TAG = this.getClass().getSimpleName();
+    private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
     @Inject
     @Nullable
     protected P presenter;
 
+    @NonNull
+    @Override
+    public final Subject<FragmentEvent> provideLifecycleSubject() {
+        return lifecycleSubject;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setupActivityComponent(AppUtils.obtainAppComponent());
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return initView(inflater, container, savedInstanceState);
+        View rootView= initView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
     @Override

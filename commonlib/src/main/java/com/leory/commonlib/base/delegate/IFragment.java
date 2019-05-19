@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.mvp.IPresenter;
 
 
@@ -33,7 +34,17 @@ import com.leory.commonlib.mvp.IPresenter;
  */
 public interface IFragment{
 
+    /**
+     * 提供 AppComponent (提供所有的单例对象) 给实现类, 进行 Component 依赖
+     *
+     * @param appComponent
+     */
+    void setupActivityComponent(@NonNull AppComponent appComponent);
 
+    /**
+     * 是否使用EventBus
+     * @return
+     */
     boolean useEventBus();
 
     /**
