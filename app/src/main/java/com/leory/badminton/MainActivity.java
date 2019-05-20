@@ -31,11 +31,14 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.btn1})
+    @OnClick({R.id.btn1,R.id.btn2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn1:
                 AppUtils.navigation(this, RouterHub.VIDEO_VIDEOMAINACTIVITY);
+                break;
+            case R.id.btn2:
+                AppUtils.navigation(this, RouterHub.NEWS_NEWSMAINACTIVITY);
                 break;
         }
     }

@@ -43,7 +43,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter> implements Match
     @BindView(R2.id.rcv)
     RecyclerView rcv;
     MatchSectionAdapter adapter;
-    @BindView(R.id.progressBar)
+    @BindView(R2.id.progressBar)
     ProgressBar progressBar;
 
     @Override

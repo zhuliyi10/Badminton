@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.leory.badminton.news.R;
 import com.leory.badminton.news.R2;
 import com.leory.badminton.news.mvp.ui.adapter.IndicatorPagerAdapter;
@@ -16,6 +17,7 @@ import com.leory.badminton.news.mvp.ui.fragment.LiveFragment;
 import com.leory.badminton.news.mvp.ui.fragment.MatchFragment;
 import com.leory.commonlib.base.BaseActivity;
 import com.leory.commonlib.di.component.AppComponent;
+import com.leory.interactions.RouterHub;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -31,6 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+@Route(path = RouterHub.NEWS_NEWSMAINACTIVITY)
 public class NewsMainActivity extends BaseActivity {
 
     @BindView(R2.id.indicator)
@@ -38,7 +41,7 @@ public class NewsMainActivity extends BaseActivity {
     @BindView(R2.id.view_pager)
     ViewPager viewPager;
     private static final String[] CHANNELS = new String[]{"直播", "赛事", "排名", "球星"};
-    private List<Fragment>fragmentList=new ArrayList<>();
+    private List<Fragment> fragmentList = new ArrayList<>();
     private List<String> dataList = Arrays.asList(CHANNELS);
     private IndicatorPagerAdapter indicatorPagerAdapter;
 
@@ -58,7 +61,7 @@ public class NewsMainActivity extends BaseActivity {
         fragmentList.add(new MatchFragment());
         fragmentList.add(new LiveFragment());
         fragmentList.add(new LiveFragment());
-        indicatorPagerAdapter = new IndicatorPagerAdapter(getSupportFragmentManager(),fragmentList);
+        indicatorPagerAdapter = new IndicatorPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(indicatorPagerAdapter);
         viewPager.setOffscreenPageLimit(4);
         initIndicator();

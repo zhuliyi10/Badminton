@@ -17,6 +17,7 @@ public interface RouterHub {
      * 组件的名称，用module名命名比较好
      */
     String APP = "/app";//宿主app组件
+    String NEWS="/news";//资讯
     String VIDEO="/video";//业务1组件
 
     /**
@@ -27,9 +28,11 @@ public interface RouterHub {
 
 
     /**
-     * 业务1组件
+     * 视频首页
      */
     String VIDEO_VIDEOMAINACTIVITY=VIDEO+"/VideoMainActivity";
+
+    String NEWS_NEWSMAINACTIVITY=NEWS+"/NewsMainActivity";
 
 
 
