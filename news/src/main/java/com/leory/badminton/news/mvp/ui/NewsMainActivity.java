@@ -60,6 +60,7 @@ public class NewsMainActivity extends BaseActivity {
         fragmentList.add(new LiveFragment());
         indicatorPagerAdapter = new IndicatorPagerAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(indicatorPagerAdapter);
+        viewPager.setOffscreenPageLimit(4);
         initIndicator();
     }
 

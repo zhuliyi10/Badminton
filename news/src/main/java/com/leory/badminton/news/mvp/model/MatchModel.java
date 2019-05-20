@@ -25,7 +25,7 @@ public class MatchModel extends BaseModel implements MatchContract.Model {
     }
 
     @Override
-    public Observable<Object> getMatchList(String ryear, String rstate) {
+    public Observable<String> getMatchList(String ryear, String rstate) {
         return repositoryManager.obtainRetrofitService(MatchApi.class)
                 .getMatchList(url,ajax,ryear,rstate);
     }

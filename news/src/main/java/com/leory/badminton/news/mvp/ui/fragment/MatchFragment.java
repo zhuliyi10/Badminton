@@ -3,22 +3,28 @@ package com.leory.badminton.news.mvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.leory.badminton.news.R;
 import com.leory.badminton.news.R2;
 import com.leory.badminton.news.di.component.DaggerMatchComponent;
-import com.leory.badminton.news.di.component.MatchComponent;
 import com.leory.badminton.news.mvp.contract.MatchContract;
+import com.leory.badminton.news.mvp.model.bean.MatchItemSection;
 import com.leory.badminton.news.mvp.presenter.MatchPresenter;
+import com.leory.badminton.news.mvp.ui.adapter.MatchSectionAdapter;
 import com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView;
 import com.leory.commonlib.base.BaseFragment;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.utils.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -34,6 +40,11 @@ public class MatchFragment extends BaseFragment<MatchPresenter> implements Match
     SpinnerPopView spinnerYear;
     @BindView(R2.id.spinner_finish)
     SpinnerPopView spinnerFinish;
+    @BindView(R2.id.rcv)
+    RecyclerView rcv;
+    MatchSectionAdapter adapter;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -56,7 +67,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter> implements Match
         spinnerYear.setOnSelectListener(new SpinnerPopView.OnSelectListener() {
             @Override
             public void onItemClick(int pos, String name) {
-                ToastUtils.showShort(name);
+                presenter.requestData(name, spinnerFinish.getSelectName());
             }
         });
         String[] finishes = new String[]{"全部", "已完成", "剩余"};
@@ -64,23 +75,36 @@ public class MatchFragment extends BaseFragment<MatchPresenter> implements Match
         spinnerFinish.setOnSelectListener(new SpinnerPopView.OnSelectListener() {
             @Override
             public void onItemClick(int pos, String name) {
-                ToastUtils.showShort(name);
+                presenter.requestData(spinnerYear.getSelectName(), name);
             }
         });
+        presenter.requestData(spinnerYear.getSelectName(), spinnerFinish.getSelectName());
+        rcv.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new MatchSectionAdapter(new ArrayList<>());
+        rcv.setAdapter(adapter);
+        adapter.addHeaderView(LayoutInflater.from(getActivity()).inflate(R.layout.head_match, null));
     }
 
     @Override
     public void showLoading() {
-
+        progressBar.setVisibility(View.VISIBLE);
+        rcv.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
-
+        progressBar.setVisibility(View.GONE);
+        rcv.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showMessage(@NonNull String message) {
         ToastUtils.showShort(message);
     }
+
+    @Override
+    public void showMatchData(List<MatchItemSection> data) {
+        adapter.setNewData(data);
+    }
+
 }

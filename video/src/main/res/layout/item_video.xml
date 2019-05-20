@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.leory.badminton.video.com.leory.badminton.news.mvp.ui.widget.SampleCoverVideo
+    <com.leory.badminton.video.mvp.ui.widget.SampleCoverVideo
         android:id="@+id/detail_player"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="202dp" />
 

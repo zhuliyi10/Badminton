@@ -8,7 +8,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:name=".com.leory.badminton.news.mvp.ui.VideoMainActivity">
+            android:name=".mvp.ui.VideoMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

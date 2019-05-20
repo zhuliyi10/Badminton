@@ -65,7 +65,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView= initView(inflater, container, savedInstanceState);
+        View rootView = initView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;
     }

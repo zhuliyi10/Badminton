@@ -109,6 +109,14 @@ public class SpinnerPopView extends FrameLayout {
     }
 
     /**
+     * 获取获取的名称
+     * @return
+     */
+    public String getSelectName(){
+        return txtName.getText().toString();
+    }
+
+    /**
      * 点击回调
      *
      * @param listener

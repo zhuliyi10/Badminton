@@ -12,7 +12,7 @@ import retrofit2.http.Url;
  */
 public interface MatchApi {
     @GET
-    Observable<Object>getMatchList(@Url String url,
+    Observable<String>getMatchList(@Url String url,
                                    @Query("ajax")String ajax,
                                    @Query("ryear")String ryear,
                                    @Query("rstate")String rstate);

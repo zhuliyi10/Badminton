@@ -1,52 +1,155 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.graphics.Color;
+
 import com.leory.badminton.news.mvp.contract.MatchContract;
+import com.leory.badminton.news.mvp.model.bean.MatchItemBean;
+import com.leory.badminton.news.mvp.model.bean.MatchItemSection;
 import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
 import com.leory.commonlib.mvp.BasePresenter;
 import com.leory.commonlib.utils.LogUtils;
-import com.leory.commonlib.utils.RxUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 /**
- * Describe :
+ * Describe :赛事presenter
  * Author : leory
  * Date : 2019-05-19
  */
 @FragmentScope
-public class MatchPresenter extends BasePresenter<MatchContract.Model,MatchContract.View> {
+public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchContract.View> {
 
     @Inject
     public MatchPresenter(MatchContract.Model model, MatchContract.View rootView) {
         super(model, rootView);
-        requestData();
     }
 
-    private void requestData(){
-        model.getMatchList("2019","all")
-                .compose(RxUtils.applySchedulers(rootView))
-                .subscribe(new RxHandlerSubscriber<Object>() {
+    public void requestData(String year, String finish) {
+        String state;
+        if ("全部".equals(finish)) {
+            state = "all";
+        } else if ("已完成".equals(finish)) {
+            state = "completed";
+        } else {
+            state = "remaining";
+        }
+        model.getMatchList(year, state)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> rootView.showLoading()).subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxHandlerSubscriber<String>() {
 
                     @Override
-                    public void onNext(Object o) {
-                        LogUtils.d(TAG,o.toString());
+                    public void onNext(String o) {
+                        parseHtmlResult(o);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        rootView.hideLoading();
                     }
                 });
+    }
 
-//        try {
-//            Document document = Jsoup.connect("https://bwfbadminton.cn/calendar/2019/all/?ajax=bwfresultlanding&ryear=2019&rstate=all&category_id=")
-//                    .timeout(10000)
-//                    .get();
-//            Elements noteList = document.select("ul.note-list");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    /**
+     * 解析html
+     *
+     * @param html
+     */
+    private void parseHtmlResult(String html) {
+        Observable.just(html)
+
+                .flatMap((Function<String, ObservableSource<List<MatchItemSection>>>) s -> Observable.just(getMatchData(html)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> rootView.hideLoading())
+                .subscribe(new Observer<List<MatchItemSection>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<MatchItemSection> matchItemSections) {
+                        rootView.showMatchData(matchItemSections);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        rootView.showMatchData(new ArrayList<>());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+
+    private List<MatchItemSection> getMatchData(String html) {
+        List<MatchItemSection> matchList = new ArrayList<>();
+        if (html != null) {
+            Document doc = Jsoup.parse(html);
+            Elements months = doc.select("div.item-results");
+
+            for (Element month : months) {
+                String monthName = month.select("h2").first().text();
+                LogUtils.d(TAG, monthName);
+                matchList.add(new MatchItemSection(true, monthName));
+                Elements list = month.select("tr[class=black],tr[class=gray1],tr[class=gray2],tr[class=gray3]");
+                int i = 0;
+                for (Element item : list) {
+
+                    Elements tr = item.select("td");
+                    if (tr.size() == 7) {
+
+                        MatchItemBean bean = new MatchItemBean();
+                        String countryName = tr.get(1).select("div[class=country_code]").first().text();//国家简名
+                        bean.setCountryName(countryName);
+                        String countryFlagUrl = tr.get(1).select("img").first().attr("src");//国旗url
+                        bean.setCountryFlagUrl(countryFlagUrl);
+                        String cityName = tr.get(6).select("div").first().text();//城市名字
+                        bean.setCityName(cityName);
+                        String matchDay = tr.get(2).text();//比赛日期
+                        bean.setMatchDay(matchDay);
+                        String matchName = tr.get(3).select("a").first().text();//赛事名称
+                        bean.setMatchName(matchName);
+                        String matchClassify = tr.get(5).select("div[class=name]").first().text();//赛事类别
+                        bean.setMatchClassify(matchClassify);
+                        String matchBonus = tr.get(4).select("div").first().text();//赛事奖金
+                        bean.setMatchBonus(matchBonus);
+                        if (i % 2 == 0) {
+                            bean.setBgColor(Color.WHITE);
+                        } else {
+                            bean.setBgColor(Color.parseColor("#f5f5f5"));
+                        }
+                        matchList.add(new MatchItemSection(bean));
+
+                        i++;
+                    }
+                }
+            }
+
+        }
+        return matchList;
     }
 }

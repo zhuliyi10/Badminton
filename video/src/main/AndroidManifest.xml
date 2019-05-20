@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:name=".com.leory.badminton.news.mvp.ui.VideoMainActivity"/>
+            android:name=".mvp.ui.VideoMainActivity"/>
     </application>
 
 </manifest>
