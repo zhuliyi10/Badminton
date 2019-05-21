@@ -15,6 +15,7 @@ import com.leory.badminton.news.R2;
 import com.leory.badminton.news.mvp.ui.adapter.IndicatorPagerAdapter;
 import com.leory.badminton.news.mvp.ui.fragment.LiveFragment;
 import com.leory.badminton.news.mvp.ui.fragment.MatchFragment;
+import com.leory.badminton.news.mvp.ui.fragment.RankingFragment;
 import com.leory.commonlib.base.BaseActivity;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.interactions.RouterHub;
@@ -59,7 +60,7 @@ public class NewsMainActivity extends BaseActivity {
     public void initData(@Nullable Bundle savedInstanceState) {
         fragmentList.add(new LiveFragment());
         fragmentList.add(new MatchFragment());
-        fragmentList.add(new LiveFragment());
+        fragmentList.add(new RankingFragment());
         fragmentList.add(new LiveFragment());
         indicatorPagerAdapter = new IndicatorPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(indicatorPagerAdapter);

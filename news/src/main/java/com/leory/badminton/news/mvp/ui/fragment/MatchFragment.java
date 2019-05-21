@@ -18,7 +18,7 @@ import com.leory.badminton.news.mvp.model.bean.MatchItemSection;
 import com.leory.badminton.news.mvp.presenter.MatchPresenter;
 import com.leory.badminton.news.mvp.ui.adapter.MatchSectionAdapter;
 import com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView;
-import com.leory.commonlib.base.BaseFragment;
+import com.leory.commonlib.base.BaseLazyLoadFragment;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.utils.ToastUtils;
 
@@ -33,7 +33,7 @@ import butterknife.BindView;
  * Author : leory
  * Date : 2019-05-19
  */
-public class MatchFragment extends BaseFragment<MatchPresenter> implements MatchContract.View {
+public class MatchFragment extends BaseLazyLoadFragment<MatchPresenter> implements MatchContract.View {
 
 
     @BindView(R2.id.spinner_year)
@@ -78,11 +78,10 @@ public class MatchFragment extends BaseFragment<MatchPresenter> implements Match
                 presenter.requestData(spinnerYear.getSelectName(), name);
             }
         });
-        presenter.requestData(spinnerYear.getSelectName(), spinnerFinish.getSelectName());
         rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MatchSectionAdapter(new ArrayList<>());
         rcv.setAdapter(adapter);
-        adapter.addHeaderView(LayoutInflater.from(getActivity()).inflate(R.layout.head_match, null));
+
     }
 
     @Override
@@ -107,4 +106,9 @@ public class MatchFragment extends BaseFragment<MatchPresenter> implements Match
         adapter.setNewData(data);
     }
 
+    @Override
+    protected void lazyLoadData() {
+        adapter.addHeaderView(LayoutInflater.from(getActivity()).inflate(R.layout.head_match, rcv,false));
+        presenter.requestData(spinnerYear.getSelectName(), spinnerFinish.getSelectName());
+    }
 }

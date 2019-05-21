@@ -130,7 +130,7 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
                         String cityName = tr.get(6).select("div").first().text();//城市名字
                         bean.setCityName(cityName);
                         String matchDay = tr.get(2).text();//比赛日期
-                        bean.setMatchDay(matchDay);
+                        bean.setMatchDay(monthName + "\n" + matchDay);
                         String matchName = tr.get(3).select("a").first().text();//赛事名称
                         bean.setMatchName(matchName);
                         String matchClassify = tr.get(5).select("div[class=name]").first().text();//赛事类别

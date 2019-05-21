@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.leory.badminton.news.R;
-import com.leory.commonlib.base.BaseFragment;
+import com.leory.commonlib.base.BaseLazyLoadFragment;
 import com.leory.commonlib.di.component.AppComponent;
 
 /**
@@ -16,7 +16,7 @@ import com.leory.commonlib.di.component.AppComponent;
  * Author : leory
  * Date : 2019-05-19
  */
-public class LiveFragment extends BaseFragment {
+public class LiveFragment extends BaseLazyLoadFragment {
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
 
@@ -29,6 +29,11 @@ public class LiveFragment extends BaseFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void lazyLoadData() {
 
     }
 }

@@ -17,8 +17,9 @@ import io.reactivex.Observable;
  */
 @FragmentScope
 public class MatchModel extends BaseModel implements MatchContract.Model {
-    private static String url = "https://bwfbadminton.cn/calendar/2019/all/";
-    private static String ajax="bwfresultlanding";
+    private static String url = "https://bwfbadminton.cn/calendar/";
+    private static String ajax = "bwfresultlanding";
+
     @Inject
     public MatchModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
@@ -27,6 +28,6 @@ public class MatchModel extends BaseModel implements MatchContract.Model {
     @Override
     public Observable<String> getMatchList(String ryear, String rstate) {
         return repositoryManager.obtainRetrofitService(MatchApi.class)
-                .getMatchList(url,ajax,ryear,rstate);
+                .getMatchList(url + ryear + "/" + rstate + "/", ajax, ryear, rstate);
     }
 }
