@@ -1,38 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
         android:id="@+id/spinner_week"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="180dp"
         android:layout_height="30dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
         android:background="@color/bg_gray"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
+        android:paddingRight="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
         android:id="@+id/spinner_type"
-        app:layout_constraintLeft_toRightOf="@+id/spinner_week"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="120dp"
         android:layout_height="30dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
         android:background="@color/bg_gray"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rcv"
-        android:overScrollMode="never"
+        android:paddingRight="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/spinner_week"
+        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/head_ranking"
         app:layout_constraintTop_toBottomOf="@+id/spinner_week"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="32dp"
+        layout="@layout/head_ranking"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/head_ranking">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/refreshLayout" />
 </android.support.constraint.ConstraintLayout>

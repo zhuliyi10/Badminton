@@ -55,7 +55,6 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
     /**
      * 选择数据
      *
-     * @param refresh
      * @param rankingType
      * @param week
      */
@@ -72,7 +71,9 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
         } else if (RANKING_TYPES[4].equals(rankingType)) {//混双
             concatType = "10/mixed-doubles/";
         }
-        requestData(false, refresh, concatType, week);
+        String concatWeek = weekMap.get(week);
+        if (concatWeek != null) concatWeek = concatWeek.replace("--", "/");
+        requestData(false, refresh, concatType, concatWeek);
     }
 
     /**
@@ -103,6 +104,7 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
                 .subscribe(new RxHandlerSubscriber<String>() {
                     @Override
                     public void onNext(String s) {
+                        lastPage++;
                         parseHtmlResult(first, refresh, s);
                     }
                 });
@@ -152,11 +154,11 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
                 Elements weekOptions = doc.select("select#ranking-week").first().select("option");
                 List<String> week = new ArrayList<>();
                 for (Element option : weekOptions) {
-                    String key = option.attr("value");
-                    String value = option.text();
+                    String value = option.attr("value");
+                    String key = option.text();
                     if (!TextUtils.isEmpty(key)) {
                         weekMap.put(key, value);
-                        week.add(value);
+                        week.add(key);
                     }
                 }
                 rootView.showWeekData(week);
