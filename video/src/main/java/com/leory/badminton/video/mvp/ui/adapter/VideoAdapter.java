@@ -38,31 +38,36 @@ public class VideoAdapter extends BaseAdapter<VideoBean> {
     protected void convert(BaseViewHolder helper, VideoBean item) {
         int position = helper.getAdapterPosition();
         SampleCoverVideo videoPlayer = helper.getView(R.id.detail_player);
-        videoPlayer.setUpLazy(item.getVideourl(), true, null, null, item.getTitle());
-//        //增加title
-//        videoPlayer.getTitleTextView().setVisibility(View.GONE);
+
+        ImageView imageView = new ImageView(mContext);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        gsyVideoOptionBuilder.setPlayTag(TAG)//防止错位设置
+                .setIsTouchWiget(false)
+                .setThumbImageView(imageView)
+                .setUrl(item.getVideourl())
+                .setVideoTitle(item.getTitle())
+                .setCacheWithPlay(false)
+                .setRotateViewAuto(true)
+                .setLockLand(true)
+                .setPlayTag(TAG)
+                .setShowFullAnimation(true)
+                .setNeedLockFull(true)
+                .setPlayPosition(position)
+                .build(videoPlayer);
+
+        //增加title
+        videoPlayer.getTitleTextView().setVisibility(View.GONE);
+
         //设置返回键
         videoPlayer.getBackButton().setVisibility(View.GONE);
+
         //设置全屏按键功能
         videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                videoPlayer.startWindowFullscreen(mContext, false, true);
+                videoPlayer.startWindowFullscreen(mContext, true, true);
             }
         });
-        ImageView imageView = new ImageView(mContext);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        gsyVideoOptionBuilder.setPlayTag(TAG)//防止错位设置
-                .setThumbImageView(imageView)
-                .setUrl(item.getVideourl())
-                .setCacheWithPlay(false)
-                .setRotateViewAuto(true)
-                .setPlayPosition(position)
-                .setAutoFullWithSize(true)//是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
-                .setShowFullAnimation(true)      //全屏动画
-                .setIsTouchWiget(false)      //小屏时不触摸滑动
-                .build(videoPlayer);
-
         if (item.getImgurl() != null) {
             String imageUrl;
             if (item.getImgurl().startsWith("http")) {
