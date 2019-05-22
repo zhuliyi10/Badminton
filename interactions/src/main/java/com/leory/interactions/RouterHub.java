@@ -19,6 +19,8 @@ public interface RouterHub {
     String APP = "/app";//宿主app组件
     String NEWS="/news";//资讯
     String VIDEO="/video";//业务1组件
+    String CIRCLE="/circle";//圈子模块
+    String MINE="/mine";//我的模块
 
     /**
      * 宿主app分组
@@ -30,10 +32,21 @@ public interface RouterHub {
     /**
      * 视频首页
      */
-    String VIDEO_VIDEOMAINACTIVITY=VIDEO+"/VideoMainActivity";
+    String VIDEO_VIDEOMAINFRAGMENT=VIDEO+"/VideoMainFragment";
 
-    String NEWS_NEWSMAINACTIVITY=NEWS+"/NewsMainActivity";
+    /**
+     * 赛事首页
+     */
+    String NEWS_NEWMAINFRAGMENT=NEWS+"/NewMainFragment";
 
+    /**
+     * 圈子首页
+     */
+    String CIRCLE_CIRCLEMAINFRAGMENT=CIRCLE+"/CircleMainFragment";
 
+    /**
+     * 我的首页
+     */
+    String MINE_MINEMAINFRAGMENT=MINE+"/MineMainFragment";
 
 }

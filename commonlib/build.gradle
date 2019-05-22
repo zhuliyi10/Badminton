@@ -14,14 +14,13 @@ dependencies {
     api rootProject.ext.dependencies["smartrefresh_header"]
 
     api rootProject.ext.dependencies["butterknife"]
-    //gsyVideoPlayer
-    api rootProject.ext.dependencies["gsyVideoPlayer"]
+
     //android 4.4状态颜色修改
     api rootProject.ext.dependencies["systembartint"]
     //指示器
     api rootProject.ext.dependencies["MagicIndicator"]
     //java 爬虫
-    api 'org.jsoup:jsoup:1.9.2'
+    api rootProject.ext.dependencies["jsoup"]
     //rx2
     api rootProject.ext.dependencies["rxjava2"]
     api rootProject.ext.dependencies["rxandroid2"]
@@ -44,6 +43,8 @@ dependencies {
     api rootProject.ext.dependencies["gson"]
     //aRouter
     api rootProject.ext.dependencies["arouter"]
+    //解决方法数65536限制
+    api rootProject.ext.dependencies["multidex"]
     //test
     testImplementation rootProject.ext.dependencies["junit"]
     androidTestImplementation rootProject.ext.dependencies["runner"]

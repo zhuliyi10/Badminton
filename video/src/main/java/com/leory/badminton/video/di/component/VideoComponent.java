@@ -1,5 +1,6 @@
 package com.leory.badminton.video.di.component;
 
+import com.leory.badminton.video.mvp.ui.fragment.VideoMainFragment;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.di.scope.ActivityScope;
 import com.leory.badminton.video.di.module.VideoModule;
@@ -18,7 +19,7 @@ import dagger.Component;
 @Component(modules = VideoModule.class,dependencies = AppComponent.class)
 public interface VideoComponent {
 
-    void inject(VideoMainActivity activity);
+    void inject(VideoMainFragment activity);
 
     @Component.Builder
     interface Builder {

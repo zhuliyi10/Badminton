@@ -59,7 +59,7 @@ public abstract class BaseLazyLoadFragment<P extends IPresenter> extends BaseFra
     }
 
     private void tryLoadData(){
-        if(isViewCreated&&isVisibleToUser&&!isDataLoaded&&isParentVisible()){
+        if(isViewCreated&&isVisibleToUser&&!isDataLoaded){
             lazyLoadData();
             isDataLoaded=true;
             dispatchParentVisibleState();

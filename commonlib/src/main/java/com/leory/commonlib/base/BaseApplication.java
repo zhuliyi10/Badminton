@@ -3,6 +3,7 @@ package com.leory.commonlib.base;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDex;
 
 import com.leory.commonlib.base.delegate.App;
 import com.leory.commonlib.base.delegate.AppDelegate;
@@ -21,6 +22,7 @@ public class BaseApplication extends Application implements App{
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        MultiDex.install(this);
         if(appLifecycle==null){
             appLifecycle=new AppDelegate(base);
         }

@@ -3,25 +3,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <Button
-        android:id="@+id/btn1"
+    <com.leory.badminton.widget.ScrollViewPager
+        app:layout_constrainedHeight="true"
+        app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/line"
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:id="@+id/line"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_height"/>
+    <LinearLayout
+        android:id="@+id/bottom_tab"
+        android:weightSum="4"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="羽毛球视频" />
-    <Button
-        android:id="@+id/btn2"
-        app:layout_constraintTop_toBottomOf="@+id/btn1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="羽毛球资讯" />
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+        <com.leory.badminton.widget.BottomItemView
+            android:id="@+id/item_match"
+            android:layout_weight="1"
+            app:text="赛事"
+            app:activate="true"
+            app:activate_text_color="@color/colorPrimary"
+            app:normal_text_color="@color/txt_gray"
+            app:activate_res="@mipmap/icon_activate_match"
+            app:normal_res="@mipmap/icon_normal_match"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <com.leory.badminton.widget.BottomItemView
+            android:id="@+id/item_video"
+            android:layout_weight="1"
+            app:text="视频"
+            app:activate_text_color="@color/colorPrimary"
+            app:normal_text_color="@color/txt_gray"
+            app:activate_res="@mipmap/icon_activate_video"
+            app:normal_res="@mipmap/icon_normal_video"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <com.leory.badminton.widget.BottomItemView
+            android:id="@+id/item_circle"
+            android:layout_weight="1"
+            app:text="羽球圈"
+            app:activate_text_color="@color/colorPrimary"
+            app:normal_text_color="@color/txt_gray"
+            app:activate_res="@mipmap/icon_activate_circle"
+            app:normal_res="@mipmap/icon_normal_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <com.leory.badminton.widget.BottomItemView
+            android:id="@+id/item_mine"
+            android:layout_weight="1"
+            app:text="我的"
+            app:activate_text_color="@color/colorPrimary"
+            app:normal_text_color="@color/txt_gray"
+            app:activate_res="@mipmap/icon_activate_mine"
+            app:normal_res="@mipmap/icon_normal_mine"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

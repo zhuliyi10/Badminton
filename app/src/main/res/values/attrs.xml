@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--自定义底部选择标签-->
+    <declare-styleable name="BottomItemView">
+        <attr name="normal_res" format="reference" />
+        <attr name="activate_res" format="reference" />
+        <attr name="normal_text_color" format="reference" />
+        <attr name="activate_text_color" format="reference" />
+        <attr name="text" format="string"/>
+        <attr name="activate" format="boolean"/>
+    </declare-styleable>
+</resources>
