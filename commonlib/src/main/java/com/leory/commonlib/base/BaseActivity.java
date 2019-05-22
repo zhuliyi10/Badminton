@@ -26,6 +26,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.leory.commonlib.R;
+import com.leory.commonlib.utils.BackHandlerHelper;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.leory.commonlib.base.delegate.IActivity;
 import com.leory.commonlib.base.lifecycle.ActivityLifecycleable;
@@ -67,14 +68,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            StatusBarUtils.setLightStatusBar(this, true);//黑色文字
-            StatusBarUtils.setStatusBarColor(this, R.color.white);//白色背景
-        }else {
-            //6.0以下默认白色文字
-            StatusBarUtils.setLightStatusBar(this, false);//黑色文字
-            StatusBarUtils.setStatusBarColor(this, R.color.black);//黑色背景
-        }
+        StatusBarUtils.setDarkStatusBar(this,false,0);
         setupActivityComponent(AppUtils.obtainAppComponent());
         try {
             int layoutResID = initView(savedInstanceState);
@@ -90,6 +84,12 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         initData(savedInstanceState);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(!BackHandlerHelper.handleBackPress(this)) {//fragment不处理才退出
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onDestroy() {

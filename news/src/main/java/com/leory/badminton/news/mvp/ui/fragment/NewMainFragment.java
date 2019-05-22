@@ -74,7 +74,7 @@ public class NewMainFragment extends BaseFragment {
 
 
     private void initIndicator() {
-        indicator.setBackgroundColor(Color.parseColor("#d43d3d"));
+        indicator.setBackgroundResource(R.color.colorPrimary);
         CommonNavigator commonNavigator = new CommonNavigator(getActivity());
         commonNavigator.setSkimOver(true);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {

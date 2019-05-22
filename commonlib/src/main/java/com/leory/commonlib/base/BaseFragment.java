@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leory.commonlib.app.FragmentBackHandler;
 import com.leory.commonlib.base.delegate.IFragment;
 import com.leory.commonlib.base.lifecycle.FragmentLifecycleable;
 import com.leory.commonlib.mvp.IPresenter;
@@ -43,7 +44,7 @@ import io.reactivex.subjects.Subject;
  * Author : Leory
  * Time : 2018-04-15
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable , FragmentBackHandler {
     protected final String TAG = this.getClass().getSimpleName();
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
     @Inject
@@ -86,6 +87,14 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         return true;
     }
 
+    /**
+     * 是否处理返回值，默认不处理
+     * @return
+     */
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
 
     @Override
     public void onDestroy() {

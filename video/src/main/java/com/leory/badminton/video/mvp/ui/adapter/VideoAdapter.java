@@ -39,8 +39,8 @@ public class VideoAdapter extends BaseAdapter<VideoBean> {
         int position = helper.getAdapterPosition();
         SampleCoverVideo videoPlayer = helper.getView(R.id.detail_player);
         videoPlayer.setUpLazy(item.getVideourl(), true, null, null, item.getTitle());
-        //增加title
-        videoPlayer.getTitleTextView().setVisibility(View.GONE);
+//        //增加title
+//        videoPlayer.getTitleTextView().setVisibility(View.GONE);
         //设置返回键
         videoPlayer.getBackButton().setVisibility(View.GONE);
         //设置全屏按键功能

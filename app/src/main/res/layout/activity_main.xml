@@ -22,7 +22,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="56dp">
+        android:layout_height="48dp">
         <com.leory.badminton.widget.BottomItemView
             android:id="@+id/item_match"
             android:layout_weight="1"

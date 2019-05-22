@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.leory.commonlib.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.lang.reflect.Field;
@@ -17,7 +18,7 @@ import java.lang.reflect.Method;
 
 /**
  * Describe : 状态栏设置工具
- * Author : zhuly
+ * Author : leory
  * Date : 2019-05-16
  */
 public class StatusBarUtils {
@@ -86,6 +87,29 @@ public class StatusBarUtils {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }
+
+    /**
+     * 修改状态栏
+     * @param activity
+     * @param dark 是否是彩色背景
+     * @param colorId 背景颜色
+     */
+    public static void setDarkStatusBar(Activity activity,boolean dark,int colorId){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(dark){
+                StatusBarUtils.setDarkStatusBarText(activity, false);//白色文字
+                StatusBarUtils.setStatusBarColor(activity, colorId);//黑色背景
+            }else {
+                StatusBarUtils.setDarkStatusBarText(activity, true);//黑色文字
+                StatusBarUtils.setStatusBarColor(activity, R.color.white);//白色背景
+            }
+
+        }else {
+            //6.0以下
+            StatusBarUtils.setDarkStatusBarText(activity, false);//白色文字
+            StatusBarUtils.setStatusBarColor(activity, R.color.black);//黑色背景
+        }
+    }
     /**
      * 修改状态栏颜色，支持4.4以上版本
      * @param activity
@@ -110,20 +134,20 @@ public class StatusBarUtils {
     /**
      *  修改状态栏文字颜色，这里小米，魅族区别对待。
      */
-    public static void setLightStatusBar(final Activity activity, final boolean dark) {
+    public static void setDarkStatusBarText(final Activity activity, final boolean dark) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             switch (RomUtils.getLightStatusBarAvailableRomType()) {
                 case RomUtils.AvailableRomType.MIUI:
-                    MIUISetStatusBarLightMode(activity, dark);
+                    setMIUIDarkStatusBar(activity, dark);
                     break;
 
                 case RomUtils.AvailableRomType.FLYME:
-                    setFlymeLightStatusBar(activity, dark);
+                    setFlymeDarkStatusBar(activity, dark);
 
                     break;
 
                 case RomUtils.AvailableRomType.ANDROID_NATIVE:
-                    setAndroidNativeLightStatusBar(activity, dark);
+                    setAndroidNativeDarkStatusBar(activity, dark);
                     break;
 
             }
@@ -131,7 +155,7 @@ public class StatusBarUtils {
     }
 
 
-    public static boolean MIUISetStatusBarLightMode(Activity activity, boolean dark) {
+    public static boolean setMIUIDarkStatusBar(Activity activity, boolean dark) {
         boolean result = false;
         Window window = activity.getWindow();
         if (window != null) {
@@ -164,7 +188,7 @@ public class StatusBarUtils {
         return result;
     }
 
-    private static boolean setFlymeLightStatusBar(Activity activity, boolean dark) {
+    private static boolean setFlymeDarkStatusBar(Activity activity, boolean dark) {
         boolean result = false;
         if (activity != null) {
             try {
@@ -191,7 +215,7 @@ public class StatusBarUtils {
         return result;
     }
 
-    private static void setAndroidNativeLightStatusBar(Activity activity, boolean dark) {
+    private static void setAndroidNativeDarkStatusBar(Activity activity, boolean dark) {
         View decor = activity.getWindow().getDecorView();
         if (dark) {
             decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);

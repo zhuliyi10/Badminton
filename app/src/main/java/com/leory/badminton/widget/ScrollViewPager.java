@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 
 /**
  * Describe : 禁止左右滑动
- * Author : zhuly
+ * Author : leory
  * Date : 2019-05-22
  */
 public class ScrollViewPager extends ViewPager {
@@ -24,6 +24,11 @@ public class ScrollViewPager extends ViewPager {
 
     private void setScrollablel(boolean scrollable){
         this.scrollable=scrollable;
+    }
+
+    @Override
+    public void setCurrentItem(int item) {
+        super.setCurrentItem(item,scrollable);
     }
 
     @Override

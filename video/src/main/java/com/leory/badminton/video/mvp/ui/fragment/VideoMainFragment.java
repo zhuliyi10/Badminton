@@ -86,10 +86,6 @@ public class VideoMainFragment extends BaseFragment<VideoPresenter> implements V
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_video_main, container, false);
-        //监听back必须设置的
-        root.setFocusable(true);
-        root.setFocusableInTouchMode(true);
-        root.setOnKeyListener(backListener);
         return root;
     }
 
@@ -188,20 +184,12 @@ public class VideoMainFragment extends BaseFragment<VideoPresenter> implements V
         GSYVideoManager.releaseAllVideos();
     }
 
-
-    private View.OnKeyListener backListener = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                //这边判断,如果是back的按键被点击了   就自己拦截实现掉
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    if (GSYVideoManager.backFromWindowFull(getActivity())) {
-                        return true;//表示处理了
-                    }
-
-                }
-            }
+    @Override
+    public boolean onBackPressed() {
+        if (GSYVideoManager.backFromWindowFull(getActivity())) {
+            return true;//表示处理了
+        }else {
             return false;
         }
-    };
+    }
 }
