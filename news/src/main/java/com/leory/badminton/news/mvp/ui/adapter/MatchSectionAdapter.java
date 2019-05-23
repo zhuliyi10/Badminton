@@ -1,10 +1,13 @@
 package com.leory.badminton.news.mvp.ui.adapter;
 
+import android.view.View;
+
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leory.badminton.news.R;
 import com.leory.badminton.news.mvp.model.bean.MatchItemBean;
 import com.leory.badminton.news.mvp.model.bean.MatchItemSection;
+import com.leory.badminton.news.mvp.ui.activity.MatchDetailActivity;
 
 import java.util.List;
 

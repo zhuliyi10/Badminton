@@ -50,6 +50,8 @@ public class VideoAdapter extends BaseAdapter<VideoBean> {
                 .setRotateViewAuto(true)
                 .setLockLand(true)
                 .setPlayTag(TAG)
+                .setNeedShowWifiTip(false)
+                .setAutoFullWithSize(true)
                 .setShowFullAnimation(true)
                 .setNeedLockFull(true)
                 .setPlayPosition(position)

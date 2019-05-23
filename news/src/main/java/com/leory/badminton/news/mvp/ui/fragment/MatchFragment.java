@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leory.badminton.news.R;
 import com.leory.badminton.news.R2;
 import com.leory.badminton.news.di.component.DaggerMatchComponent;
 import com.leory.badminton.news.mvp.contract.MatchContract;
 import com.leory.badminton.news.mvp.model.bean.MatchItemSection;
 import com.leory.badminton.news.mvp.presenter.MatchPresenter;
+import com.leory.badminton.news.mvp.ui.activity.MatchDetailActivity;
 import com.leory.badminton.news.mvp.ui.adapter.MatchSectionAdapter;
 import com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView;
 import com.leory.commonlib.base.BaseLazyLoadFragment;
@@ -81,6 +83,12 @@ public class MatchFragment extends BaseLazyLoadFragment<MatchPresenter> implemen
         rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MatchSectionAdapter(new ArrayList<>());
         rcv.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                MatchDetailActivity.launch(getActivity());
+            }
+        });
 
     }
 
@@ -108,7 +116,7 @@ public class MatchFragment extends BaseLazyLoadFragment<MatchPresenter> implemen
 
     @Override
     protected void lazyLoadData() {
-        adapter.addHeaderView(LayoutInflater.from(getActivity()).inflate(R.layout.head_match, rcv,false));
+        adapter.addHeaderView(LayoutInflater.from(getActivity()).inflate(R.layout.head_match, rcv, false));
         presenter.requestData(spinnerYear.getSelectName(), spinnerFinish.getSelectName());
     }
 }
