@@ -17,6 +17,7 @@ import com.leory.badminton.news.R2;
 import com.leory.badminton.news.mvp.ui.adapter.IndicatorPagerAdapter;
 import com.leory.commonlib.base.BaseFragment;
 import com.leory.commonlib.di.component.AppComponent;
+import com.leory.commonlib.utils.StatusBarUtils;
 import com.leory.interactions.RouterHub;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -62,6 +63,7 @@ public class NewMainFragment extends BaseFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        StatusBarUtils.setDarkStatusBar(getActivity(),true,R.color.colorPrimary);//进来没有执行onPageSelected回调，这里要设置一下
         fragmentList.add(new LiveFragment());
         fragmentList.add(new MatchFragment());
         fragmentList.add(new RankingFragment());

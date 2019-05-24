@@ -76,7 +76,6 @@ public class MainActivity extends BaseActivity {
         });
         viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager(), fragmentList));
         viewPager.setOffscreenPageLimit(4);
-        StatusBarUtils.setDarkStatusBar(MainActivity.this,true,R.color.colorPrimary);//进来没有执行onPageSelected回调，这里要设置一下
     }
 
 
