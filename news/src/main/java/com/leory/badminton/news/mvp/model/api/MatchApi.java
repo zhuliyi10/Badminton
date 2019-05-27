@@ -16,4 +16,9 @@ public interface MatchApi {
                                    @Query("ajax")String ajax,
                                    @Query("ryear")String ryear,
                                    @Query("rstate")String rstate);
+
+    @GET
+    Observable<String>getMatchDetail(@Url String url,@Query("ajaxTmt")String ajaxTmt);//获取对阵信息
+    @GET
+    Observable<String>getMatchInfo(@Url String url);//获取比赛信息
 }

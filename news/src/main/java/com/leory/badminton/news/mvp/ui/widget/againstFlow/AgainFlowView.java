@@ -31,7 +31,7 @@ public class AgainFlowView extends View {
     private int itemWidth;//一项宽度
 
     private float textPadding;//文字的间距
-    private int itemCount = 32;//选手数量
+    private int itemCount = 0;//选手数量
     private int colCount = 3;//列的数量
 
     List<List<AgainstFlowBean>> againstData;//对阵数据
@@ -81,19 +81,18 @@ public class AgainFlowView extends View {
     private void init() {
         lineColor = getResources().getColor(R.color.deep_gray);
         textColor = getResources().getColor(R.color.txt_gray);
-        textSize = ScreenUtils.dp2px(getContext(), 12);
+        textSize = ScreenUtils.dp2px(getContext(), 11);
         lineWidth = ScreenUtils.dp2px(getContext(), 2);
         textPadding = ScreenUtils.dp2px(getContext(), 4);
         itemHeight = ScreenUtils.dp2px(getContext(), 36);
 
-        itemWidth = ScreenUtils.getScreenWidth(getContext()) / colCount;
+        itemWidth = ScreenUtils.getScreenWidth(getContext()) / (colCount - 1) - ScreenUtils.dp2px(getContext(), 30);
         linePaint = new Paint();
         linePaint.setColor(lineColor);
         linePaint.setStrokeWidth(lineWidth);
         textPaint = new Paint();
         textPaint.setColor(textColor);
         textPaint.setTextSize(textSize);
-        setAgainstData(getData());
     }
 
     /**
@@ -111,7 +110,7 @@ public class AgainFlowView extends View {
                 AgainstFlowBean bean = new AgainstFlowBean();
                 bean.setDouble(true);
                 bean.setName1("col:" + (col + 1) + "  row:" + (i + 1));
-                bean.setName2("col:" + (col + 1) + "  row:" + (i + 1)+"2");
+                bean.setName2("col:" + (col + 1) + "  row:" + (i + 1) + "2");
                 if (col != 0) {
                     bean.setScore("21:4 21:15");
                 }
@@ -130,6 +129,8 @@ public class AgainFlowView extends View {
     public void setAgainstData(List<List<AgainstFlowBean>> data) {
         this.againstData = data;
         requestLayout();
+        invalidate();
+
     }
 
     /**
@@ -146,13 +147,22 @@ public class AgainFlowView extends View {
                         if (rowData.size() > i) {
                             AgainstFlowBean bean = rowData.get(i);
                             if (!bean.isDouble()) {
-                                canvas.drawText(bean.getName1(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
-                            }else {
-                                canvas.drawText(bean.getName1(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding-textSize, textPaint);
-                                canvas.drawText(bean.getName2(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
+                                if (bean.getName1() != null) {
+                                    canvas.drawText(bean.getName1(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
+
+                                }
+                            } else {
+                                if (bean.getName1() != null) {
+                                    canvas.drawText(bean.getName1(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - textSize, textPaint);
+                                }
+                                if (bean.getName2() != null) {
+                                    canvas.drawText(bean.getName2(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
+                                }
                             }
                             if (!TextUtils.isEmpty(bean.getScore())) {
-                                canvas.drawText(bean.getScore(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) + textPadding + textSize, textPaint);
+                                if (bean.getScore() != null) {
+                                    canvas.drawText(bean.getScore(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) + textPadding + textSize, textPaint);
+                                }
                             }
                         }
                     }

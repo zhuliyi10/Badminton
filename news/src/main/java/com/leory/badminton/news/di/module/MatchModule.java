@@ -15,4 +15,5 @@ import dagger.Module;
 public abstract class MatchModule {
     @Binds
     abstract MatchContract.Model bindMatchModel(MatchModel model);
+
 }

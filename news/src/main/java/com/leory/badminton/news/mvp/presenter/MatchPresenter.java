@@ -123,6 +123,19 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
                     if (tr.size() == 7) {
 
                         MatchItemBean bean = new MatchItemBean();
+                        String matchClassify = tr.get(5).select("div[class=name]").first().text();//赛事类别
+                        if ("HSBC BWF World Tour Super 300".equals(matchClassify) ||
+                                "HSBC BWF World Tour Super 500".equals(matchClassify) ||
+                                "HSBC BWF World Tour Super 750".equals(matchClassify) ||
+                                "HSBC BWF World Tour Super 1000".equals(matchClassify)||
+                                "HSBC BWF World Tour Finals".equals(matchClassify)||
+                                "Grade 1 - Individual Tournaments".equals(matchClassify)||
+                                "Grade 1 - Team Tournaments".equals(matchClassify)
+                        ) {
+                            bean.setMatchClassify(matchClassify);
+                        } else {
+                            continue;
+                        }
                         String countryName = tr.get(1).select("div[class=country_code]").first().text();//国家简名
                         bean.setCountryName(countryName);
                         String countryFlagUrl = tr.get(1).select("img").first().attr("src");//国旗url
@@ -133,8 +146,8 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
                         bean.setMatchDay(monthName + "\n" + matchDay);
                         String matchName = tr.get(3).select("a").first().text();//赛事名称
                         bean.setMatchName(matchName);
-                        String matchClassify = tr.get(5).select("div[class=name]").first().text();//赛事类别
-                        bean.setMatchClassify(matchClassify);
+                        bean.setMatchUrl(tr.get(3).select("a").first().attr("href"));
+
                         String matchBonus = tr.get(4).select("div").first().text();//赛事奖金
                         bean.setMatchBonus(matchBonus);
                         if (i % 2 == 0) {
