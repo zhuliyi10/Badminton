@@ -17,6 +17,8 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -168,7 +170,21 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
     private MatchInfoBean getMatchInfo(String html) {
         MatchInfoBean bean = new MatchInfoBean();
         if (html != null) {
+
             Document doc = Jsoup.parse(html);
+            Pattern p=Pattern.compile("document.getElementById(.*).style.backgroundImage(.*).jpg");
+            Matcher m=p.matcher(html);
+            boolean isFind=m.find();
+            if(isFind) {
+                String group=m.group();
+                m=Pattern.compile("https(.*).jpg").matcher(group);
+                if(m.find()){
+                    String bgUrl=m.group();
+                    LogUtils.d(TAG,bgUrl);
+                    bean.setMatchBackground(bgUrl);
+                }
+
+            }
             Element head = doc.select("div.box-results-tournament").first();
             Element element = head.select("div.info h2").first();
             bean.setMatchName(element.text());
@@ -335,7 +351,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
         if (isDouble) {
             element = td.select("div.draw-player1-wrap img").first();
             if (element != null) {
-                bean.setIcon1(element.attr("src"));
+                bean.setIcon1(addHttps(element.attr("src")));
             }
             element = td.select("div.draw-player1-wrap a").first();
             if (element != null) {
@@ -343,7 +359,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
             }
             element = td.select("div.draw-player2-wrap img").first();
             if (element != null) {
-                bean.setIcon2(element.attr("src"));
+                bean.setIcon2(addHttps(element.attr("src")));
             }
             element = td.select("div.draw-player2-wrap a").first();
             if (element != null) {
@@ -352,7 +368,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
         } else {
             element = td.select("div.draw-player1-wrap img").first();
             if (element != null) {
-                bean.setIcon1(element.attr("src"));
+                bean.setIcon1(addHttps(element.attr("src")));
             }
             element = td.select("div.draw-player1-wrap a").first();
             if (element != null) {
@@ -372,5 +388,16 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
             return true;
         }
         return false;
+    }
+
+    private String addHttps(String img){
+        if(img!=null){
+            if(!img.startsWith("https:")){
+                return "https:"+img;
+            }else {
+                return img;
+            }
+        }
+        return null;
     }
 }

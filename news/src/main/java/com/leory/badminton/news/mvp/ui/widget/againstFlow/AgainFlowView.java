@@ -1,13 +1,22 @@
 package com.leory.badminton.news.mvp.ui.widget.againstFlow;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.leory.badminton.news.R;
 import com.leory.commonlib.utils.ScreenUtils;
 
@@ -29,13 +38,15 @@ public class AgainFlowView extends View {
     private int lineWidth;//线宽
     private int itemHeight;//一项高度
     private int itemWidth;//一项宽度
+    private int imgWidth;//图片的宽度
+    private int imgHeight;//图片的高度
 
     private float textPadding;//文字的间距
     private int itemCount = 0;//选手数量
     private int colCount = 3;//列的数量
 
     List<List<AgainstFlowBean>> againstData;//对阵数据
-
+    Handler mainHandler ;
     public AgainFlowView(Context context) {
         this(context, null);
     }
@@ -82,6 +93,8 @@ public class AgainFlowView extends View {
         lineColor = getResources().getColor(R.color.deep_gray);
         textColor = getResources().getColor(R.color.txt_gray);
         textSize = ScreenUtils.dp2px(getContext(), 11);
+        imgWidth=ScreenUtils.dp2px(getContext(), 20);
+        imgHeight=ScreenUtils.dp2px(getContext(), 12);
         lineWidth = ScreenUtils.dp2px(getContext(), 2);
         textPadding = ScreenUtils.dp2px(getContext(), 4);
         itemHeight = ScreenUtils.dp2px(getContext(), 36);
@@ -93,6 +106,8 @@ public class AgainFlowView extends View {
         textPaint = new Paint();
         textPaint.setColor(textColor);
         textPaint.setTextSize(textSize);
+
+        mainHandler= new Handler(getContext().getMainLooper());
     }
 
     /**
@@ -147,21 +162,44 @@ public class AgainFlowView extends View {
                         if (rowData.size() > i) {
                             AgainstFlowBean bean = rowData.get(i);
                             if (!bean.isDouble()) {
-                                if (bean.getName1() != null) {
-                                    canvas.drawText(bean.getName1(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
 
-                                }
-                            } else {
                                 if (bean.getName1() != null) {
-                                    canvas.drawText(bean.getName1(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - textSize, textPaint);
+                                    float left=itemWidth * col + textPadding;
+                                    float right=left+imgWidth;
+                                    float top=itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding-imgHeight;
+                                    float bottom=top+imgHeight;
+                                    RectF dst=new RectF(left,top,right,bottom);
+
+                                    canvas.drawText(bean.getName1(), itemWidth * col + textPadding + imgWidth, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
+                                    if (!TextUtils.isEmpty(bean.getIcon1()) && getContext() != null) {
+                                        Glide.with(getContext()).asBitmap().load(bean.getIcon1()).into(new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                Rect src = new Rect(0, 0, resource.getWidth(), resource.getHeight());
+//                                                mainHandler.post(new Runnable() {
+//                                                    @Override
+//                                                    public void run() {
+//                                                        canvas.drawBitmap(resource, src, dst,textPaint);
+//                                                    }
+//                                                });
+
+
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    if (bean.getName1() != null) {
+
+                                        canvas.drawText(bean.getName1(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - textSize, textPaint);
+                                    }
+                                    if (bean.getName2() != null) {
+                                        canvas.drawText(bean.getName2(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
+                                    }
                                 }
-                                if (bean.getName2() != null) {
-                                    canvas.drawText(bean.getName2(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
-                                }
-                            }
-                            if (!TextUtils.isEmpty(bean.getScore())) {
-                                if (bean.getScore() != null) {
-                                    canvas.drawText(bean.getScore(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) + textPadding + textSize, textPaint);
+                                if (!TextUtils.isEmpty(bean.getScore())) {
+                                    if (bean.getScore() != null) {
+                                        canvas.drawText(bean.getScore(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) + textPadding + textSize, textPaint);
+                                    }
                                 }
                             }
                         }

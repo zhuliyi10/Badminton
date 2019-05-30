@@ -48,6 +48,8 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
     TextView txtBonus;
     @BindView(R2.id.icon_match)
     ImageView iconMatch;
+    @BindView(R2.id.img_bg)
+    ImageView imgBg;
     private String[] matchType = new String[]{"男单", "女单", "男双", "女双", "混双"};
     @BindView(R2.id.progress)
     FrameLayout progress;
@@ -76,7 +78,6 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-        String detailUrl = "https://bwfworldtour.bwfbadminton.com/tournament/3376/yonex-all-england-open-badminton-championships-2019/";
         DaggerMatchDetailComponent.builder()
                 .view(this)
                 .detailUrl(getIntent().getStringExtra(KEY_DETAIL_URL))
@@ -147,11 +148,17 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
         txtTime.setText(bean.getMatchDate());
         txtSite.setText(bean.getMatchSite());
         txtBonus.setText(bean.getMatchBonus());
-        ImageConfig config=new ImageConfig.Builder()
+        ImageConfig config = new ImageConfig.Builder()
                 .imageView(iconMatch)
                 .url(bean.getMatchIcon())
                 .build();
-        AppUtils.obtainImageLoader().loadImage(this,config);
+        AppUtils.obtainImageLoader().loadImage(this, config);
+        config=new ImageConfig.Builder()
+                .imageView(imgBg)
+                .url(bean.getMatchBackground())
+                .build();
+        AppUtils.obtainImageLoader().loadImage(this, config);
     }
+
 }
 

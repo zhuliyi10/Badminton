@@ -11,9 +11,15 @@
 
         <FrameLayout
             android:id="@+id/head"
+            android:background="@color/deep_gray"
             android:layout_width="match_parent"
             android:layout_height="202dp"
             app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:id="@+id/img_bg"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <LinearLayout
                 android:layout_marginLeft="16dp"
@@ -27,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="比赛名称"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <TextView
@@ -35,21 +41,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="比赛时间"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="12sp" />
                 <TextView
                     android:id="@+id/txt_site"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="比赛地点"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="12sp" />
                 <TextView
                     android:id="@+id/txt_bonus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="比赛奖金"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="12sp" />
             </LinearLayout>
             <ImageView
