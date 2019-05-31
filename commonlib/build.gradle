@@ -6,6 +6,7 @@ dependencies {
     api project(':interactions')
     api rootProject.ext.dependencies["appcompat-v7"]
     api rootProject.ext.dependencies["recyclerview-v7"]
+    api rootProject.ext.dependencies["design"]
     api rootProject.ext.dependencies["constraint-layout"]
     api rootProject.ext.dependencies["autosize"]
 
