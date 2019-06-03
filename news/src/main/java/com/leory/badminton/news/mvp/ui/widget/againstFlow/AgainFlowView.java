@@ -1,15 +1,20 @@
 package com.leory.badminton.news.mvp.ui.widget.againstFlow;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.leory.badminton.news.R;
 import com.leory.commonlib.utils.ScreenUtils;
 
@@ -37,8 +42,8 @@ public class AgainFlowView extends View {
     private float textPadding;//文字的间距
     private int itemCount = 0;//选手数量
     private int colCount = 3;//列的数量
-
     List<List<AgainstFlowBean>> againstData;//对阵数据
+
     Handler mainHandler;
 
     public AgainFlowView(Context context) {
@@ -57,14 +62,7 @@ public class AgainFlowView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (againstData != null && againstData.size() > 0) {
 
-            List<AgainstFlowBean> rowData = againstData.get(0);
-            if (rowData.size() > 0) {
-                itemCount = rowData.size();
-            }
-
-        }
         int measureWidth = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
         int measureHeight = itemHeight * itemCount * 2;
         setMeasuredDimension(measureWidth, measureHeight);
@@ -137,8 +135,81 @@ public class AgainFlowView extends View {
      */
     public void setAgainstData(List<List<AgainstFlowBean>> data) {
         this.againstData = data;
+        if (againstData != null && againstData.size() > 0) {
+            List<AgainstFlowBean> rowData = againstData.get(0);
+            if (rowData.size() > 0) {
+                itemCount = rowData.size();
+            }
+
+        }
         requestLayout();
         invalidate();
+        requestImage();
+    }
+
+    private void requestImage() {
+        if (againstData != null) {
+            for (int col = 0; col < colCount; col++) {
+                if (col < againstData.size()) {
+                    List<AgainstFlowBean> rowData = againstData.get(col);
+                    for (int i = 0; i < itemCount / (int) (Math.pow(2, col)); i++) {
+                        if (rowData.size() > i) {
+                            AgainstFlowBean bean = rowData.get(i);
+                            if (!bean.isDouble()) {
+
+                                if (bean.getName1() != null) {
+
+
+                                    if (!TextUtils.isEmpty(bean.getIcon1()) && getContext() != null) {
+                                        int finalCol = col;
+                                        int finalI = i;
+                                        Glide.with(getContext()).asBitmap().load(bean.getIcon1()).into(new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                bean.setBitmap1(resource);
+                                                invalidate();
+//                                                if (finalI == itemCount / (int) (Math.pow(2, finalCol)) - 1) {
+//                                                    invalidate();
+//                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            } else {
+                                if (bean.getName1() != null) {
+                                    if (!TextUtils.isEmpty(bean.getIcon1()) && getContext() != null) {
+                                        Glide.with(getContext()).asBitmap().load(bean.getIcon1()).into(new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                bean.setBitmap1(resource);
+                                                invalidate();
+                                            }
+                                        });
+                                    }
+
+                                }
+                                if (bean.getName2() != null) {
+                                    if (!TextUtils.isEmpty(bean.getIcon2()) && getContext() != null) {
+                                        Glide.with(getContext()).asBitmap().load(bean.getIcon2()).into(new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                bean.setBitmap2(resource);
+                                                invalidate();
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            if (col != 0 && !TextUtils.isEmpty(bean.getScore())) {
+                                if (bean.getScore() != null) {
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
 
     }
 
@@ -156,39 +227,42 @@ public class AgainFlowView extends View {
                         if (rowData.size() > i) {
                             AgainstFlowBean bean = rowData.get(i);
                             if (!bean.isDouble()) {
-
                                 if (bean.getName1() != null) {
-                                    float left = itemWidth * col + textPadding;
-                                    float right = left + imgWidth;
-                                    float top = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - imgHeight;
-                                    float bottom = top + imgHeight;
-                                    RectF dst = new RectF(left, top, right, bottom);
 
                                     canvas.drawText(bean.getName1(), itemWidth * col + textPadding + imgWidth, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
-//                                    if (!TextUtils.isEmpty(bean.getIcon1()) && getContext() != null) {
-//                                        Glide.with(getContext()).asBitmap().load(bean.getIcon1()).into(new SimpleTarget<Bitmap>() {
-//                                            @Override
-//                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                                                Rect src = new Rect(0, 0, resource.getWidth(), resource.getHeight());
-////                                                mainHandler.post(new Runnable() {
-////                                                    @Override
-////                                                    public void run() {
-////                                                        canvas.drawBitmap(resource, src, dst,textPaint);
-////                                                    }
-////                                                });
-//
-//
-//                                            }
-//                                        });
-//                                    }
+
+                                    if (bean.getBitmap1() != null) {
+                                        float left = itemWidth * col + textPadding;
+                                        float right = left + imgWidth;
+                                        float top = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - imgHeight;
+                                        float bottom = top + imgHeight;
+                                        RectF dst = new RectF(left, top, right, bottom);
+                                        canvas.drawBitmap(bean.getBitmap1(), null, dst, textPaint);
+                                    }
                                 }
                             } else {
                                 if (bean.getName1() != null) {
 
-                                    canvas.drawText(bean.getName1(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - textSize, textPaint);
+                                    canvas.drawText(bean.getName1(), itemWidth * col + textPadding + imgWidth, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - textSize, textPaint);
+                                    if (bean.getBitmap1() != null) {
+                                        float left = itemWidth * col + textPadding;
+                                        float right = left + imgWidth;
+                                        float top = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - textSize - imgHeight;
+                                        float bottom = top + imgHeight;
+                                        RectF dst = new RectF(left, top, right, bottom);
+                                        canvas.drawBitmap(bean.getBitmap1(), null, dst, textPaint);
+                                    }
                                 }
                                 if (bean.getName2() != null) {
-                                    canvas.drawText(bean.getName2(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
+                                    canvas.drawText(bean.getName2(), itemWidth * col + textPadding + imgWidth, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
+                                    if (bean.getBitmap2() != null) {
+                                        float left = itemWidth * col + textPadding;
+                                        float right = left + imgWidth;
+                                        float top = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - imgHeight;
+                                        float bottom = top + imgHeight;
+                                        RectF dst = new RectF(left, top, right, bottom);
+                                        canvas.drawBitmap(bean.getBitmap2(), null, dst, textPaint);
+                                    }
                                 }
                             }
                             if (col != 0 && !TextUtils.isEmpty(bean.getScore())) {

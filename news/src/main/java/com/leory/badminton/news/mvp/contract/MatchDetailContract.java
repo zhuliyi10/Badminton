@@ -18,6 +18,7 @@ public interface MatchDetailContract {
     interface View extends IView {
         void showAgainstView(List<List<AgainstFlowBean>>againstData);//显示对阵数据
         void showMatchInfo(MatchInfoBean bean);//显示比赛信息
+        void showMatchSchedule(int size);
     }
     interface Model extends IModel{
         Observable<String> getMatchInfo(String url);

@@ -6,6 +6,8 @@ import com.leory.badminton.news.mvp.ui.activity.MatchDetailActivity;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.di.scope.ActivityScope;
 
+import javax.inject.Named;
+
 import dagger.BindsInstance;
 import dagger.Component;
 
@@ -25,7 +27,9 @@ public interface MatchDetailComponent {
         MatchDetailComponent.Builder view(MatchDetailContract.View view);
 
         @BindsInstance
-        MatchDetailComponent.Builder detailUrl(String detailUrl);
+        MatchDetailComponent.Builder detailUrl(@Named("detail_url") String detailUrl);
+        @BindsInstance
+        MatchDetailComponent.Builder matchClassify(@Named("match_classify") String matchClassify);
 
         MatchDetailComponent.Builder appComponent(AppComponent appComponent);
 

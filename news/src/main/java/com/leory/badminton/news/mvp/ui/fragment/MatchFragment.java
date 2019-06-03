@@ -89,8 +89,9 @@ public class MatchFragment extends BaseLazyLoadFragment<MatchPresenter> implemen
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
                 if (!adapter.getData().get(position).isHeader) {
                     String matchUrl = adapter.getData().get(position).t.getMatchUrl();
+                    String matchClassify = adapter.getData().get(position).t.getMatchClassify();
                     if (!TextUtils.isEmpty(matchUrl)) {
-                        MatchDetailActivity.launch(getActivity(), matchUrl);
+                        MatchDetailActivity.launch(getActivity(), matchUrl, matchClassify);
                     }
                 }
             }

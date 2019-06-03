@@ -6,24 +6,24 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
-        android:fitsSystemWindows="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="false">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="202dp"
             app:collapsedTitleGravity="left"
-            app:contentScrim="@color/white"
-            app:title="比赛名称"
             app:collapsedTitleTextAppearance="@style/toolbar_collapsed"
-            app:expandedTitleTextAppearance="@style/toolbar_expanded"
+            app:contentScrim="@color/white"
             app:expandedTitleGravity="left|top"
             app:expandedTitleMarginStart="16dp"
             app:expandedTitleMarginTop="100dp"
+            app:expandedTitleTextAppearance="@style/toolbar_expanded"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
 
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:title="比赛名称">
 
             <FrameLayout
                 android:id="@+id/head"
@@ -50,9 +50,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="比赛名称"
-                        android:visibility="invisible"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/txt_time"
@@ -90,7 +90,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin" />
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -101,56 +101,11 @@
             android:layout_height="36dp"
             android:background="@color/bg_gray">
 
-            <LinearLayout
+            <com.leory.badminton.news.mvp.ui.widget.ScheduleView
+                android:id="@+id/scheduleView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tab_16"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="1/16决赛"
-                    android:textColor="@color/selector_color_match_schedule"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tab_8"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="1/8决赛"
-                    android:textColor="@color/selector_color_match_schedule"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tab_4"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="1/4决赛"
-                    android:textColor="@color/selector_color_match_schedule"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tab_2"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="半决赛"
-                    android:textColor="@color/selector_color_match_schedule"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tab_1"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="决赛"
-                    android:textColor="@color/selector_color_match_schedule"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                android:orientation="horizontal" />
 
             <com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
                 android:id="@+id/spinner_type"

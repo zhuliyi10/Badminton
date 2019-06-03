@@ -1,5 +1,7 @@
 package com.leory.badminton.news.mvp.ui.widget.againstFlow;
 
+import android.graphics.Bitmap;
+
 /**
  * Describe : 对阵数据
  * Author : leory
@@ -12,6 +14,8 @@ public class AgainstFlowBean {
     private String name2;//名字2
     private String icon2;//图片2
     private String score;//分数比
+    private Bitmap bitmap1;
+    private Bitmap bitmap2;
 
     public boolean isDouble() {
         return isDouble;
@@ -59,5 +63,21 @@ public class AgainstFlowBean {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public Bitmap getBitmap1() {
+        return bitmap1;
+    }
+
+    public void setBitmap1(Bitmap bitmap1) {
+        this.bitmap1 = bitmap1;
+    }
+
+    public Bitmap getBitmap2() {
+        return bitmap2;
+    }
+
+    public void setBitmap2(Bitmap bitmap2) {
+        this.bitmap2 = bitmap2;
     }
 }
