@@ -132,8 +132,10 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
 
     @Override
     public void hideLoading() {
-        progress.setVisibility(View.GONE);
-        againstFlow.setVisibility(View.VISIBLE);
+        if(progress!=null) {
+            progress.setVisibility(View.GONE);
+            againstFlow.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
