@@ -7,6 +7,7 @@ import com.leory.commonlib.di.scope.ActivityScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
 import com.leory.commonlib.mvp.BasePresenter;
 import com.leory.commonlib.utils.LogUtils;
+import com.leory.commonlib.utils.RxLifecycleUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -62,6 +63,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
                     .subscribeOn(Schedulers.io())
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                     .subscribe(new RxHandlerSubscriber<String>() {
 
                         @Override
@@ -120,6 +122,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
                     .doOnSubscribe(disposable -> rootView.showLoading()).subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally(() -> rootView.hideLoading())
+                    .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                     .subscribe(new RxHandlerSubscriber<String>() {
 
                         @Override
@@ -164,6 +167,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
                 .flatMap((Function<String, ObservableSource<MatchInfoBean>>) s -> Observable.just(getMatchInfo(html)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(new Observer<MatchInfoBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -252,6 +256,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
                 .flatMap((Function<String, ObservableSource<List<List<AgainstFlowBean>>>>) s -> Observable.just(getAgainstData(html, type)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(new Observer<List<List<AgainstFlowBean>>>() {
                     @Override
                     public void onSubscribe(Disposable d) {

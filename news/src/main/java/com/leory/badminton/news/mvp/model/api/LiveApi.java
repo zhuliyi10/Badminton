@@ -14,4 +14,6 @@ public interface LiveApi {
 
     @GET
     Observable<String>getLiveMatch(@Url String url);//获取直播比赛
+    @GET
+    Observable<String>getLiveDetail(@Url String url,@Query("match")int match,@Query("tab")String tab,@Query("ajaxSchedule")int ajaxSchedule);//获取直播比赛
 }

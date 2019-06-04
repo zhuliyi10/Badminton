@@ -174,7 +174,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
 
     @Override
     public void showMatchSchedule(int size) {
-        if (size > 0 && scheduleView.getChildCount() == 0) {
+        if (size > 0) {
             scheduleView.initData(size);
             scheduleView.setOnChildClickListener(new ScheduleView.OnChildClickListener() {
                 @Override

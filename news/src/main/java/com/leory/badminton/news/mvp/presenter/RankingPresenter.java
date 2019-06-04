@@ -7,6 +7,7 @@ import com.leory.badminton.news.mvp.model.bean.RankingBean;
 import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
 import com.leory.commonlib.mvp.BasePresenter;
+import com.leory.commonlib.utils.RxLifecycleUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -101,6 +102,7 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
                     else
                         rootView.endLoadMore();//隐藏上拉加载更多的进度条
                 })
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(new RxHandlerSubscriber<String>() {
                     @Override
                     public void onNext(String s) {
@@ -123,6 +125,7 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
                 .flatMap((Function<String, ObservableSource<List<RankingBean>>>) s -> Observable.just(getRankingData(first, html)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(new Observer<List<RankingBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {

@@ -32,6 +32,7 @@ public class ScheduleView extends LinearLayout {
     }
 
     public void initData(int count) {
+        removeAllViews();
         float commonWidth=50;
         if (count > 0) {
             addTextView("决赛",40);

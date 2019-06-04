@@ -3,6 +3,8 @@ package com.leory.badminton.news.mvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +18,19 @@ import com.leory.badminton.news.R2;
 import com.leory.badminton.news.di.component.DaggerLiveComponent;
 import com.leory.badminton.news.mvp.contract.LiveContract;
 import com.leory.badminton.news.mvp.model.bean.LiveBean;
+import com.leory.badminton.news.mvp.model.bean.LiveDetailBean;
 import com.leory.badminton.news.mvp.presenter.LivePresenter;
 import com.leory.badminton.news.mvp.ui.activity.MatchDetailActivity;
+import com.leory.badminton.news.mvp.ui.adapter.LiveDetailAdapter;
 import com.leory.commonlib.base.BaseLazyLoadFragment;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.image.ImageConfig;
 import com.leory.commonlib.utils.AppUtils;
 import com.leory.commonlib.utils.ToastUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +59,11 @@ public class LiveFragment extends BaseLazyLoadFragment<LivePresenter> implements
     FrameLayout progress;
     @BindView(R2.id.item_live)
     LinearLayout itemLive;
+    @BindView(R2.id.rcv)
+    RecyclerView rcv;
 
+
+    private LiveDetailAdapter liveDetailAdapter;
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
         DaggerLiveComponent.builder()
@@ -69,7 +80,8 @@ public class LiveFragment extends BaseLazyLoadFragment<LivePresenter> implements
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        rcv.setLayoutManager(new LinearLayoutManager(getContext()));
+        rcv.setAdapter(liveDetailAdapter=new LiveDetailAdapter(new ArrayList<>()));
     }
 
     @Override
@@ -106,10 +118,15 @@ public class LiveFragment extends BaseLazyLoadFragment<LivePresenter> implements
         itemLive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MatchDetailActivity.launch(getActivity(),bean.getDetailUrl(),"");
+                MatchDetailActivity.launch(getActivity(), bean.getDetailUrl(), "");
             }
         });
     }
 
+    @Override
+    public void showLiveDetail(List<LiveDetailBean> data) {
+        txtNextLive.setText("直播中");
+        liveDetailAdapter.setNewData(data);
+    }
 
 }

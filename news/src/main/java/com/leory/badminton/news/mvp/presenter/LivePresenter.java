@@ -2,14 +2,20 @@ package com.leory.badminton.news.mvp.presenter;
 
 import com.leory.badminton.news.mvp.contract.LiveContract;
 import com.leory.badminton.news.mvp.model.bean.LiveBean;
+import com.leory.badminton.news.mvp.model.bean.LiveDetailBean;
 import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
 import com.leory.commonlib.mvp.BasePresenter;
+import com.leory.commonlib.utils.RxLifecycleUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -41,6 +47,7 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
                 .doFinally(() -> {
                     rootView.hideLoading();
                 })
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(new RxHandlerSubscriber<String>() {
                     @Override
                     public void onNext(String s) {
@@ -56,6 +63,7 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
                 .flatMap((Function<String, ObservableSource<LiveBean>>) s -> Observable.just(getLiveData(html)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(new Observer<LiveBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -84,8 +92,15 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
         if (html != null) {
             Document doc = Jsoup.parse(html);
 
-            String detailUrl=doc.select("div.live-scores-box-single a").first().attr("href");
-            bean.setDetailUrl(detailUrl.replace("results/",""));
+            String detailUrl = doc.select("div.live-scores-box-single a").first().attr("href");
+            if (detailUrl.endsWith("live/")) {
+                requestLive(detailUrl);
+                detailUrl = detailUrl.replace("live/", "");
+
+            } else {
+                detailUrl = detailUrl.replace("results/", "");
+            }
+            bean.setDetailUrl(detailUrl);
             Element data = doc.select("div.live-scores-box-wrap").first();
             String matchName = data.select("h2").first().text();
             bean.setMatchName(matchName);
@@ -102,4 +117,146 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
         return bean;
 
     }
+
+
+    /**
+     * 请求直播中数据
+     *
+     * @param liveUrl
+     */
+    private void requestLive(String liveUrl) {
+
+        Observable.interval(0, 5, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Function<Long, ObservableSource<String>>() {
+                    @Override
+                    public ObservableSource<String> apply(Long aLong) throws Exception {
+                        return model.getLiveDetail(liveUrl);
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .subscribe(new RxHandlerSubscriber<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        parseLiveDetail(s);
+                    }
+                });
+    }
+
+    private void parseLiveDetail(String html) {
+        Observable.just(html)
+
+                .flatMap((Function<String, ObservableSource<List<LiveDetailBean>>>) s -> Observable.just(getLiveDetails(html)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .subscribe(new Observer<List<LiveDetailBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<LiveDetailBean> list) {
+                        rootView.showLiveDetail(list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private List<LiveDetailBean> getLiveDetails(String html) {
+        List<LiveDetailBean> data = new ArrayList<>();
+        if (html != null) {
+            Document doc = Jsoup.parse(html);
+            Elements lis = doc.select("li");
+            if (lis != null) {
+                for (Element li : lis) {
+                    LiveDetailBean bean = new LiveDetailBean();
+                    bean.setDetailUrl(li.select("a").first().attr("href"));
+                    bean.setType(translateType(li.select("div.round strong").first().text()));
+                    bean.setField(li.select("div.court").first().text().replace("Court", "场地"));
+                    bean.setTime(li.select("div.time").first().text());
+
+                    //player1
+                    Elements player1s=li.select("div.player1 span");
+                    bean.setPlayer1(player1s.first().text());
+                    if(player1s.size()==2){
+                        bean.setPlayer12(player1s.get(1).text());
+                    }
+
+                    //flag1
+                    Elements flags=li.select("div.flag1 img");
+
+                    String flag1 = flags.first().attr("src");
+                    if (flag1 != null && !flag1.startsWith("https:")) {
+                        flag1 = "https:" + flag1;
+                    }
+                    bean.setFlag1(flag1);
+                    if(flags.size()==2){
+                        flag1 = flags.get(1).attr("src");
+                        if (flag1 != null && !flag1.startsWith("https:")) {
+                            flag1 = "https:" + flag1;
+                        }
+                        bean.setFlag12(flag1);
+                    }
+
+                    //player2
+                    Elements player2s=li.select("div.player2 span");
+                    bean.setPlayer2(player2s.first().text());
+                    if(player2s.size()==2){
+                        bean.setPlayer22(player2s.get(1).text());
+                    }
+
+                    //flag2
+                    Elements flag2s=li.select("div.flag2 img");
+                    String flag2 = flag2s.first().attr("src");
+                    if (flag2 != null && !flag2.startsWith("https:")) {
+                        flag2 = "https:" + flag2;
+                    }
+                    bean.setFlag2(flag2);
+                    if(flag2s.size()==2){
+                        flag2 = flag2s.get(1).attr("src");
+                        if (flag2 != null && !flag2.startsWith("https:")) {
+                            flag2 = "https:" + flag2;
+                        }
+                        bean.setFlag22(flag2);
+                    }
+
+                    bean.setVs(li.select("div.vs").first().text());
+                    bean.setLeftDot(li.select("div.score-serve-1").first().text());
+                    bean.setRightDot(li.select("div.score-serve-2").first().text());
+                    bean.setScore(li.select("div.score").first().text());
+                    data.add(bean);
+                }
+            }
+        }
+        return data;
+    }
+
+
+    private String translateType(String type) {
+        if ("MS".equals(type)) {
+            return "男单";
+        } else if ("WS".equals(type)) {
+            return "女单";
+        } else if ("MD".equals(type)) {
+            return "男双";
+        } else if ("WD".equals(type)) {
+            return "女双";
+        } else if ("XD".equals(type)) {
+            return "混双";
+        }
+        return type;
+    }
+
 }

@@ -9,6 +9,7 @@ import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
 import com.leory.commonlib.mvp.BasePresenter;
 import com.leory.commonlib.utils.LogUtils;
+import com.leory.commonlib.utils.RxLifecycleUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -54,6 +55,7 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> rootView.showLoading()).subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(new RxHandlerSubscriber<String>() {
 
                     @Override
@@ -81,6 +83,7 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(() -> rootView.hideLoading())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(new Observer<List<MatchItemSection>>() {
                     @Override
                     public void onSubscribe(Disposable d) {

@@ -9,6 +9,7 @@ import com.leory.badminton.video.mvp.contract.VideoListContract;
 import com.leory.badminton.video.mvp.model.bean.VideoBaseResponse;
 import com.leory.badminton.video.mvp.model.bean.VideoBean;
 import com.leory.badminton.video.mvp.model.bean.VideoListBean;
+import com.leory.commonlib.utils.RxLifecycleUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class VideoPresenter extends BasePresenter<VideoListContract.Model, Video
                     else
                         rootView.endLoadMore();//隐藏上拉加载更多的进度条
                 })
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(new RxHandlerSubscriber<VideoBaseResponse<VideoListBean>>() {
 
                     @Override
