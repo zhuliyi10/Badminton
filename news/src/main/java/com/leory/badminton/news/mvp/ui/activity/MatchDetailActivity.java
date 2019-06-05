@@ -33,6 +33,7 @@ import com.leory.commonlib.image.ImageConfig;
 import com.leory.commonlib.utils.AppUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -135,6 +136,9 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
         });
         viewPager.setAdapter(new TabPagerAdapter(getSupportFragmentManager(), fragmentList));
         viewPager.setOffscreenPageLimit(1);
+        String[] tabs=new String[]{"对阵"};
+        tab.initData(Arrays.asList(tabs));
+        tab.setSelectPos(0);
     }
 
 

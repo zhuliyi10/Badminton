@@ -97,8 +97,14 @@
 
         <com.leory.badminton.news.mvp.ui.widget.MatchTabView
             android:id="@+id/tab"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp" />
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            app:item_width="72dp"
+            android:background="@color/white"
+            app:bg_color="@drawable/selector_bg_match_tab"
+            app:text_color="@color/selector_color_match_tab" />
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
