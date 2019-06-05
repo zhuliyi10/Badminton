@@ -3,6 +3,7 @@ package com.leory.badminton.news.di.component;
 import com.leory.badminton.news.di.module.MatchDetailModule;
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.ui.activity.MatchDetailActivity;
+import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.di.scope.ActivityScope;
 
@@ -18,7 +19,9 @@ import dagger.Component;
  */
 @ActivityScope
 @Component(modules = MatchDetailModule.class, dependencies = AppComponent.class)
-public interface MatchDetailComponent {
+public interface MatchDetailComponent extends IComponent {
+
+    MatchAgainstComponent.Builder buildMatchAgainstComponent();
     void inject(MatchDetailActivity activity);
 
     @Component.Builder
@@ -28,6 +31,7 @@ public interface MatchDetailComponent {
 
         @BindsInstance
         MatchDetailComponent.Builder detailUrl(@Named("detail_url") String detailUrl);
+
         @BindsInstance
         MatchDetailComponent.Builder matchClassify(@Named("match_classify") String matchClassify);
 

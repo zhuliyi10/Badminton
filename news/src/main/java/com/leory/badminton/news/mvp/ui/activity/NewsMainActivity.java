@@ -16,10 +16,6 @@ import com.leory.commonlib.di.component.AppComponent;
 public class NewsMainActivity extends BaseActivity {
 
 
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
-    }
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout
+        android:id="@+id/tab"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/bg_gray">
+
+        <com.leory.badminton.news.mvp.ui.widget.MatchTabView
+            android:id="@+id/scheduleView"
+            app:item_width="50dp"
+            app:text_color="@color/selector_color_match_schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+
+        <com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
+            android:id="@+id/spinner_type"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical|right" />
+    </FrameLayout>
+    <com.leory.badminton.news.mvp.ui.widget.againstFlow.AgainFlowView
+        android:id="@+id/againstFlow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tab" />
+
+    <FrameLayout
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+</android.support.constraint.ConstraintLayout>

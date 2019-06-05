@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.leory.commonlib.app.FragmentBackHandler;
+import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.base.delegate.IFragment;
 import com.leory.commonlib.base.lifecycle.FragmentLifecycleable;
 import com.leory.commonlib.mvp.IPresenter;
@@ -44,7 +45,7 @@ import io.reactivex.subjects.Subject;
  * Author : Leory
  * Time : 2018-04-15
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable , FragmentBackHandler {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable, FragmentBackHandler {
     protected final String TAG = this.getClass().getSimpleName();
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
     @Inject
@@ -60,7 +61,11 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupActivityComponent(AppUtils.obtainAppComponent());
+        if (getActivity() instanceof BaseActivity) {
+            setupActivityComponent(((BaseActivity) getActivity()).getActivityComponent());
+        } else {
+            setupActivityComponent(AppUtils.obtainAppComponent());
+        }
     }
 
     @Nullable
@@ -87,8 +92,14 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         return true;
     }
 
+    @Override
+    public IComponent setupActivityComponent(IComponent component) {
+        return component;
+    }
+
     /**
      * 是否处理返回值，默认不处理
+     *
      * @return
      */
     @Override

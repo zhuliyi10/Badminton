@@ -1,5 +1,6 @@
 package com.leory.badminton.news.di.module;
 
+import com.leory.badminton.news.di.component.MatchAgainstComponent;
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.model.MatchDetailModel;
 
@@ -11,7 +12,7 @@ import dagger.Module;
  * Author : leory
  * Date : 2019-05-19
  */
-@Module
+@Module(subcomponents = MatchAgainstComponent.class)
 public abstract class MatchDetailModule {
     @Binds
     abstract MatchDetailContract.Model bindMatchModel(MatchDetailModel model);

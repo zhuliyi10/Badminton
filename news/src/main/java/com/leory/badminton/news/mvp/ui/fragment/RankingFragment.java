@@ -19,6 +19,7 @@ import com.leory.badminton.news.mvp.presenter.RankingPresenter;
 import com.leory.badminton.news.mvp.ui.adapter.RankingAdapter;
 import com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView;
 import com.leory.commonlib.base.BaseLazyLoadFragment;
+import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -30,8 +31,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Describe :排名fragment
@@ -52,13 +51,16 @@ public class RankingFragment extends BaseLazyLoadFragment<RankingPresenter> impl
 
     public static String[] RANKING_TYPES = new String[]{"男单", "女单", "男双", "女双", "混双"};
     private RankingAdapter adapter;
+
+
     @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
+    public IComponent setupActivityComponent(IComponent component) {
         DaggerRankingComponent.builder()
-                .appComponent(appComponent)
+                .appComponent((AppComponent) component)
                 .view(this)
                 .build()
                 .inject(this);
+        return super.setupActivityComponent(component);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class RankingFragment extends BaseLazyLoadFragment<RankingPresenter> impl
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         rcv.setLayoutManager(new LinearLayoutManager(getContext()));
-        rcv.setAdapter(adapter=new RankingAdapter(new ArrayList<>()));
+        rcv.setAdapter(adapter = new RankingAdapter(new ArrayList<>()));
         refreshLayout.setOnLoadMoreListener(this);
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableLoadMore(false);
@@ -92,9 +94,9 @@ public class RankingFragment extends BaseLazyLoadFragment<RankingPresenter> impl
 
     @Override
     public void showRankingData(boolean refresh, List<RankingBean> data) {
-        if(refresh){
+        if (refresh) {
             adapter.setNewData(data);
-        }else {
+        } else {
             adapter.addData(data);
         }
     }
@@ -108,14 +110,14 @@ public class RankingFragment extends BaseLazyLoadFragment<RankingPresenter> impl
                 spinnerWeek.setOnSelectListener(new SpinnerPopView.OnSelectListener() {
                     @Override
                     public void onItemClick(int pos, String name) {
-                        presenter.selectData(true,spinnerType.getSelectName(),name);
+                        presenter.selectData(true, spinnerType.getSelectName(), name);
                     }
                 });
                 spinnerType.initData(Arrays.asList(RANKING_TYPES));
                 spinnerType.setOnSelectListener(new SpinnerPopView.OnSelectListener() {
                     @Override
                     public void onItemClick(int pos, String name) {
-                        presenter.selectData(true,name,spinnerWeek.getSelectName());
+                        presenter.selectData(true, name, spinnerWeek.getSelectName());
                     }
                 });
                 refreshLayout.setEnableLoadMore(true);
@@ -143,6 +145,6 @@ public class RankingFragment extends BaseLazyLoadFragment<RankingPresenter> impl
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-        presenter.selectData(false,spinnerType.getSelectName(),spinnerWeek.getSelectName());
+        presenter.selectData(false, spinnerType.getSelectName(), spinnerWeek.getSelectName());
     }
 }

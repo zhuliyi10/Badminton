@@ -35,11 +35,10 @@ import com.leory.commonlib.mvp.IPresenter;
 public interface IFragment{
 
     /**
-     * 提供 AppComponent (提供所有的单例对象) 给实现类, 进行 Component 依赖
      *
-     * @param appComponent
+     * @param component
      */
-    void setupActivityComponent(@NonNull AppComponent appComponent);
+    IComponent setupActivityComponent(IComponent component);
 
     /**
      * 是否使用EventBus

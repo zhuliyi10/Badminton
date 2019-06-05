@@ -17,7 +17,6 @@ package com.leory.commonlib.base;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,14 +24,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.leory.commonlib.R;
-import com.leory.commonlib.utils.BackHandlerHelper;
-import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.leory.commonlib.base.delegate.IActivity;
+import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.base.lifecycle.ActivityLifecycleable;
 import com.leory.commonlib.mvp.IPresenter;
 import com.leory.commonlib.utils.AppUtils;
+import com.leory.commonlib.utils.BackHandlerHelper;
 import com.leory.commonlib.utils.StatusBarUtils;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import javax.inject.Inject;
 
@@ -47,7 +46,7 @@ import io.reactivex.subjects.Subject;
  * Author : Leory
  * Time : 2018-04-15
  */
-public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity ,ActivityLifecycleable {
+public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity, ActivityLifecycleable {
     protected final String TAG = this.getClass().getSimpleName();
     private final BehaviorSubject<ActivityEvent> mLifecycleSubject = BehaviorSubject.create();
     private Unbinder unbinder;
@@ -60,6 +59,8 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     public final Subject<ActivityEvent> provideLifecycleSubject() {
         return mLifecycleSubject;
     }
+
+    private IComponent activityComponent;
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
@@ -68,8 +69,8 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtils.setDarkStatusBar(this,false,0);
-        setupActivityComponent(AppUtils.obtainAppComponent());
+        StatusBarUtils.setDarkStatusBar(this, false, 0);
+        activityComponent=setupActivityComponent(AppUtils.obtainAppComponent());
         try {
             int layoutResID = initView(savedInstanceState);
             //如果 initView 返回 0, 框架则不会调用 setContentView(), 当然也不会 Bind ButterKnife
@@ -86,7 +87,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
 
     @Override
     public void onBackPressed() {
-        if(!BackHandlerHelper.handleBackPress(this)) {//fragment不处理才退出
+        if (!BackHandlerHelper.handleBackPress(this)) {//fragment不处理才退出
             super.onBackPressed();
         }
     }
@@ -95,7 +96,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     protected void onDestroy() {
         super.onDestroy();
         if (unbinder != null && unbinder != Unbinder.EMPTY) unbinder.unbind();
-        if(presenter!=null){
+        if (presenter != null) {
             presenter.onDestroy();
         }
         this.presenter = null;
@@ -123,4 +124,12 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         return true;
     }
 
+    @Override
+    public IComponent setupActivityComponent(IComponent component) {
+        return component;
+    }
+
+    public IComponent getActivityComponent(){
+        return activityComponent;
+    }
 }

@@ -16,7 +16,6 @@ import com.leory.badminton.news.R;
 import com.leory.badminton.news.R2;
 import com.leory.badminton.news.mvp.ui.adapter.IndicatorPagerAdapter;
 import com.leory.commonlib.base.BaseFragment;
-import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.utils.StatusBarUtils;
 import com.leory.interactions.RouterHub;
 
@@ -51,19 +50,15 @@ public class NewMainFragment extends BaseFragment {
     private List<String> dataList = Arrays.asList(CHANNELS);
     private IndicatorPagerAdapter indicatorPagerAdapter;
 
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
-    }
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_news_main,container,false);
+        return inflater.inflate(R.layout.fragment_news_main, container, false);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        StatusBarUtils.setDarkStatusBar(getActivity(),true,R.color.colorPrimary);//进来没有执行onPageSelected回调，这里要设置一下
+        StatusBarUtils.setDarkStatusBar(getActivity(), true, R.color.colorPrimary);//进来没有执行onPageSelected回调，这里要设置一下
         fragmentList.add(new LiveFragment());
         fragmentList.add(new MatchFragment());
         fragmentList.add(new RankingFragment());

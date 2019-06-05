@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.leory.badminton.circle.R;
 import com.leory.commonlib.base.BaseFragment;
-import com.leory.commonlib.di.component.AppComponent;
 import com.leory.interactions.RouterHub;
 
 /**
@@ -21,10 +20,6 @@ import com.leory.interactions.RouterHub;
 
 @Route(path = RouterHub.CIRCLE_CIRCLEMAINFRAGMENT)
 public class CircleMainFragment extends BaseFragment {
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
-    }
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

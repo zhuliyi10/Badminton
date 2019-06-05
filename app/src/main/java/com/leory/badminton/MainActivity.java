@@ -1,11 +1,9 @@
 package com.leory.badminton;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.ViewUtils;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -13,7 +11,6 @@ import com.leory.badminton.adapter.MainPagerAdapter;
 import com.leory.badminton.utils.FragmentUtils;
 import com.leory.badminton.widget.BottomItemView;
 import com.leory.commonlib.base.BaseActivity;
-import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.utils.StatusBarUtils;
 import com.leory.interactions.RouterHub;
 
@@ -38,11 +35,6 @@ public class MainActivity extends BaseActivity {
     BottomItemView itemMine;
 
     @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
-    }
-
-    @Override
     public int initView(@Nullable Bundle savedInstanceState) {
         return R.layout.activity_main;
     }
@@ -62,10 +54,10 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int i) {
-                if(i==0){
-                    StatusBarUtils.setDarkStatusBar(MainActivity.this,true,R.color.colorPrimary);
-                }else {
-                    StatusBarUtils.setDarkStatusBar(MainActivity.this,false,0);
+                if (i == 0) {
+                    StatusBarUtils.setDarkStatusBar(MainActivity.this, true, R.color.colorPrimary);
+                } else {
+                    StatusBarUtils.setDarkStatusBar(MainActivity.this, false, 0);
                 }
             }
 

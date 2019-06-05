@@ -14,10 +14,7 @@ import com.leory.commonlib.di.component.AppComponent;
  * Date : 2019-05-22
  */
 public class MineMainActivity extends BaseActivity {
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
 
-    }
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {

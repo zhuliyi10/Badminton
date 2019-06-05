@@ -22,6 +22,7 @@ import com.leory.badminton.news.mvp.ui.activity.MatchDetailActivity;
 import com.leory.badminton.news.mvp.ui.adapter.MatchSectionAdapter;
 import com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView;
 import com.leory.commonlib.base.BaseLazyLoadFragment;
+import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.utils.ToastUtils;
 
@@ -49,13 +50,15 @@ public class MatchFragment extends BaseLazyLoadFragment<MatchPresenter> implemen
     @BindView(R2.id.progressBar)
     ProgressBar progressBar;
 
+
     @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
+    public IComponent setupActivityComponent(IComponent component) {
         DaggerMatchComponent.builder()
                 .view(this)
-                .appComponent(appComponent)
+                .appComponent((AppComponent) component)
                 .build()
                 .inject(this);
+        return super.setupActivityComponent(component);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.leory.commonlib.base.delegate.ActivityLifecycleImpl;
 import com.leory.commonlib.base.delegate.AppDelegate;
+import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.module.AppModule;
 import com.leory.commonlib.di.module.ClientModule;
 import com.leory.commonlib.di.module.GlobalConfigModule;
@@ -26,7 +27,7 @@ import okhttp3.OkHttpClient;
  */
 @Singleton
 @Component(modules = {AppModule.class, ClientModule.class, GlobalConfigModule.class})
-public interface AppComponent {
+public interface AppComponent extends IComponent {
 
     //图片管理器,用于加载图片的管理类,默认使用 Glide ,使用策略模式,可在运行时替换框架
     ImageLoader imageLoader();

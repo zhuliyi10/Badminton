@@ -23,6 +23,7 @@ import com.leory.badminton.news.mvp.presenter.LivePresenter;
 import com.leory.badminton.news.mvp.ui.activity.MatchDetailActivity;
 import com.leory.badminton.news.mvp.ui.adapter.LiveDetailAdapter;
 import com.leory.commonlib.base.BaseLazyLoadFragment;
+import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.image.ImageConfig;
@@ -33,8 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Describe :直播fragment
@@ -64,13 +63,16 @@ public class LiveFragment extends BaseLazyLoadFragment<LivePresenter> implements
 
 
     private LiveDetailAdapter liveDetailAdapter;
+
+
     @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
+    public IComponent setupActivityComponent(IComponent component) {
         DaggerLiveComponent.builder()
                 .view(this)
-                .appComponent(appComponent)
+                .appComponent((AppComponent) component)
                 .build()
                 .inject(this);
+        return super.setupActivityComponent(component);
     }
 
     @Override
@@ -81,7 +83,7 @@ public class LiveFragment extends BaseLazyLoadFragment<LivePresenter> implements
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         rcv.setLayoutManager(new LinearLayoutManager(getContext()));
-        rcv.setAdapter(liveDetailAdapter=new LiveDetailAdapter(new ArrayList<>()));
+        rcv.setAdapter(liveDetailAdapter = new LiveDetailAdapter(new ArrayList<>()));
     }
 
     @Override

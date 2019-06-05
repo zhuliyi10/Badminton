@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.leory.badminton.video.mvp.model.bean.VideoBean;
 import com.leory.badminton.video.mvp.presenter.VideoPresenter;
 import com.leory.badminton.video.mvp.ui.adapter.VideoAdapter;
 import com.leory.commonlib.base.BaseFragment;
+import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.utils.ToastUtils;
 import com.leory.commonlib.widget.XSDToolbar;
@@ -75,13 +75,15 @@ public class VideoMainFragment extends BaseFragment<VideoPresenter> implements V
     }
 
     @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
+    public IComponent setupActivityComponent(IComponent component) {
         DaggerVideoComponent.builder()
                 .view(this)
-                .appComponent(appComponent)
+                .appComponent((AppComponent) component)
                 .build()
                 .inject(this);
+        return super.setupActivityComponent(component);
     }
+
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -188,7 +190,7 @@ public class VideoMainFragment extends BaseFragment<VideoPresenter> implements V
     public boolean onBackPressed() {
         if (GSYVideoManager.backFromWindowFull(getActivity())) {
             return true;//表示处理了
-        }else {
+        } else {
             return false;
         }
     }
