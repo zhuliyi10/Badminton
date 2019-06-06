@@ -27,12 +27,13 @@
         android:paddingRight="8dp"
         app:layout_constraintLeft_toRightOf="@+id/spinner_week"
         app:layout_constraintTop_toTopOf="parent" />
+
     <include
         android:id="@+id/head_ranking"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_week"
+        layout="@layout/head_ranking"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        layout="@layout/head_ranking"/>
+        app:layout_constraintTop_toBottomOf="@+id/spinner_week" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
