@@ -13,10 +13,14 @@ import java.util.List;
  * Time : 2018-04-15
  */
 
-public abstract class BaseAdapter<T> extends BaseQuickAdapter<T,BaseViewHolder>{
+public abstract class BaseAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
 
     public BaseAdapter(int layoutResId, @Nullable List<T> data) {
         super(layoutResId, data);
     }
 
+    public void clear() {
+        getData().clear();
+        notifyDataSetChanged();
+    }
 }

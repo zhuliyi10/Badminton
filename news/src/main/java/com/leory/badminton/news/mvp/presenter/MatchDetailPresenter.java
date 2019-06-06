@@ -2,6 +2,7 @@ package com.leory.badminton.news.mvp.presenter;
 
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.model.bean.MatchInfoBean;
+import com.leory.badminton.news.mvp.model.bean.MatchTabDateBean;
 import com.leory.commonlib.di.scope.ActivityScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
 import com.leory.commonlib.mvp.BasePresenter;
@@ -11,7 +12,10 @@ import com.leory.commonlib.utils.RxLifecycleUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,8 +38,6 @@ import io.reactivex.schedulers.Schedulers;
 @ActivityScope
 public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Model, MatchDetailContract.View> {
 
-    private String currentMatchSchedule;
-
 
     String detailUrl;
 
@@ -51,7 +53,6 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
 
     private void requestMatchInfo() {
         if (detailUrl != null) {
-
             String requestUrl = detailUrl + "results/podium/";
             if (isGroup()) {
                 requestUrl = detailUrl + "podium";
@@ -163,6 +164,21 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
                     if (urlAttr.length == 3) {
                         bean.setMatchIcon(urlAttr[1]);
                     }
+                }
+            }
+            Element ul =doc.select("ul#ajaxTabsResults").first();
+            if(ul!=null) {
+                Elements lis = ul.select("li");
+                if (lis != null) {
+                    List<MatchTabDateBean>headTabs=new ArrayList<>();
+                    for (int i=1;i<lis.size()-1;i++){
+                        Element li=lis.get(i);
+                        String link=li.select("a").first().attr("href");
+                        String name=li.select("a").first().text();
+                        headTabs.add(new MatchTabDateBean(link,name));
+                    }
+                    bean.setTabDateHeads(headTabs);
+
                 }
             }
 

@@ -102,7 +102,6 @@
             android:orientation="horizontal"
             app:item_width="72dp"
             android:background="@color/white"
-            app:bg_color="@drawable/selector_bg_match_tab"
             app:text_color="@color/selector_color_match_tab" />
 
     </android.support.design.widget.AppBarLayout>

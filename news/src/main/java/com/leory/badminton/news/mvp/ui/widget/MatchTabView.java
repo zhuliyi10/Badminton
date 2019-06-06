@@ -97,7 +97,7 @@ public class MatchTabView extends LinearLayout {
         TextView textView = getTextView();
         textView.setText(text);
         LayoutParams lp = new LayoutParams(width, LayoutParams.MATCH_PARENT);
-        addView(textView, 0, lp);
+        addView(textView, lp);
     }
 
     private TextView getTextView() {

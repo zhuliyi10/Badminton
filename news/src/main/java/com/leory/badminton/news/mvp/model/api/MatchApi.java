@@ -21,4 +21,6 @@ public interface MatchApi {
     Observable<String>getMatchDetail(@Url String url,@Query("ajaxTmt")String ajaxTmt);//获取对阵信息
     @GET
     Observable<String>getMatchInfo(@Url String url);//获取比赛信息
+    @GET
+    Observable<String>getMatchDate(@Url String url,@Query("ajaxTmt")String ajaxTmt);//获取比赛赛程
 }

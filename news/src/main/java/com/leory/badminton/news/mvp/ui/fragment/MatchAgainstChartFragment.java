@@ -26,9 +26,6 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.leory.badminton.news.mvp.ui.activity.MatchDetailActivity.KEY_DETAIL_URL;
-import static com.leory.badminton.news.mvp.ui.activity.MatchDetailActivity.KEY_MATCH_CLASSIFY;
-
 /**
  * Describe : 对阵表
  * Author : leory

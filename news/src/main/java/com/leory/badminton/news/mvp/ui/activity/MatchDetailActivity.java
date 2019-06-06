@@ -25,6 +25,7 @@ import com.leory.badminton.news.mvp.model.bean.MatchInfoBean;
 import com.leory.badminton.news.mvp.presenter.MatchDetailPresenter;
 import com.leory.badminton.news.mvp.ui.adapter.TabPagerAdapter;
 import com.leory.badminton.news.mvp.ui.fragment.MatchAgainstChartFragment;
+import com.leory.badminton.news.mvp.ui.fragment.MatchDateFragment;
 import com.leory.badminton.news.mvp.ui.widget.MatchTabView;
 import com.leory.commonlib.base.BaseActivity;
 import com.leory.commonlib.base.delegate.IComponent;
@@ -117,28 +118,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
                 finish();
             }
         });
-        List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(MatchAgainstChartFragment.newInstance());
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
 
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
-        viewPager.setAdapter(new TabPagerAdapter(getSupportFragmentManager(), fragmentList));
-        viewPager.setOffscreenPageLimit(1);
-        String[] tabs=new String[]{"对阵"};
-        tab.initData(Arrays.asList(tabs));
-        tab.setSelectPos(0);
     }
 
 
@@ -175,7 +155,41 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
                 .url(bean.getMatchBackground())
                 .build();
         AppUtils.obtainImageLoader().loadImage(this, config);
+        initViewPager(bean);
     }
 
+    private void initViewPager(MatchInfoBean bean){
+        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(MatchAgainstChartFragment.newInstance());
+        fragmentList.add(MatchDateFragment.newInstance(bean.getTabDateHeads()));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                tab.setSelectPos(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+        viewPager.setAdapter(new TabPagerAdapter(getSupportFragmentManager(), fragmentList));
+        viewPager.setOffscreenPageLimit(2);
+        String[] tabs=new String[]{"对阵","赛程"};
+        tab.initData(Arrays.asList(tabs));
+        tab.setOnChildClickListener(new MatchTabView.OnChildClickListener() {
+            @Override
+            public void onClick(TextView tv, int position) {
+                tab.setSelectPos(position);
+                viewPager.setCurrentItem(position);
+            }
+        });
+        tab.setSelectPos(0);
+    }
 }
 

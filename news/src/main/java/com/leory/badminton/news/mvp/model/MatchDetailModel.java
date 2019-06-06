@@ -3,7 +3,6 @@ package com.leory.badminton.news.mvp.model;
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.model.api.MatchApi;
 import com.leory.commonlib.di.scope.ActivityScope;
-import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.http.IRepositoryManager;
 import com.leory.commonlib.mvp.BaseModel;
 
@@ -19,7 +18,9 @@ import io.reactivex.Observable;
 @ActivityScope
 public class MatchDetailModel extends BaseModel implements MatchDetailContract.Model {
 
-    private String ajaxTmt="bwfdraw";
+    private String ajaxTmt = "bwfdraw";
+    private String bwfdate = "bwfdate";
+
     @Inject
     public MatchDetailModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
@@ -32,6 +33,11 @@ public class MatchDetailModel extends BaseModel implements MatchDetailContract.M
 
     @Override
     public Observable<String> getMatchDetail(String url) {
-        return repositoryManager.obtainRetrofitService(MatchApi.class).getMatchDetail(url,ajaxTmt);
+        return repositoryManager.obtainRetrofitService(MatchApi.class).getMatchDetail(url, ajaxTmt);
+    }
+
+    @Override
+    public Observable<String> getMatchDate(String url) {
+        return repositoryManager.obtainRetrofitService(MatchApi.class).getMatchDate(url, bwfdate);
     }
 }

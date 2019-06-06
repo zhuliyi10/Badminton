@@ -1,5 +1,7 @@
 package com.leory.badminton.news.mvp.model.bean;
 
+import java.util.List;
+
 /**
  * Describe : 比赛信息
  * Author : leory
@@ -12,6 +14,7 @@ public class MatchInfoBean {
     private String matchSite;//比赛地点
     private String matchBonus;//比赛奖金
     private String matchIcon;//比赛图标
+    private List<MatchTabDateBean> tabDateHeads;//赛程日期头部
 
     public String getMatchBackground() {
         return matchBackground;
@@ -59,5 +62,13 @@ public class MatchInfoBean {
 
     public void setMatchIcon(String matchIcon) {
         this.matchIcon = matchIcon;
+    }
+
+    public List<MatchTabDateBean> getTabDateHeads() {
+        return tabDateHeads;
+    }
+
+    public void setTabDateHeads(List<MatchTabDateBean> tabDateHeads) {
+        this.tabDateHeads = tabDateHeads;
     }
 }

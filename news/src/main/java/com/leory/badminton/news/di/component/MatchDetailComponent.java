@@ -22,6 +22,9 @@ import dagger.Component;
 public interface MatchDetailComponent extends IComponent {
 
     MatchAgainstComponent.Builder buildMatchAgainstComponent();
+
+    MatchDateComponent.Builder buildMatchDateComponent();
+
     void inject(MatchDetailActivity activity);
 
     @Component.Builder

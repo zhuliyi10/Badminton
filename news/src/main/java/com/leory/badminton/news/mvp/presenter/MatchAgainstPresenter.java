@@ -371,7 +371,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
      */
     private List<String> getMatchSchedules(int count) {
         List<String> data = new ArrayList<>();
-        String[] schedules = new String[]{"决赛", "半决赛", "1/4决赛", "1/8决赛", "1/16决赛", "1/32决赛"};
+        String[] schedules = new String[]{"1/32决赛", "1/16决赛", "1/8决赛", "1/4决赛", "半决赛","决赛"};
         for (int i = 0; i < count && i < schedules.length; i++) {
             data.add(schedules[i]);
         }

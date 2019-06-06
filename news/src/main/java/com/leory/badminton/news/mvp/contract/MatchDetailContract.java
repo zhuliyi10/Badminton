@@ -1,5 +1,6 @@
 package com.leory.badminton.news.mvp.contract;
 
+import com.leory.badminton.news.mvp.model.bean.MatchDateBean;
 import com.leory.badminton.news.mvp.model.bean.MatchInfoBean;
 import com.leory.badminton.news.mvp.ui.widget.againstFlow.AgainstFlowBean;
 import com.leory.commonlib.mvp.IModel;
@@ -24,8 +25,13 @@ public interface MatchDetailContract {
         void showAgainstView(List<List<AgainstFlowBean>>againstData);//显示对阵数据
         void showMatchSchedule(List<String> tags);
     }
+
+    interface MatchDateView extends IView{
+        void showDateData(List<MatchDateBean>data);//显示日期赛事
+    }
     interface Model extends IModel{
         Observable<String> getMatchInfo(String url);
         Observable<String> getMatchDetail(String url);
+        Observable<String> getMatchDate(String url);
     }
 }
