@@ -160,8 +160,8 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
 
     private void initViewPager(MatchInfoBean bean){
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(MatchAgainstChartFragment.newInstance());
         fragmentList.add(MatchDateFragment.newInstance(bean.getTabDateHeads()));
+        fragmentList.add(MatchAgainstChartFragment.newInstance());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -180,7 +180,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
         });
         viewPager.setAdapter(new TabPagerAdapter(getSupportFragmentManager(), fragmentList));
         viewPager.setOffscreenPageLimit(2);
-        String[] tabs=new String[]{"对阵","赛程"};
+        String[] tabs=new String[]{"赛程","对阵"};
         tab.initData(Arrays.asList(tabs));
         tab.setOnChildClickListener(new MatchTabView.OnChildClickListener() {
             @Override

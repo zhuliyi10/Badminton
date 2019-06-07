@@ -22,5 +22,6 @@ public class LiveContract {
     public interface Model extends IModel{
         Observable<String> getLiveMatch();
         Observable<String> getLiveDetail(String url);
+        Observable<String> getLiveUrl(String url);
     }
 }

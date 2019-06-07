@@ -6,6 +6,7 @@ import com.leory.badminton.news.mvp.model.bean.LiveDetailBean;
 import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
 import com.leory.commonlib.mvp.BasePresenter;
+import com.leory.commonlib.utils.LogUtils;
 import com.leory.commonlib.utils.RxLifecycleUtils;
 
 import org.jsoup.Jsoup;
@@ -16,6 +17,8 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -94,7 +97,8 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
 
             String detailUrl = doc.select("div.live-scores-box-single a").first().attr("href");
             if (detailUrl.endsWith("live/")) {
-                requestLive(detailUrl);
+                requestLiveUrl(detailUrl);
+
                 detailUrl = detailUrl.replace("live/", "");
 
             } else {
@@ -118,6 +122,36 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
 
     }
 
+
+    private void requestLiveUrl(String detailUrl) {
+        model.getLiveUrl(detailUrl)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .subscribe(new RxHandlerSubscriber<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        String liveUrl = getLiveUrl(s);
+                        if (liveUrl != null) {
+                            requestLive(liveUrl);
+                        }
+                    }
+                });
+    }
+
+    private String getLiveUrl(String html) {
+        Matcher m = Pattern.compile("document.location='https://bwfworldtour.bwfbadminton.com/(.*)?match=(.*)&tab=live';").matcher(html);
+        if (m.find()) {
+            String group = m.group();
+            m = Pattern.compile("https(.*)tab=live").matcher(group);
+            if (m.find()) {
+                String liveUrl = m.group();
+                LogUtils.d(TAG, liveUrl);
+                return liveUrl;
+            }
+        }
+        return null;
+    }
 
     /**
      * 请求直播中数据
@@ -185,24 +219,28 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
                     bean.setDetailUrl(li.select("a").first().attr("href"));
                     bean.setType(translateType(li.select("div.round strong").first().text()));
                     bean.setField(li.select("div.court").first().text().replace("Court", "场地"));
-                    bean.setTime(li.select("div.time").first().text());
+                    Element element = li.select("div.time").first();
+                    if (element != null) {
+                        bean.setTime(element.text());
+                    }
+
 
                     //player1
-                    Elements player1s=li.select("div.player1 span");
+                    Elements player1s = li.select("div.player1 span");
                     bean.setPlayer1(player1s.first().text());
-                    if(player1s.size()==2){
+                    if (player1s.size() == 2) {
                         bean.setPlayer12(player1s.get(1).text());
                     }
 
                     //flag1
-                    Elements flags=li.select("div.flag1 img");
+                    Elements flags = li.select("div.flag1 img");
 
                     String flag1 = flags.first().attr("src");
                     if (flag1 != null && !flag1.startsWith("https:")) {
                         flag1 = "https:" + flag1;
                     }
                     bean.setFlag1(flag1);
-                    if(flags.size()==2){
+                    if (flags.size() == 2) {
                         flag1 = flags.get(1).attr("src");
                         if (flag1 != null && !flag1.startsWith("https:")) {
                             flag1 = "https:" + flag1;
@@ -211,20 +249,20 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
                     }
 
                     //player2
-                    Elements player2s=li.select("div.player2 span");
+                    Elements player2s = li.select("div.player2 span");
                     bean.setPlayer2(player2s.first().text());
-                    if(player2s.size()==2){
+                    if (player2s.size() == 2) {
                         bean.setPlayer22(player2s.get(1).text());
                     }
 
                     //flag2
-                    Elements flag2s=li.select("div.flag2 img");
+                    Elements flag2s = li.select("div.flag2 img");
                     String flag2 = flag2s.first().attr("src");
                     if (flag2 != null && !flag2.startsWith("https:")) {
                         flag2 = "https:" + flag2;
                     }
                     bean.setFlag2(flag2);
-                    if(flag2s.size()==2){
+                    if (flag2s.size() == 2) {
                         flag2 = flag2s.get(1).attr("src");
                         if (flag2 != null && !flag2.startsWith("https:")) {
                             flag2 = "https:" + flag2;

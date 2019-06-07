@@ -21,8 +21,7 @@ import io.reactivex.Observable;
 public class LiveModel extends BaseModel implements LiveContract.Model {
     private static String url = "https://bwfworldtour.bwfbadminton.com/live/";
 
-    private static int match=10;
-    private static String tab="live";
+
     private static int ajaxSchedule=1;
     @Inject
     public LiveModel(IRepositoryManager repositoryManager) {
@@ -36,6 +35,11 @@ public class LiveModel extends BaseModel implements LiveContract.Model {
 
     @Override
     public Observable<String> getLiveDetail(String url) {
-        return repositoryManager.obtainRetrofitService(LiveApi.class).getLiveDetail(url,match,tab,ajaxSchedule);
+        return repositoryManager.obtainRetrofitService(LiveApi.class).getLiveDetail(url,ajaxSchedule);
+    }
+
+    @Override
+    public Observable<String> getLiveUrl(String url) {
+        return repositoryManager.obtainRetrofitService(LiveApi.class).getLiveUrl(url);
     }
 }
