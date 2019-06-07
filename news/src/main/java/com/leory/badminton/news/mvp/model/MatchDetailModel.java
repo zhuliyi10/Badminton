@@ -40,4 +40,9 @@ public class MatchDetailModel extends BaseModel implements MatchDetailContract.M
     public Observable<String> getMatchDate(String url) {
         return repositoryManager.obtainRetrofitService(MatchApi.class).getMatchDate(url, bwfdate);
     }
+
+    @Override
+    public Observable<String> getMatchHistory(String url) {
+        return repositoryManager.obtainRetrofitService(MatchApi.class).getMatchHistory(url);
+    }
 }

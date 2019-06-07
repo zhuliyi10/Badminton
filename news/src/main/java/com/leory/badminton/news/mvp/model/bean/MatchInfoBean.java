@@ -15,6 +15,7 @@ public class MatchInfoBean {
     private String matchBonus;//比赛奖金
     private String matchIcon;//比赛图标
     private List<MatchTabDateBean> tabDateHeads;//赛程日期头部
+    private String historyUrl;//历史url
 
     public String getMatchBackground() {
         return matchBackground;
@@ -70,5 +71,13 @@ public class MatchInfoBean {
 
     public void setTabDateHeads(List<MatchTabDateBean> tabDateHeads) {
         this.tabDateHeads = tabDateHeads;
+    }
+
+    public String getHistoryUrl() {
+        return historyUrl;
+    }
+
+    public void setHistoryUrl(String historyUrl) {
+        this.historyUrl = historyUrl;
     }
 }

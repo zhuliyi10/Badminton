@@ -166,20 +166,25 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
                     }
                 }
             }
-            Element ul =doc.select("ul#ajaxTabsResults").first();
-            if(ul!=null) {
+            Element ul = doc.select("ul#ajaxTabsResults").first();
+            if (ul != null) {
                 Elements lis = ul.select("li");
                 if (lis != null) {
-                    List<MatchTabDateBean>headTabs=new ArrayList<>();
-                    for (int i=1;i<lis.size()-1;i++){
-                        Element li=lis.get(i);
-                        String link=li.select("a").first().attr("href");
-                        String name=li.select("a").first().text();
-                        headTabs.add(new MatchTabDateBean(link,name));
+                    List<MatchTabDateBean> headTabs = new ArrayList<>();
+                    for (int i = 1; i < lis.size() - 1; i++) {
+                        Element li = lis.get(i);
+                        String link = li.select("a").first().attr("href");
+                        String name = li.select("a").first().text();
+                        headTabs.add(new MatchTabDateBean(link, name));
                     }
                     bean.setTabDateHeads(headTabs);
 
                 }
+            }
+
+            Element li = doc.select("ul#ajaxTabsTmt li").first();
+            if (li != null) {
+                bean.setHistoryUrl(li.select("a").first().attr("href"));
             }
 
         }
