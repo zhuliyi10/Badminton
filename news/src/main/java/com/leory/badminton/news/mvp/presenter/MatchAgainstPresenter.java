@@ -1,13 +1,10 @@
 package com.leory.badminton.news.mvp.presenter;
 
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
-import com.leory.badminton.news.mvp.model.bean.MatchInfoBean;
 import com.leory.badminton.news.mvp.ui.widget.againstFlow.AgainstFlowBean;
-import com.leory.commonlib.di.scope.ActivityScope;
 import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
 import com.leory.commonlib.mvp.BasePresenter;
-import com.leory.commonlib.utils.LogUtils;
 import com.leory.commonlib.utils.RxLifecycleUtils;
 
 import org.jsoup.Jsoup;
@@ -17,8 +14,6 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,7 +22,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -43,7 +37,6 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
 
     private List<List<AgainstFlowBean>> againstData;
     private String currentMatchSchedule;
-
 
 
     @Inject
@@ -371,8 +364,8 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
      */
     private List<String> getMatchSchedules(int count) {
         List<String> data = new ArrayList<>();
-        String[] schedules = new String[]{"1/32决赛", "1/16决赛", "1/8决赛", "1/4决赛", "半决赛","决赛"};
-        for (int i = 0; i < count && i < schedules.length; i++) {
+        String[] schedules = new String[]{"1/32决赛", "1/16决赛", "1/8决赛", "1/4决赛", "半决赛", "决赛"};
+        for (int i = schedules.length - count; i > 0 && i < schedules.length; i++) {
             data.add(schedules[i]);
         }
         return data;
