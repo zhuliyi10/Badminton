@@ -27,6 +27,7 @@ import com.leory.badminton.news.mvp.ui.adapter.TabPagerAdapter;
 import com.leory.badminton.news.mvp.ui.fragment.MatchAgainstChartFragment;
 import com.leory.badminton.news.mvp.ui.fragment.MatchDateFragment;
 import com.leory.badminton.news.mvp.ui.fragment.MatchHistoryFragment;
+import com.leory.badminton.news.mvp.ui.fragment.MatchPlayersFragment;
 import com.leory.badminton.news.mvp.ui.widget.MatchTabView;
 import com.leory.commonlib.base.BaseActivity;
 import com.leory.commonlib.base.delegate.IComponent;
@@ -164,6 +165,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
         fragmentList.add(MatchDateFragment.newInstance(bean.getTabDateHeads()));
         fragmentList.add(MatchAgainstChartFragment.newInstance());
         fragmentList.add(MatchHistoryFragment.newInstance(bean.getHistoryUrl()));
+        fragmentList.add(MatchPlayersFragment.newInstance());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -181,8 +183,8 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
             }
         });
         viewPager.setAdapter(new TabPagerAdapter(getSupportFragmentManager(), fragmentList));
-        viewPager.setOffscreenPageLimit(2);
-        String[] tabs=new String[]{"赛程","对阵","历史"};
+        viewPager.setOffscreenPageLimit(4);
+        String[] tabs=new String[]{"赛程","对阵","历史","运动员"};
         tab.initData(Arrays.asList(tabs));
         tab.setOnChildClickListener(new MatchTabView.OnChildClickListener() {
             @Override

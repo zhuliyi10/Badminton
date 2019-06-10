@@ -14,7 +14,7 @@ import com.leory.commonlib.utils.AppUtils;
 import java.util.List;
 
 /**
- * Describe :
+ * Describe : 历史赛事adapter
  * Author : leory
  * Date : 2019-06-07
  */

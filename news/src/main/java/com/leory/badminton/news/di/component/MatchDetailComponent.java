@@ -26,7 +26,7 @@ public interface MatchDetailComponent extends IComponent {
     MatchDateComponent.Builder buildMatchDateComponent();
 
     MatchHistoryComponent.Builder buildMatchHistoryComponent();
-
+    MatchPlayersComponent.Builder  buildMatchPlayersComponent();
     void inject(MatchDetailActivity activity);
 
     @Component.Builder

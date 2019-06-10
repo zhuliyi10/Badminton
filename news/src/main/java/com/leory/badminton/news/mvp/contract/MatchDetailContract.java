@@ -3,6 +3,7 @@ package com.leory.badminton.news.mvp.contract;
 import com.leory.badminton.news.mvp.model.bean.MatchDateBean;
 import com.leory.badminton.news.mvp.model.bean.MatchInfoBean;
 import com.leory.badminton.news.mvp.model.bean.MultiMatchHistoryBean;
+import com.leory.badminton.news.mvp.model.bean.MultiMatchPlayersBean;
 import com.leory.badminton.news.mvp.ui.widget.againstFlow.AgainstFlowBean;
 import com.leory.commonlib.mvp.IModel;
 import com.leory.commonlib.mvp.IView;
@@ -37,6 +38,10 @@ public interface MatchDetailContract {
         void showHistoryData(List<MultiMatchHistoryBean>data);
     }
 
+    interface MatchPlayersView extends IView{
+        void showPlayersData(List<MultiMatchPlayersBean>data);
+    }
+
     interface Model extends IModel {
         Observable<String> getMatchInfo(String url);
 
@@ -45,5 +50,7 @@ public interface MatchDetailContract {
         Observable<String> getMatchDate(String url);
 
         Observable<String> getMatchHistory(String url);
+
+        Observable<String> getMatchPlayers(String url,String tab);
     }
 }
