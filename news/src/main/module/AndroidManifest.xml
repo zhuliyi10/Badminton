@@ -14,5 +14,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".mvp.ui.activity.MatchDetailActivity"/>
+        <activity android:name=".mvp.ui.activity.PlayerDetailActivity"/>
     </application>
 </manifest>
