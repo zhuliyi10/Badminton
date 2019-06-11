@@ -174,10 +174,24 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
                 if (tdList.size() == 8) {
                     RankingBean bean = new RankingBean();
                     bean.setRankingNum(tdList.get(0).text());
-                    bean.setCountryName(tdList.get(1).select("span").first().text());
-                    bean.setCountryFlagUrl(tdList.get(1).select("img").first().attr("src"));
-                    bean.setPlayerName(tdList.get(2).select("a").first().text());
-                    bean.setPlayerUrl(tdList.get(2).select("a").first().attr("href"));
+                    Elements countries = tdList.get(1).select("div.country");
+                    if (countries.size() > 0) {
+                        bean.setCountryName(countries.get(0).select("span").first().text());
+                        bean.setCountryFlagUrl(countries.get(0).select("img").first().attr("src"));
+                    }
+                    if (countries.size() > 1) {
+                        bean.setCountry2Name(countries.get(1).select("span").first().text());
+                        bean.setCountryFlag2Url(countries.get(1).select("img").first().attr("src"));
+                    }
+                    Elements players = tdList.get(2).select("div.player span");
+                    if (players.size() > 0) {
+                        bean.setPlayerName(players.get(0).select("a").first().text());
+                        bean.setPlayerUrl(players.get(0).select("a").first().attr("href"));
+                    }
+                    if (players.size() > 1) {
+                        bean.setPlayer2Name(players.get(1).select("a").first().text());
+                        bean.setPlayer2Url(players.get(1).select("a").first().attr("href"));
+                    }
                     bean.setRiseOrDrop(tdList.get(3).select("span").first().text());
                     bean.setWinAndLoss(tdList.get(4).text());
                     bean.setBonus(tdList.get(5).text());

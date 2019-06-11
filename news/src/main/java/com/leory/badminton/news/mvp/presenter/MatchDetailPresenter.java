@@ -156,16 +156,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
             if (element != null) {
                 bean.setMatchIcon(element.attr("src"));
             }
-            Element bgElement = doc.select("div#wrapper-background").first();
-            if (bgElement != null) {
-                String text = bgElement.attr("style");
-                if (text != null) {
-                    String[] urlAttr = text.split("\"");
-                    if (urlAttr.length == 3) {
-                        bean.setMatchIcon(urlAttr[1]);
-                    }
-                }
-            }
+
             Element ul = doc.select("ul#ajaxTabsResults").first();
             if (ul != null) {
                 Elements lis = ul.select("li");

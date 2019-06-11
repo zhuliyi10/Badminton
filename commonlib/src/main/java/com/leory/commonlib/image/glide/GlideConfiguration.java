@@ -1,6 +1,7 @@
 package com.leory.commonlib.image.glide;
 
 import android.content.Context;
+import android.graphics.drawable.PictureDrawable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
@@ -13,9 +14,12 @@ import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
+import com.caverock.androidsvg.SVG;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.http.OkHttpUrlLoader;
 import com.leory.commonlib.image.BaseImageLoaderStrategy;
+import com.leory.commonlib.image.svg.SvgDecoder;
+import com.leory.commonlib.image.svg.SvgDrawableTranscoder;
 import com.leory.commonlib.utils.AppUtils;
 import com.leory.commonlib.utils.FileUtils;
 
@@ -25,11 +29,11 @@ import java.io.InputStream;
 /**
  * Describe : {@link AppGlideModule} 的默认实现类
  * 用于配置缓存文件夹,切换图片请求框架等操作
- * Author : zhuly
+ * Author : leory
  * Date : 2018-06-12
  */
 
-@GlideModule(glideName = "GlideArms")
+@GlideModule
 public class GlideConfiguration extends AppGlideModule{
     public static final int IMAGE_DISK_CACHE_MAX_SIZE = 100 * 1024 * 1024;//图片缓存文件最大值为100Mb
     @Override
@@ -66,7 +70,9 @@ public class GlideConfiguration extends AppGlideModule{
     public void registerComponents(Context context, Glide glide, Registry registry) {
         //Glide 默认使用 HttpURLConnection 做网络请求,在这切换成 Okhttp 请求
         AppComponent appComponent = AppUtils.obtainAppComponent();
-        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(appComponent.okHttpClient()));
+        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(appComponent.okHttpClient()))
+                .register(SVG.class, PictureDrawable.class, new SvgDrawableTranscoder())
+                .append(InputStream.class, SVG.class, new SvgDecoder());
     }
 
     @Override

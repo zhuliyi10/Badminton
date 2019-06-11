@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
         android:id="@+id/randing_num"
@@ -11,46 +11,99 @@
         android:textColor="@color/txt_gray"
         android:text="排名"
         android:gravity="center"
-        android:layout_height="match_parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:id="@+id/country"
         android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintLeft_toRightOf="@+id/randing_num"
         android:layout_width="100dp"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/country_name"
-            android:text="国家"
-            android:textSize="12sp"
-            android:textColor="@color/txt_gray"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_marginLeft="4dp"
-            android:id="@+id/img_country_flag"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/country_name"
+                android:text="国家"
+                android:textSize="12sp"
+                android:textColor="@color/txt_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:id="@+id/img_country_flag"
+                android:layout_width="40dp"
+                android:layout_height="20dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/country2"
+            android:visibility="gone"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/country_name2"
+                android:text="国家"
+                android:textSize="12sp"
+                android:textColor="@color/txt_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:id="@+id/img_country_flag2"
+                android:layout_width="40dp"
+                android:layout_height="20dp" />
+        </LinearLayout>
 
     </LinearLayout>
-    <TextView
-        android:id="@+id/player_name"
-        android:text="名字"
-        android:padding="4dp"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        android:gravity="center_vertical"
+    <LinearLayout
+        android:id="@+id/player"
         app:layout_constraintLeft_toRightOf="@+id/country"
         android:layout_width="140dp"
-        android:layout_height="match_parent" />
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/player_name"
+            android:text="名字"
+            android:paddingLeft="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/player2_name"
+            android:text="名字"
+            android:paddingLeft="4dp"
+            android:visibility="gone"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/points"
         android:gravity="center"
         android:textSize="12sp"
         android:text="积分"
         android:textColor="@color/txt_gray"
-        app:layout_constraintLeft_toRightOf="@+id/player_name"
+        app:layout_constraintLeft_toRightOf="@+id/player"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="0dp"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>

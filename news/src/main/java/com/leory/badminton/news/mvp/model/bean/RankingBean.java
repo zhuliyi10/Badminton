@@ -9,9 +9,13 @@ public class RankingBean {
     private String playerId;//运动员id
     private String rankingNum;//排名
     private String countryName;//国家名字简称
-    private String countryFlagUrl;//国旗url
+    private String country2Name;//运动员2国家名字简称
+    private String countryFlagUrl;//运动员1国旗url
+    private String countryFlag2Url;//运动员2国旗url
     private String playerName;//运动员名字
-    private String playerUrl;//运动员的url
+    private String player2Name;//运动员2名字
+    private String playerUrl;//运动员1的url
+    private String player2Url;//运动员2的url
     private String points;//积分
     private String bonus;//奖金
     private String winAndLoss;//胜负
@@ -95,5 +99,37 @@ public class RankingBean {
 
     public void setRiseOrDrop(String riseOrDrop) {
         this.riseOrDrop = riseOrDrop;
+    }
+
+    public String getCountry2Name() {
+        return country2Name;
+    }
+
+    public void setCountry2Name(String country2Name) {
+        this.country2Name = country2Name;
+    }
+
+    public String getCountryFlag2Url() {
+        return countryFlag2Url;
+    }
+
+    public void setCountryFlag2Url(String countryFlag2Url) {
+        this.countryFlag2Url = countryFlag2Url;
+    }
+
+    public String getPlayer2Name() {
+        return player2Name;
+    }
+
+    public void setPlayer2Name(String player2Name) {
+        this.player2Name = player2Name;
+    }
+
+    public String getPlayer2Url() {
+        return player2Url;
+    }
+
+    public void setPlayer2Url(String player2Url) {
+        this.player2Url = player2Url;
     }
 }

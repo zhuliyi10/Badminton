@@ -32,8 +32,7 @@ import com.leory.badminton.news.mvp.ui.widget.MatchTabView;
 import com.leory.commonlib.base.BaseActivity;
 import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.component.AppComponent;
-import com.leory.commonlib.image.ImageConfig;
-import com.leory.commonlib.utils.AppUtils;
+import com.leory.commonlib.utils.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -147,20 +146,13 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
         txtTime.setText(bean.getMatchDate());
         txtSite.setText(bean.getMatchSite());
         txtBonus.setText(bean.getMatchBonus());
-        ImageConfig config = new ImageConfig.Builder()
-                .imageView(iconMatch)
-                .url(bean.getMatchIcon())
-                .build();
-        AppUtils.obtainImageLoader().loadImage(this, config);
-        config = new ImageConfig.Builder()
-                .imageView(imgBg)
-                .url(bean.getMatchBackground())
-                .build();
-        AppUtils.obtainImageLoader().loadImage(this, config);
+
+        ImageUtils.loadSvg(this, iconMatch, bean.getMatchIcon());
+        ImageUtils.loadImage(this, imgBg, bean.getMatchBackground());
         initViewPager(bean);
     }
 
-    private void initViewPager(MatchInfoBean bean){
+    private void initViewPager(MatchInfoBean bean) {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(MatchDateFragment.newInstance(bean.getTabDateHeads()));
         fragmentList.add(MatchAgainstChartFragment.newInstance());
@@ -184,7 +176,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
         });
         viewPager.setAdapter(new TabPagerAdapter(getSupportFragmentManager(), fragmentList));
         viewPager.setOffscreenPageLimit(4);
-        String[] tabs=new String[]{"赛程","对阵","历史","运动员"};
+        String[] tabs = new String[]{"赛程", "对阵", "历史", "运动员"};
         tab.initData(Arrays.asList(tabs));
         tab.setOnChildClickListener(new MatchTabView.OnChildClickListener() {
             @Override

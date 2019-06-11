@@ -12,7 +12,7 @@ public class LiveBean {
     private String country;
     private String countryFlag;
     private String detailUrl;
-
+    private String matchIcon;
     public String getMatchName() {
         return matchName;
     }
@@ -59,5 +59,13 @@ public class LiveBean {
 
     public void setDetailUrl(String detailUrl) {
         this.detailUrl = detailUrl;
+    }
+
+    public String getMatchIcon() {
+        return matchIcon;
+    }
+
+    public void setMatchIcon(String matchIcon) {
+        this.matchIcon = matchIcon;
     }
 }

@@ -117,6 +117,7 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
                 bean.setCountry(spans.get(1).text());
                 bean.setCity(spans.get(0).text());
             }
+            bean.setMatchIcon(data.select("div.cat-logo img").first().attr("src"));
         }
         return bean;
 

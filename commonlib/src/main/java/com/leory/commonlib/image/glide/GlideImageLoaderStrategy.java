@@ -30,7 +30,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
     @Override
     public void loadImage(Context ctx, ImageConfig config) {
         GlideRequests requests;
-        requests = GlideArms.with(ctx);//如果context是activity则自动使用Activity的生命周期
+        requests = GlideApp.with(ctx);//如果context是activity则自动使用Activity的生命周期
         GlideRequest<Drawable> glideRequest = requests.load(config.getUrl());
         switch (config.getCacheStrategy()) {//缓存策略
             case 0:
@@ -91,7 +91,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
     public void clear(final Context ctx, ImageConfig config) {
         if (config.getImageViews() != null && config.getImageViews().length > 0) {//取消在执行的任务并且释放资源
             for (ImageView imageView : config.getImageViews()) {
-                GlideArms.get(ctx).getRequestManagerRetriever().get(ctx).clear(imageView);
+                GlideApp.get(ctx).getRequestManagerRetriever().get(ctx).clear(imageView);
             }
         }
 

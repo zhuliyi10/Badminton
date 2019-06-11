@@ -26,8 +26,7 @@ import com.leory.commonlib.base.BaseLazyLoadFragment;
 import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.di.scope.FragmentScope;
-import com.leory.commonlib.image.ImageConfig;
-import com.leory.commonlib.utils.AppUtils;
+import com.leory.commonlib.utils.ImageUtils;
 import com.leory.commonlib.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -57,9 +56,11 @@ public class LiveFragment extends BaseLazyLoadFragment<LivePresenter> implements
     @BindView(R2.id.progress)
     FrameLayout progress;
     @BindView(R2.id.item_live)
-    LinearLayout itemLive;
+    FrameLayout itemLive;
     @BindView(R2.id.rcv)
     RecyclerView rcv;
+    @BindView(R2.id.match_icon)
+    ImageView matchIcon;
 
 
     private LiveDetailAdapter liveDetailAdapter;
@@ -112,11 +113,8 @@ public class LiveFragment extends BaseLazyLoadFragment<LivePresenter> implements
         matchDate.setText(bean.getMatchDate());
         txtCity.setText(bean.getCity());
         txtCountry.setText(bean.getCountry());
-        ImageConfig config = new ImageConfig.Builder()
-                .imageView(imageFlag)
-                .url(bean.getCountryFlag())
-                .build();
-        AppUtils.obtainImageLoader().loadImage(getContext(), config);
+        ImageUtils.loadImage(getContext(), imageFlag, bean.getCountryFlag());
+        ImageUtils.loadSvg(getContext(), matchIcon, bean.getMatchIcon());
         itemLive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

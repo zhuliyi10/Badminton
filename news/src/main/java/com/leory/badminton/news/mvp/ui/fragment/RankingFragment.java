@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leory.badminton.news.R;
 import com.leory.badminton.news.R2;
 import com.leory.badminton.news.di.component.DaggerRankingComponent;
 import com.leory.badminton.news.mvp.contract.RankingContract;
 import com.leory.badminton.news.mvp.model.bean.RankingBean;
 import com.leory.badminton.news.mvp.presenter.RankingPresenter;
+import com.leory.badminton.news.mvp.ui.activity.PlayerDetailActivity;
 import com.leory.badminton.news.mvp.ui.adapter.RankingAdapter;
 import com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView;
 import com.leory.commonlib.base.BaseLazyLoadFragment;
@@ -72,6 +74,17 @@ public class RankingFragment extends BaseLazyLoadFragment<RankingPresenter> impl
     public void initData(@Nullable Bundle savedInstanceState) {
         rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         rcv.setAdapter(adapter = new RankingAdapter(new ArrayList<>()));
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+                RankingBean rankingBean = adapter.getData().get(position);
+                if (view.getId() == R.id.player_name) {
+                    PlayerDetailActivity.launch(getActivity(), rankingBean.getPlayerUrl());
+                } else if (view.getId() == R.id.player2_name) {
+                    PlayerDetailActivity.launch(getActivity(), rankingBean.getPlayer2Url());
+                }
+            }
+        });
         refreshLayout.setOnLoadMoreListener(this);
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableLoadMore(false);
