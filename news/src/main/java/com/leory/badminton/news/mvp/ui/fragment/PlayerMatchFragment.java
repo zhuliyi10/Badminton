@@ -17,6 +17,7 @@ import com.leory.badminton.news.mvp.contract.PlayerContract;
 import com.leory.badminton.news.mvp.model.bean.PlayerMatchBean;
 import com.leory.badminton.news.mvp.presenter.PlayerMatchPresenter;
 import com.leory.badminton.news.mvp.ui.adapter.PlayerMatchAdapter;
+import com.leory.badminton.news.mvp.ui.widget.decoration.MatchDateItemDecoration;
 import com.leory.commonlib.base.BaseLazyLoadFragment;
 import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.scope.FragmentScope;
@@ -66,6 +67,7 @@ public class PlayerMatchFragment extends BaseLazyLoadFragment<PlayerMatchPresent
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         rcv.setLayoutManager(new LinearLayoutManager(getContext()));
+        rcv.addItemDecoration(new MatchDateItemDecoration(getContext()));
         rcv.setAdapter(adapter = new PlayerMatchAdapter(new ArrayList<>()));
     }
 
