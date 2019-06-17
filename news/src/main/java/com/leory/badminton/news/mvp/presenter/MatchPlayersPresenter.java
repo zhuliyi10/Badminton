@@ -1,10 +1,11 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.text.TextUtils;
+
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.model.bean.MatchPlayerBean;
 import com.leory.badminton.news.mvp.model.bean.MatchPlayerHeadBean;
 import com.leory.badminton.news.mvp.model.bean.MatchPlayerListBean;
-import com.leory.badminton.news.mvp.model.bean.MultiMatchHistoryBean;
 import com.leory.badminton.news.mvp.model.bean.MultiMatchPlayersBean;
 import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
@@ -17,6 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,17 +40,21 @@ import io.reactivex.schedulers.Schedulers;
 @FragmentScope
 public class MatchPlayersPresenter extends BasePresenter<MatchDetailContract.Model, MatchDetailContract.MatchPlayersView> {
     @Inject
+    HashMap<String, String> PlayerNameMap;
+    @Inject
     @Named("detail_url")
     String detailUrl;
+
     @Inject
     public MatchPlayersPresenter(MatchDetailContract.Model model, MatchDetailContract.MatchPlayersView rootView) {
         super(model, rootView);
     }
+
     public void requestData(String type) {
-        if(detailUrl!=null) {
-            String requestUrl=detailUrl+"players/";
-            String tab=getTab(type);
-            model.getMatchPlayers(requestUrl,tab)
+        if (detailUrl != null) {
+            String requestUrl = detailUrl + "players/";
+            String tab = getTab(type);
+            model.getMatchPlayers(requestUrl, tab)
                     .subscribeOn(Schedulers.io())
                     .doOnSubscribe(disposable -> rootView.showLoading()).subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -65,7 +71,7 @@ public class MatchPlayersPresenter extends BasePresenter<MatchDetailContract.Mod
         }
     }
 
-    private void parseHtmlResult(String html){
+    private void parseHtmlResult(String html) {
         Observable.just(html)
 
                 .flatMap((Function<String, ObservableSource<List<MultiMatchPlayersBean>>>) s -> Observable.just(getMatchPlayersData(html)))
@@ -95,53 +101,53 @@ public class MatchPlayersPresenter extends BasePresenter<MatchDetailContract.Mod
                 });
     }
 
-    private List<MultiMatchPlayersBean>getMatchPlayersData(String html){
+    private List<MultiMatchPlayersBean> getMatchPlayersData(String html) {
         List<MultiMatchPlayersBean> data = new ArrayList<>();
         if (html != null) {
             Document doc = Jsoup.parse(html);
-            Elements classifies =doc.select("div.rankings-content_tabpanel");
-            if(classifies!=null&&classifies.size()==2){
-                MatchPlayerHeadBean headBean=new MatchPlayerHeadBean();
+            Elements classifies = doc.select("div.rankings-content_tabpanel");
+            if (classifies != null && classifies.size() == 2) {
+                MatchPlayerHeadBean headBean = new MatchPlayerHeadBean();
                 headBean.setName(classifies.get(0).select("h3").first().text());
-                data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_HEAD,headBean));
+                data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_HEAD, headBean));
 
-                MatchPlayerListBean listBean=new MatchPlayerListBean();
+                MatchPlayerListBean listBean = new MatchPlayerListBean();
                 listBean.setData(getPlayerList(classifies.get(0).select("div.entry-player-pair-wrap")));
-                data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_CONTENT,listBean));
+                data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_CONTENT, listBean));
 
-                headBean=new MatchPlayerHeadBean();
+                headBean = new MatchPlayerHeadBean();
                 headBean.setName(classifies.get(1).select("h3").first().text());
                 headBean.setSecond(classifies.get(1).select("h5").first().text());
-                data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_HEAD,headBean));
-                Elements countries=classifies.get(1).select("div.entry-player-country");
-                for (Element country:countries){
-                    listBean=new MatchPlayerListBean();
+                data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_HEAD, headBean));
+                Elements countries = classifies.get(1).select("div.entry-player-country");
+                for (Element country : countries) {
+                    listBean = new MatchPlayerListBean();
                     listBean.setData(getPlayerList(country.select("div.entry-player-pair-wrap")));
-                    data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_CONTENT,listBean));
+                    data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_CONTENT, listBean));
                 }
             }
         }
         return data;
     }
 
-    private List<MatchPlayerBean> getPlayerList(Elements elements){
-        List<MatchPlayerBean>data=new ArrayList<>();
-        if(elements!=null){
-            for (Element e:elements){
-                Elements players=e.select("a");
-                if(players!=null){
-                    MatchPlayerBean playerBean=new MatchPlayerBean();
-                    if(players.size()>0){
-                        Element player=players.get(0);
+    private List<MatchPlayerBean> getPlayerList(Elements elements) {
+        List<MatchPlayerBean> data = new ArrayList<>();
+        if (elements != null) {
+            for (Element e : elements) {
+                Elements players = e.select("a");
+                if (players != null) {
+                    MatchPlayerBean playerBean = new MatchPlayerBean();
+                    if (players.size() > 0) {
+                        Element player = players.get(0);
                         playerBean.setHead1(player.select("div.entry-player-image img").first().attr("src"));
-                        playerBean.setName1(player.select("div.entry-player-name").first().text());
+                        playerBean.setName1(translatePlayerName(player.select("div.entry-player-name").first().text()));
                         playerBean.setFlag1(player.select("div.entry-player-flag img").first().attr("src"));
                         playerBean.setCountry1(player.select("div.entry-player-flag span").first().text());
                     }
-                    if(players.size()>1){
-                        Element player=players.get(1);
+                    if (players.size() > 1) {
+                        Element player = players.get(1);
                         playerBean.setHead2(player.select("div.entry-player-image img").first().attr("src"));
-                        playerBean.setName2(player.select("div.entry-player-name").first().text());
+                        playerBean.setName2(translatePlayerName(player.select("div.entry-player-name").first().text()));
                         playerBean.setFlag2(player.select("div.entry-player-flag img").first().attr("src"));
                         playerBean.setCountry2(player.select("div.entry-player-flag span").first().text());
                     }
@@ -152,18 +158,28 @@ public class MatchPlayersPresenter extends BasePresenter<MatchDetailContract.Mod
         return data;
     }
 
-    private String getTab(String type){
-        if("男单".equals(type)){
+    private String getTab(String type) {
+        if ("男单".equals(type)) {
             return "ms";
-        }else if("女单".equals(type)){
+        } else if ("女单".equals(type)) {
             return "ws";
-        }else if("男双".equals(type)){
+        } else if ("男双".equals(type)) {
             return "md";
-        }else if("女双".equals(type)){
+        } else if ("女双".equals(type)) {
             return "wd";
-        }else if("混双".equals(type)){
+        } else if ("混双".equals(type)) {
             return "xd";
         }
         return "ms";
+    }
+
+    private String translatePlayerName(String key) {
+        String playerName = key.replaceAll("\\[\\d+\\]", "").trim();
+        String value = PlayerNameMap.get(playerName);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(playerName, value);
+        }
     }
 }

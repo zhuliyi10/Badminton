@@ -25,7 +25,6 @@ public interface MatchComponent {
         MatchComponent.Builder view(MatchContract.View view);
 
         MatchComponent.Builder appComponent(AppComponent appComponent);
-
         MatchComponent build();
     }
 }

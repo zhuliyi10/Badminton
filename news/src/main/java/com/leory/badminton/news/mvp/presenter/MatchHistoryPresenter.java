@@ -1,5 +1,7 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.text.TextUtils;
+
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.model.MatchDetailModel;
 import com.leory.badminton.news.mvp.model.bean.MatchHistoryBean;
@@ -16,6 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,7 +42,8 @@ public class MatchHistoryPresenter extends BasePresenter<MatchDetailModel, Match
     @Inject
     @Named("history_url")
     String historyUrl;
-
+    @Inject
+    HashMap<String, String> PlayerNameMap;
     @Inject
     public MatchHistoryPresenter(MatchDetailModel model, MatchDetailContract.MatchHistory rootView) {
         super(model, rootView);
@@ -111,32 +115,32 @@ public class MatchHistoryPresenter extends BasePresenter<MatchDetailModel, Match
                         MatchHistoryBean historyBean = new MatchHistoryBean();
                         historyBean.setMsHead(info.select("div.image img").first().attr("src"));
                         historyBean.setMsFlag(info.select("div.description img").first().attr("src"));
-                        historyBean.setMsName(info.select("div.description a").first().text());
+                        historyBean.setMsName(translatePlayerName(info.select("div.description a").first().text()));
                         info = list.get(1);
                         historyBean.setWsHead(info.select("div.image img").first().attr("src"));
                         historyBean.setWsFlag(info.select("div.description img").first().attr("src"));
-                        historyBean.setWsName(info.select("div.description a").first().text());
+                        historyBean.setWsName(translatePlayerName(info.select("div.description a").first().text()));
                         info = list.get(2);
                         historyBean.setMd1Head(info.select("div.item-double-1 div.image img").first().attr("src"));
                         historyBean.setMd1Flag(info.select("div.item-double-1 div.description img").first().attr("src"));
-                        historyBean.setMd1Name(info.select("div.item-double-1 div.description a").first().text());
+                        historyBean.setMd1Name(translatePlayerName(info.select("div.item-double-1 div.description a").first().text()));
                         historyBean.setMd2Head(info.select("div.item-double-2 div.image img").first().attr("src"));
                         historyBean.setMd2Flag(info.select("div.item-double-2 div.description img").first().attr("src"));
-                        historyBean.setMd2Name(info.select("div.item-double-2 div.description a").first().text());
+                        historyBean.setMd2Name(translatePlayerName(info.select("div.item-double-2 div.description a").first().text()));
                         info = list.get(3);
                         historyBean.setWd1Head(info.select("div.item-double-1 div.image img").first().attr("src"));
                         historyBean.setWd1Flag(info.select("div.item-double-1 div.description img").first().attr("src"));
-                        historyBean.setWd1Name(info.select("div.item-double-1 div.description a").first().text());
+                        historyBean.setWd1Name(translatePlayerName(info.select("div.item-double-1 div.description a").first().text()));
                         historyBean.setWd2Head(info.select("div.item-double-2 div.image img").first().attr("src"));
                         historyBean.setWd2Flag(info.select("div.item-double-2 div.description img").first().attr("src"));
-                        historyBean.setWd2Name(info.select("div.item-double-2 div.description a").first().text());
+                        historyBean.setWd2Name(translatePlayerName(info.select("div.item-double-2 div.description a").first().text()));
                         info = list.get(4);
                         historyBean.setXd1Head(info.select("div.item-double-1 div.image img").first().attr("src"));
                         historyBean.setXd1Flag(info.select("div.item-double-1 div.description img").first().attr("src"));
-                        historyBean.setXd1Name(info.select("div.item-double-1 div.description a").first().text());
+                        historyBean.setXd1Name(translatePlayerName(info.select("div.item-double-1 div.description a").first().text()));
                         historyBean.setXd2Head(info.select("div.item-double-2 div.image img").first().attr("src"));
                         historyBean.setXd2Flag(info.select("div.item-double-2 div.description img").first().attr("src"));
-                        historyBean.setXd2Name(info.select("div.item-double-2 div.description a").first().text());
+                        historyBean.setXd2Name(translatePlayerName(info.select("div.item-double-2 div.description a").first().text()));
                         data.add(new MultiMatchHistoryBean(MultiMatchHistoryBean.TYPE_CONTENT, historyBean));
                     }
 
@@ -145,5 +149,15 @@ public class MatchHistoryPresenter extends BasePresenter<MatchDetailModel, Match
         }
 
         return data;
+    }
+
+    private String translatePlayerName(String key) {
+        String playerName=key.replaceAll("\\[\\d+\\]","").trim();
+        String value = PlayerNameMap.get(playerName);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(playerName,value);
+        }
     }
 }

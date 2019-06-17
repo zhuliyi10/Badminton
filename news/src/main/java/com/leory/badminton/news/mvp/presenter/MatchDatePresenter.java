@@ -17,6 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,7 +37,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 @FragmentScope
 public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDetailContract.MatchDateView> {
-
+    @Inject
+    HashMap<String, String> PlayerNameMap;
     @Inject
     List<MatchTabDateBean> dateBeans;
 
@@ -117,25 +119,25 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
                     //player1
                     Element player11 = li.select("div.player1-wrap").first();
                     if (player11 != null) {
-                        bean.setPlayer1(player11.select("div.player1").first().text());
+                        bean.setPlayer1(translatePlayerName(player11.select("div.player1").first().text()));
                         bean.setFlag1(player11.select("div.flag img").attr("src"));
                     }
                     //player12
                     Element player12 = li.select("div.player2-wrap").first();
                     if (player12 != null) {
-                        bean.setPlayer12(player12.select("div.player2").first().text());
+                        bean.setPlayer12(translatePlayerName(player12.select("div.player2").first().text()));
                         bean.setFlag12(player12.select("div.flag img").attr("src"));
                     }
                     //player2
                     Element player21 = li.select("div.player3-wrap").first();
                     if (player21 != null) {
-                        bean.setPlayer2(player21.select("div.player3").first().text());
+                        bean.setPlayer2(translatePlayerName(player21.select("div.player3").first().text()));
                         bean.setFlag2(player21.select("div.flag img").attr("src"));
                     }
                     //player22
                     Element player22 = li.select("div.player4-wrap").first();
                     if (player22 != null) {
-                        bean.setPlayer22(player22.select("div.player4").first().text());
+                        bean.setPlayer22(translatePlayerName(player22.select("div.player4").first().text()));
                         bean.setFlag22(player22.select("div.flag img").attr("src"));
                     }
 
@@ -174,5 +176,14 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
             return "混双";
         }
         return type;
+    }
+    private String translatePlayerName(String key) {
+        String playerName=key.replaceAll("\\[\\d+\\]","").trim();
+        String value = PlayerNameMap.get(playerName);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(playerName,value);
+        }
     }
 }

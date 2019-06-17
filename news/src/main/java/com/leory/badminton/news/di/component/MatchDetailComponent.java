@@ -7,6 +7,8 @@ import com.leory.commonlib.base.delegate.IComponent;
 import com.leory.commonlib.di.component.AppComponent;
 import com.leory.commonlib.di.scope.ActivityScope;
 
+import java.util.HashMap;
+
 import javax.inject.Named;
 
 import dagger.BindsInstance;
@@ -39,7 +41,8 @@ public interface MatchDetailComponent extends IComponent {
 
         @BindsInstance
         MatchDetailComponent.Builder matchClassify(@Named("match_classify") String matchClassify);
-
+        @BindsInstance
+        MatchDetailComponent.Builder hashMap(HashMap<String,String>playerName);
         MatchDetailComponent.Builder appComponent(AppComponent appComponent);
 
         MatchDetailComponent build();

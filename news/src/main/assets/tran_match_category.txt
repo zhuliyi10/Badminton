@@ -1,0 +1,7 @@
+HSBC BWF World Tour Super 300=世界巡回赛超级300
+HSBC BWF World Tour Super 500=世界巡回赛超级500
+HSBC BWF World Tour Super 750=世界巡回赛超级750
+HSBC BWF World Tour Super 1000=世界巡回赛超级1000
+Grade 1 - Individual Tournaments=第一级别 个人赛
+Grade 1 - Team Tournaments=第一级别 团体赛
+HSBC BWF World Tour Finals=世界巡回赛总决赛

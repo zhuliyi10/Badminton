@@ -1,5 +1,8 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.text.TextUtils;
+
+import com.leory.badminton.news.app.utils.TranslateUtils;
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.ui.widget.againstFlow.AgainstFlowBean;
 import com.leory.commonlib.di.scope.FragmentScope;
@@ -13,6 +16,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,7 +41,8 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
 
     private List<List<AgainstFlowBean>> againstData;
     private String currentMatchSchedule;
-
+    @Inject
+    HashMap<String, String> PlayerNameMap;
 
     @Inject
     @Named("detail_url")
@@ -306,7 +311,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
             }
             element = td.select("div.draw-player1-wrap a").first();
             if (element != null) {
-                bean.setName1(element.text());
+                bean.setName1(translatePlayerName(element.text()));
             }
             element = td.select("div.draw-player2-wrap img").first();
             if (element != null) {
@@ -314,7 +319,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
             }
             element = td.select("div.draw-player2-wrap a").first();
             if (element != null) {
-                bean.setName2(element.text());
+                bean.setName2(translatePlayerName(element.text()));
             }
         } else {
             element = td.select("div.draw-player1-wrap img").first();
@@ -326,7 +331,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                 element = td.select("div.draw-player1-wrap div.draw-name").first();
             }
             if (element != null) {
-                bean.setName1(element.text());
+                bean.setName1(translatePlayerName(element.text()));
             }
         }
     }
@@ -371,4 +376,13 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
         return data;
     }
 
+    private String translatePlayerName(String key) {
+        String playerName=key.replaceAll("\\[\\d+\\]","").trim();
+        String value = PlayerNameMap.get(playerName);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(playerName,value);
+        }
+    }
 }

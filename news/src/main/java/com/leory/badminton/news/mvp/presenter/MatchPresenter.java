@@ -1,7 +1,9 @@
 package com.leory.badminton.news.mvp.presenter;
 
 import android.graphics.Color;
+import android.text.TextUtils;
 
+import com.leory.badminton.news.app.utils.TranslateUtils;
 import com.leory.badminton.news.mvp.contract.MatchContract;
 import com.leory.badminton.news.mvp.model.bean.MatchItemBean;
 import com.leory.badminton.news.mvp.model.bean.MatchItemSection;
@@ -17,6 +19,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +39,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 @FragmentScope
 public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchContract.View> {
+
+    private HashMap<String, String> matchCategoryMap;
+    private HashMap<String, String> matchNameMap;
 
     @Inject
     public MatchPresenter(MatchContract.Model model, MatchContract.View rootView) {
@@ -130,12 +136,12 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
                         if ("HSBC BWF World Tour Super 300".equals(matchClassify) ||
                                 "HSBC BWF World Tour Super 500".equals(matchClassify) ||
                                 "HSBC BWF World Tour Super 750".equals(matchClassify) ||
-                                "HSBC BWF World Tour Super 1000".equals(matchClassify)||
-                                "HSBC BWF World Tour Finals".equals(matchClassify)||
-                                "Grade 1 - Individual Tournaments".equals(matchClassify)||
+                                "HSBC BWF World Tour Super 1000".equals(matchClassify) ||
+                                "HSBC BWF World Tour Finals".equals(matchClassify) ||
+                                "Grade 1 - Individual Tournaments".equals(matchClassify) ||
                                 "Grade 1 - Team Tournaments".equals(matchClassify)
                         ) {
-                            bean.setMatchClassify(matchClassify);
+                            bean.setMatchClassify(translateMatchCategory(matchClassify));
                         } else {
                             continue;
                         }
@@ -148,7 +154,7 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
                         String matchDay = tr.get(2).text();//比赛日期
                         bean.setMatchDay(monthName + "\n" + matchDay);
                         String matchName = tr.get(3).select("a").first().text();//赛事名称
-                        bean.setMatchName(matchName);
+                        bean.setMatchName(translateMatchName(matchName));
                         bean.setMatchUrl(tr.get(3).select("a").first().attr("href"));
 
                         String matchBonus = tr.get(4).select("div").first().text();//赛事奖金
@@ -167,5 +173,30 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
 
         }
         return matchList;
+    }
+
+    private String translateMatchName(String key) {
+        if (matchNameMap == null) {
+            matchNameMap = TranslateUtils.translateMatchName();
+        }
+        String matchNameNotYear = key.replaceAll("\\d+", "").trim();
+        String value = matchNameMap.get(matchNameNotYear.toUpperCase());
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(matchNameNotYear, value);
+        }
+    }
+
+    private String translateMatchCategory(String key) {
+        if (matchCategoryMap == null) {
+            matchCategoryMap = TranslateUtils.translateMatchCategory();
+        }
+        String value = matchCategoryMap.get(key);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return value;
+        }
     }
 }

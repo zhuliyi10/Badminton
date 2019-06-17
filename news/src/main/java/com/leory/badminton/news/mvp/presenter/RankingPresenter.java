@@ -1,7 +1,9 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.leory.badminton.news.app.utils.TranslateUtils;
 import com.leory.badminton.news.mvp.contract.RankingContract;
 import com.leory.badminton.news.mvp.model.bean.RankingBean;
 import com.leory.commonlib.di.scope.FragmentScope;
@@ -15,6 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -40,7 +43,8 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
     private int lastPage = 0;
     private int pageNum = 25;
     private LinkedHashMap<String, String> weekMap = new LinkedHashMap<>();
-
+    private HashMap<String,String> countryMap;
+    private HashMap<String,String> playerNameMap;
     @Inject
     public RankingPresenter(RankingContract.Model model, RankingContract.View rootView) {
         super(model, rootView);
@@ -176,20 +180,20 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
                     bean.setRankingNum(tdList.get(0).text());
                     Elements countries = tdList.get(1).select("div.country");
                     if (countries.size() > 0) {
-                        bean.setCountryName(countries.get(0).select("span").first().text());
+                        bean.setCountryName(translateCountry(countries.get(0).select("span").first().text()));
                         bean.setCountryFlagUrl(countries.get(0).select("img").first().attr("src"));
                     }
                     if (countries.size() > 1) {
-                        bean.setCountry2Name(countries.get(1).select("span").first().text());
+                        bean.setCountry2Name(translateCountry(countries.get(1).select("span").first().text()));
                         bean.setCountryFlag2Url(countries.get(1).select("img").first().attr("src"));
                     }
                     Elements players = tdList.get(2).select("div.player span");
                     if (players.size() > 0) {
-                        bean.setPlayerName(players.get(0).select("a").first().text());
+                        bean.setPlayerName(translatePlayerName(players.get(0).select("a").first().text()));
                         bean.setPlayerUrl(players.get(0).select("a").first().attr("href"));
                     }
                     if (players.size() > 1) {
-                        bean.setPlayer2Name(players.get(1).select("a").first().text());
+                        bean.setPlayer2Name(translatePlayerName(players.get(1).select("a").first().text()));
                         bean.setPlayer2Url(players.get(1).select("a").first().attr("href"));
                     }
                     bean.setRiseOrDrop(tdList.get(3).select("span").first().text());
@@ -207,4 +211,36 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
         return rankingList;
     }
 
+    /**
+     * 翻译国家
+     * @param key
+     * @return
+     */
+    private String translateCountry(String key){
+        if(countryMap==null){
+            countryMap=TranslateUtils.translateCountry();
+        }
+        String value=countryMap.get(key);
+        if(TextUtils.isEmpty(value)){
+            return key;
+        }else {
+            return value;
+        }
+    }
+    /**
+     * 翻译运动员名字
+     * @param key
+     * @return
+     */
+    private String translatePlayerName(String key){
+        if(playerNameMap==null){
+            playerNameMap=TranslateUtils.translatePlayerName();
+        }
+        String value=playerNameMap.get(key);
+        if(TextUtils.isEmpty(value)){
+            return key;
+        }else {
+            return value;
+        }
+    }
 }
