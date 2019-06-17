@@ -39,6 +39,12 @@ CHEN Long=谌龙
 SON Wan Ho=孙完虎
 Anders ANTONSEN=安东森
 Lee Chong Wei=李宗伟
+Tanongsak SAENSOMBOONSUK=坦农萨克
+Chico Aura DWI WARDOYO=奇科
+CHEAM June Wei=詹俊为
+CHONG Wei Feng=张崴烽
+LOH Kean Yew=骆建佑
+
 
 TAI Tzu Ying=戴资颖
 Michelle LI=李文珊
@@ -72,6 +78,19 @@ GOH Jin Wei=吴堇溦
 Sayaka TAKAHASHI=高桥沙也加
 Gregoria Mariska TUNJUNG=玛丽斯卡
 Nozomi OKUHARA=奥原希望
+Hsuan-Yu Wendy CHEN=陈煊渝
+JI Shu Ting=吉淑婷
+KIM Hyo Min=金效旻
+KIM Ga Eun=金在恩
+DENG Joy Xuan=邓旋
+Ayumi MINE=峰步美
+Yulia Yosephin SUSANTO=尤利亚
+Lyanny Alessandra MAINAKY=莉昂丽
+Choirunnisa CHOIRUNNISA=科尔伦尼莎
+Ruselli HARTAWAN=鲁塞莉
+ZHANG Yi Man=张艺曼
+Saena KAWAKAMI=川上纱惠奈
+
 
 Marcus Fernaldi GIDEON=费尔纳迪
 Kevin Sanjaya SUKAMULJO=苏卡穆约
@@ -137,6 +156,26 @@ HE Ji Ting=何济霆
 TAN Qiang=谭强
 LI Jun Hui=李俊慧
 LIU Yu Chen=刘雨辰
+Akbar Bintang CAHYONO=阿克巴
+Simon Wing Hang LEUNG=梁永亨
+Mitchell WHELLER=米切尔
+Jason Anthony HO-SHUE=何舒
+Nyl YAKURA=矢仓尼
+YOO Yeon Seong=柳延星
+Mahiro KANEKO=金子真大
+Yunosuke KUBOTA=久保田友之祐
+GOH Sze Fei=吴思飞
+Nur IZZUDDIN=伊祖丁
+LEE Jhe-Huei=李哲辉
+YANG Po-Hsuan=杨博轩
+Hiroki OKAMURA=中村弘树
+Masayuki ONODERA=小野寺
+Akira KOGA=古贺辉
+Taichi SAITO=斋藤太一
+Satwiksairaj RANKIREDDY=兰基雷迪
+Chirag SHETTY=休提
+
+
 
 Yuki FUKUSHIMA=福岛由纪
 Sayaka HIROTA=广田彩花
@@ -202,6 +241,12 @@ CHANG Ye Na=张艺娜
 JUNG Kyung Eun=郑景银
 Misaki MATSUTOMO=松友美佐纪
 Ayaka TAKAHASHI=高桥礼华
+Nami MATSUYAMA=松山奈未
+Chiharu SHIDA=志田千阳
+BAEK Ha Na=白荷娜
+KIM Hye Rin=金惠琳
+CHOW Mei Kuan=邹美君
+LEE Meng Yean=李明晏
 
 ZHENG Si Wei=郑思维
 HUANG Ya Qiong=黄雅琼
