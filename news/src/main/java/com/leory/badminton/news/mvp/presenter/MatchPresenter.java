@@ -3,7 +3,7 @@ package com.leory.badminton.news.mvp.presenter;
 import android.graphics.Color;
 import android.text.TextUtils;
 
-import com.leory.badminton.news.app.utils.TranslateUtils;
+import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.MatchContract;
 import com.leory.badminton.news.mvp.model.bean.MatchItemBean;
 import com.leory.badminton.news.mvp.model.bean.MatchItemSection;
@@ -177,7 +177,7 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
 
     private String translateMatchName(String key) {
         if (matchNameMap == null) {
-            matchNameMap = TranslateUtils.translateMatchName();
+            matchNameMap = FileHashUtils.getMatchName();
         }
         String matchNameNotYear = key.replaceAll("\\d+", "").trim();
         String value = matchNameMap.get(matchNameNotYear.toUpperCase());
@@ -190,7 +190,7 @@ public class MatchPresenter extends BasePresenter<MatchContract.Model, MatchCont
 
     private String translateMatchCategory(String key) {
         if (matchCategoryMap == null) {
-            matchCategoryMap = TranslateUtils.translateMatchCategory();
+            matchCategoryMap = FileHashUtils.getMatchCategory();
         }
         String value = matchCategoryMap.get(key);
         if (TextUtils.isEmpty(value)) {

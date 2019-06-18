@@ -1,5 +1,8 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.text.TextUtils;
+
+import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.PlayerContract;
 import com.leory.badminton.news.mvp.model.bean.PlayerDetailBean;
 import com.leory.badminton.news.mvp.model.bean.PlayerInfoBean;
@@ -12,6 +15,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.HashMap;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,7 +37,7 @@ import io.reactivex.schedulers.Schedulers;
 @ActivityScope
 public class PlayerDetailPresenter extends BasePresenter<PlayerContract.Model, PlayerContract.View> {
     private String playerUrl;
-
+    private HashMap<String, String> playerNameMap;
     @Inject
     public PlayerDetailPresenter(PlayerContract.Model model, PlayerContract.View rootView, @Named("player_url") String playerUrl) {
         super(model, rootView);
@@ -96,7 +101,7 @@ public class PlayerDetailPresenter extends BasePresenter<PlayerContract.Model, P
             Element info = doc.select("div.playertop-intro").first();
             bean.setHead(info.select("div.player-photo img").first().attr("src"));
             bean.setFlag(info.select("div.player-profile-country-wrap img").first().attr("src"));
-            bean.setName(info.select("div.player-profile-country-wrap h2").first().text());
+            bean.setName(translatePlayerName(info.select("div.player-profile-country-wrap h2").first().text()));
             Element ranking = info.select("div.player-world-rank div.ranking-number").first();
             if (ranking != null) {
                 bean.setRankNum(ranking.text());
@@ -130,4 +135,17 @@ public class PlayerDetailPresenter extends BasePresenter<PlayerContract.Model, P
         }
         return bean;
     }
+    private String translatePlayerName(String key) {
+        if(playerNameMap==null){
+            playerNameMap= FileHashUtils.getPlayerName();
+        }
+        String playerName = key.replaceAll("\\[\\d+\\]", "").trim();
+        String value = playerNameMap.get(playerName);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(playerName, value);
+        }
+    }
+
 }

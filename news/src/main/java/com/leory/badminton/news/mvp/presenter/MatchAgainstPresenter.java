@@ -2,7 +2,6 @@ package com.leory.badminton.news.mvp.presenter;
 
 import android.text.TextUtils;
 
-import com.leory.badminton.news.app.utils.TranslateUtils;
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.ui.widget.againstFlow.AgainstFlowBean;
 import com.leory.commonlib.di.scope.FragmentScope;

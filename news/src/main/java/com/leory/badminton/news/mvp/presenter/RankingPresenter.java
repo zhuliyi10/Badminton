@@ -1,9 +1,8 @@
 package com.leory.badminton.news.mvp.presenter;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.leory.badminton.news.app.utils.TranslateUtils;
+import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.RankingContract;
 import com.leory.badminton.news.mvp.model.bean.RankingBean;
 import com.leory.commonlib.di.scope.FragmentScope;
@@ -218,7 +217,7 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
      */
     private String translateCountry(String key){
         if(countryMap==null){
-            countryMap=TranslateUtils.translateCountry();
+            countryMap= FileHashUtils.getCountry();
         }
         String value=countryMap.get(key);
         if(TextUtils.isEmpty(value)){
@@ -234,7 +233,7 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
      */
     private String translatePlayerName(String key){
         if(playerNameMap==null){
-            playerNameMap=TranslateUtils.translatePlayerName();
+            playerNameMap= FileHashUtils.getPlayerName();
         }
         String value=playerNameMap.get(key);
         if(TextUtils.isEmpty(value)){

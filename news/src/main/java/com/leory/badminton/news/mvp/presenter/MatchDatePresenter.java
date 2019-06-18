@@ -38,7 +38,7 @@ import io.reactivex.schedulers.Schedulers;
 @FragmentScope
 public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDetailContract.MatchDateView> {
     @Inject
-    HashMap<String, String> PlayerNameMap;
+    HashMap<String, String> playerNameMap;
     @Inject
     List<MatchTabDateBean> dateBeans;
 
@@ -111,10 +111,10 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
                     if (TextUtils.isEmpty(court)) {
                         bean.setField("流水场");
                     } else {
-                        bean.setField("场地 " + court);
+                        bean.setField(court.replace("Court","场地"));
                     }
 
-                    bean.setTime(li.select("div.time").first().text());
+                    bean.setTime(translateTime(li.select("div.time").first().text()));
 
                     //player1
                     Element player11 = li.select("div.player1-wrap").first();
@@ -177,13 +177,19 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
         }
         return type;
     }
+
     private String translatePlayerName(String key) {
-        String playerName=key.replaceAll("\\[\\d+\\]","").trim();
-        String value = PlayerNameMap.get(playerName);
+        String playerName = key.replaceAll("\\[\\d+\\]", "").trim();
+        String value = playerNameMap.get(playerName);
         if (TextUtils.isEmpty(value)) {
             return key;
         } else {
-            return key.replace(playerName,value);
+            return key.replace(playerName, value);
         }
+    }
+
+    private String translateTime(String time) {
+        String temp=time.replace("Starting at", "开始于");
+        return temp.replace("Followed by", "紧跟着");
     }
 }

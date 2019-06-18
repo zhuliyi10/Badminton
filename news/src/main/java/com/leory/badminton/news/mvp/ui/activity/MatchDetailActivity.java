@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.leory.badminton.news.R;
 import com.leory.badminton.news.R2;
 import com.leory.badminton.news.app.listener.AppBarStateChangeListener;
-import com.leory.badminton.news.app.utils.TranslateUtils;
+import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.di.component.DaggerMatchDetailComponent;
 import com.leory.badminton.news.di.component.MatchDetailComponent;
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
@@ -87,7 +87,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
                 .view(this)
                 .detailUrl(getIntent().getStringExtra(KEY_DETAIL_URL))
                 .matchClassify(getIntent().getStringExtra(KEY_MATCH_CLASSIFY))
-                .hashMap(TranslateUtils.translatePlayerName())
+                .hashMap(FileHashUtils.getPlayerName())
                 .appComponent((AppComponent) component)
                 .build();
         matchDetailComponent.inject(this);

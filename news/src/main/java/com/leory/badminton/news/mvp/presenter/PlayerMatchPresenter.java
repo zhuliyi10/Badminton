@@ -1,5 +1,8 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.text.TextUtils;
+
+import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.PlayerContract;
 import com.leory.badminton.news.mvp.model.bean.PlayerMatchBean;
 import com.leory.commonlib.di.scope.FragmentScope;
@@ -13,6 +16,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,7 +38,8 @@ import io.reactivex.schedulers.Schedulers;
 @FragmentScope
 public class PlayerMatchPresenter extends BasePresenter<PlayerContract.Model, PlayerContract.MatchView> {
     private String playerUrl;
-
+    private HashMap<String, String> matchNameMap;
+    private HashMap<String, String> playerNameMap;
     @Inject
     public PlayerMatchPresenter(PlayerContract.Model model, PlayerContract.MatchView rootView, @Named("player_url") String playerUrl) {
         super(model, rootView);
@@ -114,7 +119,7 @@ public class PlayerMatchPresenter extends BasePresenter<PlayerContract.Model, Pl
                     Element match = matches.get(i);
                     PlayerMatchBean.MatchInfo matchInfo = new PlayerMatchBean.MatchInfo();
                     matchInfo.setMatchUrl(match.select("h2 a").first().attr("href"));
-                    matchInfo.setName(match.select("h2 a").first().text());
+                    matchInfo.setName(translateMatchName(match.select("h2 a").first().text()));
                     matchInfo.setCategory(match.select("h3").first().text());
                     matchInfo.setDate(match.select("h4").first().text());
                     Element bonus=match.select("div.prize").first();
@@ -131,10 +136,10 @@ public class PlayerMatchPresenter extends BasePresenter<PlayerContract.Model, Pl
                         //player1
                         Elements name1 = row.select("div.player-result-name-1 div.name");
                         if (name1.size() > 0) {
-                            resultRound.setPlayer1(name1.get(0).select("a").first().text());
+                            resultRound.setPlayer1(translatePlayerName(name1.get(0).select("a").first().text()));
                         }
                         if (name1.size() > 1) {
-                            resultRound.setPlayer12(name1.get(1).select("a").first().text());
+                            resultRound.setPlayer12(translatePlayerName(name1.get(1).select("a").first().text()));
                         }
                         Elements flag1 = row.select("div.player-result-flag-1 div.flag");
                         if (flag1.size() > 0) {
@@ -146,10 +151,10 @@ public class PlayerMatchPresenter extends BasePresenter<PlayerContract.Model, Pl
                         //player1
                         Elements name2 = row.select("div.player-result-name-2 div.name");
                         if (name2.size() > 0) {
-                            resultRound.setPlayer2(name2.get(0).select("a").first().text());
+                            resultRound.setPlayer2(translatePlayerName(name2.get(0).select("a").first().text()));
                         }
                         if (name2.size() > 1) {
-                            resultRound.setPlayer22(name2.get(1).select("a").first().text());
+                            resultRound.setPlayer22(translatePlayerName(name2.get(1).select("a").first().text()));
                         }
                         Elements flag2 = row.select("div.player-result-flag-2 div.flag");
                         if (flag2.size() > 0) {
@@ -171,5 +176,28 @@ public class PlayerMatchPresenter extends BasePresenter<PlayerContract.Model, Pl
         }
         return data;
     }
-
+    private String translateMatchName(String key) {
+        if (matchNameMap == null) {
+            matchNameMap = FileHashUtils.getMatchName();
+        }
+        String matchNameNotYear = key.replaceAll("\\d+", "").trim();
+        String value = matchNameMap.get(matchNameNotYear.toUpperCase());
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(matchNameNotYear, value);
+        }
+    }
+    private String translatePlayerName(String key) {
+        if(playerNameMap==null){
+            playerNameMap=FileHashUtils.getPlayerName();
+        }
+        String playerName = key.replaceAll("\\[\\d+\\]", "").trim();
+        String value = playerNameMap.get(playerName);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(playerName, value);
+        }
+    }
 }

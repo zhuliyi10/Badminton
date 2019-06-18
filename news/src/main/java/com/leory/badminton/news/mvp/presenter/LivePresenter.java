@@ -1,5 +1,8 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.text.TextUtils;
+
+import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.LiveContract;
 import com.leory.badminton.news.mvp.model.bean.LiveBean;
 import com.leory.badminton.news.mvp.model.bean.LiveDetailBean;
@@ -15,6 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -37,6 +41,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 @FragmentScope
 public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContract.View> {
+    private HashMap<String, String> matchNameMap;
+    private HashMap<String, String> MonthMap;
+    private HashMap<String, String> playerNameMap;
     @Inject
     public LivePresenter(LiveContract.Model model, LiveContract.View rootView) {
         super(model, rootView);
@@ -107,9 +114,9 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
             bean.setDetailUrl(detailUrl);
             Element data = doc.select("div.live-scores-box-wrap").first();
             String matchName = data.select("h2").first().text();
-            bean.setMatchName(matchName);
+            bean.setMatchName(translateMatchName(matchName));
             String matchDate = data.select("h3").first().text();
-            bean.setMatchDate(matchDate);
+            bean.setMatchDate(translateMonth(matchDate));
             String flag = data.select("div.flag img").first().attr("src");
             bean.setCountryFlag(flag);
             Elements spans = data.select("div.country span");
@@ -228,9 +235,9 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
 
                     //player1
                     Elements player1s = li.select("div.player1 span");
-                    bean.setPlayer1(player1s.first().text());
+                    bean.setPlayer1(translatePlayerName(player1s.first().text()));
                     if (player1s.size() == 2) {
-                        bean.setPlayer12(player1s.get(1).text());
+                        bean.setPlayer12(translatePlayerName(player1s.get(1).text()));
                     }
 
                     //flag1
@@ -251,9 +258,9 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
 
                     //player2
                     Elements player2s = li.select("div.player2 span");
-                    bean.setPlayer2(player2s.first().text());
+                    bean.setPlayer2(translatePlayerName(player2s.first().text()));
                     if (player2s.size() == 2) {
-                        bean.setPlayer22(player2s.get(1).text());
+                        bean.setPlayer22(translatePlayerName(player2s.get(1).text()));
                     }
 
                     //flag2
@@ -297,5 +304,41 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
         }
         return type;
     }
-
+    private String translateMatchName(String key) {
+        if (matchNameMap == null) {
+            matchNameMap = FileHashUtils.getMatchName();
+        }
+        String matchNameNotYear = key.replaceAll("\\d+", "").trim();
+        String value = matchNameMap.get(matchNameNotYear.toUpperCase());
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(matchNameNotYear, value);
+        }
+    }
+    private String translateMonth(String key) {
+        if (key == null) return null;
+        if (MonthMap == null) {
+            MonthMap = FileHashUtils.getMonth();
+        }
+        String month = key.replaceAll("\\d+", "").replaceAll("-", "").trim();
+        String value = MonthMap.get(month);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(month, value);
+        }
+    }
+    private String translatePlayerName(String key) {
+        if(playerNameMap==null){
+            playerNameMap=FileHashUtils.getPlayerName();
+        }
+        String playerName = key.replaceAll("\\[\\d+\\]", "").trim();
+        String value = playerNameMap.get(playerName);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(playerName, value);
+        }
+    }
 }

@@ -1,5 +1,8 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.text.TextUtils;
+
+import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.model.bean.MatchInfoBean;
 import com.leory.badminton.news.mvp.model.bean.MatchTabDateBean;
@@ -15,6 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +46,8 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
     String detailUrl;
 
     String matchClassify;
+    private HashMap<String, String> matchNameMap;
+    private HashMap<String, String> MonthMap;
 
     @Inject
     public MatchDetailPresenter(MatchDetailContract.Model model, MatchDetailContract.View rootView, @Named("detail_url") String detailUrl, @Named("match_classify") String matchClassify) {
@@ -138,11 +144,11 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
             Element head = doc.select("div.box-results-tournament").first();
             Element element = head.select("div.info h2").first();
             if (element != null) {
-                bean.setMatchName(element.text());
+                bean.setMatchName(translateMatchName(element.text()));
             }
             element = head.select("div.info h4").first();
             if (element != null) {
-                bean.setMatchDate(element.text());
+                bean.setMatchDate(translateMonth(element.text()));
             }
             element = head.select("div.info h5").first();
             if (element != null) {
@@ -165,7 +171,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
                     for (int i = 1; i < lis.size() - 1; i++) {
                         Element li = lis.get(i);
                         String link = li.select("a").first().attr("href");
-                        String name = li.select("a").first().text();
+                        String name = translateMonth(li.select("a").first().text());
                         headTabs.add(new MatchTabDateBean(link, name));
                     }
                     bean.setTabDateHeads(headTabs);
@@ -182,5 +188,30 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
         return bean;
     }
 
+    private String translateMatchName(String key) {
+        if (matchNameMap == null) {
+            matchNameMap = FileHashUtils.getMatchName();
+        }
+        String matchNameNotYear = key.replaceAll("\\d+", "").trim();
+        String value = matchNameMap.get(matchNameNotYear.toUpperCase());
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(matchNameNotYear, value);
+        }
+    }
 
+    private String translateMonth(String key) {
+        if (key == null) return null;
+        if (MonthMap == null) {
+            MonthMap = FileHashUtils.getMonth();
+        }
+        String month = key.replaceAll("\\d+", "").replaceAll("-", "").trim();
+        String value = MonthMap.get(month);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(month, value);
+        }
+    }
 }

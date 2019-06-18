@@ -14,33 +14,40 @@ import java.util.StringTokenizer;
  * Author : leory
  * Date : 2019-06-17
  */
-public class TranslateUtils {
+public class FileHashUtils {
+    /**
+     * 获取月份
+     * @return
+     */
+    public static HashMap getMonth(){
+        return readKeyValueTxtToMap(AppUtils.getApplication(),"tran_month.txt");
+    }
     /**
      * 获取球员名称
      * @return
      */
-    public static HashMap translatePlayerName(){
+    public static HashMap getPlayerName(){
         return readKeyValueTxtToMap(AppUtils.getApplication(),"tran_player_name.txt");
     }
     /**
      * 获取比赛名称
      * @return
      */
-    public static HashMap translateMatchName(){
+    public static HashMap getMatchName(){
         return readKeyValueTxtToMap(AppUtils.getApplication(),"tran_match_name.txt");
     }
     /**
      * 获取比赛分类
      * @return
      */
-    public static HashMap translateMatchCategory(){
+    public static HashMap getMatchCategory(){
         return readKeyValueTxtToMap(AppUtils.getApplication(),"tran_match_category.txt");
     }
     /**
      * 获取国家
      * @return
      */
-    public static HashMap translateCountry(){
+    public static HashMap getCountry(){
         return readKeyValueTxtToMap(AppUtils.getApplication(),"tran_country.txt");
     }
     /**
