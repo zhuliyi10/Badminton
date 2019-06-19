@@ -1,4 +1,4 @@
-package com.leory.badminton.mine.mvp.ui;
+package com.leory.badminton.mine.mvp.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

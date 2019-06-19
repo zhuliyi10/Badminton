@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.leory.commonlib.widget.XSDToolbar
+        android:id="@+id/toolbar"
+        app:title_text="登陆"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <FrameLayout
+        android:id="@+id/phone"
+        android:background="@drawable/shape_login_input"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_height="40dp">
+        <TextView
+            android:text="+86"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            android:layout_marginLeft="48dp"
+            android:background="@null"
+            android:hint="请输入手机号码"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/code"
+        android:background="@drawable/shape_login_input"
+        app:layout_constraintTop_toBottomOf="@+id/phone"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_height="40dp">
+        <TextView
+            android:text="验证码"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_code"
+            android:layout_marginLeft="48dp"
+            android:background="@null"
+            android:hint="请输入验证码"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/txt_code"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimary"
+            android:text="获取验证码"
+            android:layout_gravity="right|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@+id/code"
+        android:background="@drawable/shape_bg_login"
+        android:textColor="@color/white"
+        android:text="登陆"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:id="@+id/btn_login"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/wechat"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintRight_toLeftOf="@+id/qq"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.leory.commonlib.widget.CustomImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
+        <TextView
+            android:text="微信登陆"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/qq"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@+id/wechat"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/wechat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.leory.commonlib.widget.CustomImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
+        <TextView
+            android:text="微信登陆"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView
+        app:layout_constraintBottom_toTopOf="@+id/wechat"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="使用第三方登陆，登陆更方便"
+        android:textSize="12sp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/txt_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</android.support.constraint.ConstraintLayout>

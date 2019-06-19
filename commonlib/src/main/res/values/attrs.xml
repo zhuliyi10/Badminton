@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--左边的文字-->
+    <attr name="left_text" format="string"/>
+    <attr name="left_text_color" format="color" />
+    <!--右边文字-->
+    <attr name="right_text" format="string"/>
+    <attr name="right_text_color" format="color" />
+    <attr name="show_divider" format="boolean" />
     <!--自定义标题栏-->
     <declare-styleable name="XSDToolbar">
         <!--主题的类型 定义背景，字体颜色-->
@@ -11,8 +18,8 @@
         <!--是否显示左箭头-->
         <attr name="left_back" format="boolean" />
         <!--左边的文字-->
-        <attr name="left_text" format="string"/>
-        <attr name="left_text_color" format="color" />
+        <attr name="left_text"/>
+        <attr name="left_text_color" />
         <!--标题栏的背景-->
         <attr name="bg_bar" format="color" />
         <!--标题-->
@@ -20,13 +27,45 @@
         <!--标题颜色-->
         <attr name="title_text_color" format="color" />
         <!--右边文字-->
-        <attr name="right_text" format="string"/>
+        <attr name="right_text"/>
         <!--右边文字的颜色-->
-        <attr name="right_text_color" format="color" />
+        <attr name="right_text_color"/>
         <!--右边图标-->
         <attr name="right_icon_res" format="reference" />
         <!--显示分隔线-->
-        <attr name="show_divider" format="boolean" />
+        <attr name="show_divider"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="CustomImageView">
+        <!--目标图片资源，即想要截取形状的样图-->
+        <attr name="dsc" format="reference" />
+        <!--边框图片资源-->
+        <attr name="bord" format="reference" />
+        <!--是否显示边框-->
+        <attr name="hasBord" format="boolean" />
+        <attr name="dsc2" format="reference" />
+    </declare-styleable>
+
+    <!--自定义ItemView-->
+    <declare-styleable name="ItemView">
+        <!--左边文字-->
+        <attr name="left_text"/>
+        <attr name="left_text_color"/>
+        <!--左边次要文字-->
+        <attr name="left_second_text" format="string"/>
+        <attr name="left_second_text_color" format="reference"/>
+        <!--右边文字-->
+        <attr name="right_text"/>
+        <attr name="right_text_color"/>
+        <!--右边箭头显示-->
+        <attr name="show_right_arrow" format="boolean" />
+        <!--分隔线-->
+        <attr name="show_divider"/>
+        <!--左边图标-->
+        <attr name="icon_left" format="reference" />
+        <!--右边图标-->
+        <attr name="icon_right" format="reference" />
 
     </declare-styleable>
 </resources>
