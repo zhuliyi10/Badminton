@@ -5,10 +5,8 @@ if (isBuildModule.toBoolean()) {
 }
 apply from: "../common_build.gradle"
 android {
-
     sourceSets {
         main {
-            jniLibs.srcDirs = ['libs']
             if (isBuildModule.toBoolean()) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
@@ -20,4 +18,5 @@ android {
 
 dependencies {
     implementation project(':commonlib')
+    implementation project(':thirdParties')
 }

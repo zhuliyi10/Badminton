@@ -1,6 +1,7 @@
 package com.leory.badminton.mine.mvp.presenter;
 
 import com.leory.badminton.mine.mvp.contract.MineContract;
+import com.leory.badminton.mine.mvp.model.bean.UserInfoBean;
 import com.leory.badminton.mine.mvp.model.sp.AccountSp;
 import com.leory.commonlib.di.scope.ActivityScope;
 import com.leory.commonlib.mvp.BasePresenter;
@@ -25,6 +26,6 @@ public class MinePresenter extends BasePresenter<MineContract.Model, MineContrac
     }
     public void updateLoginState(){
         boolean loginState=AccountSp.getLoginState();
-        rootView.showLoginState(loginState);
+        rootView.showLoginState(loginState,AccountSp.getUserInfoBean());
     }
 }

@@ -1,5 +1,6 @@
 package com.leory.badminton.mine.mvp.contract;
 
+import com.leory.badminton.mine.mvp.model.bean.UserInfoBean;
 import com.leory.commonlib.mvp.IModel;
 import com.leory.commonlib.mvp.IView;
 
@@ -10,7 +11,7 @@ import com.leory.commonlib.mvp.IView;
  */
 public interface MineContract {
     interface View extends IView{
-        void showLoginState(boolean isLogin);
+        void showLoginState(boolean isLogin, UserInfoBean bean);
     }
     interface Model extends IModel{
 

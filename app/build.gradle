@@ -1,9 +1,11 @@
-apply plugin: 'com.android.application'
+if (isBuildModule.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+
+}
 apply from: "../common_build.gradle"
 android {
-    defaultConfig {
-        applicationId "com.leory.badminton"
-    }
 }
 
 dependencies {

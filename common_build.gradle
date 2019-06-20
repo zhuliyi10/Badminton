@@ -1,9 +1,20 @@
+def keystorePropertiesFile=rootProject.file("keystore.properties")
+def keystoreProperties=new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    signingConfigs {
+        release{
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
     }
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
@@ -24,20 +35,20 @@ android {
         multiDexEnabled true
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
-
     buildTypes {
         debug {
+            signingConfig signingConfigs.release
             buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
+            signingConfig signingConfigs.release
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

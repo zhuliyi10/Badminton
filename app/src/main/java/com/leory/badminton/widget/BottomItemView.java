@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leory.badminton.R;
+import com.leory.badminton.R2;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,9 +23,9 @@ import butterknife.ButterKnife;
  * Date : 2019-05-22
  */
 public class BottomItemView extends FrameLayout {
-    @BindView(R.id.icon)
+    @BindView(R2.id.icon)
     ImageView icon;
-    @BindView(R.id.text_name)
+    @BindView(R2.id.text_name)
     TextView textName;
     private int normalRes;
     private int activateRes;

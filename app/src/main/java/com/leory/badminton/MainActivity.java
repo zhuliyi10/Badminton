@@ -23,15 +23,15 @@ import butterknife.OnClick;
 @Route(path = RouterHub.APP_MAINACTIVITY)
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.view_pager)
+    @BindView(R2.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.item_match)
+    @BindView(R2.id.item_match)
     BottomItemView itemMatch;
-    @BindView(R.id.item_video)
+    @BindView(R2.id.item_video)
     BottomItemView itemVideo;
-    @BindView(R.id.item_circle)
+    @BindView(R2.id.item_circle)
     BottomItemView itemCircle;
-    @BindView(R.id.item_mine)
+    @BindView(R2.id.item_mine)
     BottomItemView itemMine;
 
     @Override
@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.item_match, R.id.item_video, R.id.item_circle, R.id.item_mine})
+    @OnClick({R2.id.item_match, R2.id.item_video, R2.id.item_circle, R2.id.item_mine})
     public void onViewClicked(View view) {
         onItemClick((BottomItemView) view);
     }

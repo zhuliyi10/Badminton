@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.leory.badminton.mine.R;
+import com.leory.badminton.mine.R2;
 import com.leory.commonlib.utils.ImageUtils;
 
 import butterknife.BindView;
@@ -27,21 +28,21 @@ import butterknife.ButterKnife;
 
 public class ItemView extends FrameLayout {
 
-    @BindView(R.id.icon_left)
+    @BindView(R2.id.icon_left)
     ImageView iconLeft;
-    @BindView(R.id.txt_left)
+    @BindView(R2.id.txt_left)
     TextView txtLeft;
-    @BindView(R.id.txt_right)
+    @BindView(R2.id.txt_right)
     TextView txtRight;
-    @BindView(R.id.icon_right)
+    @BindView(R2.id.icon_right)
     ImageView iconRight;
-    @BindView(R.id.arrow_right)
+    @BindView(R2.id.arrow_right)
     ImageView arrowRight;
-    @BindView(R.id.right_view)
+    @BindView(R2.id.right_view)
     LinearLayout rightView;
-    @BindView(R.id.divider)
+    @BindView(R2.id.divider)
     View divider;
-    @BindView(R.id.txt_left_second)
+    @BindView(R2.id.txt_left_second)
     TextView txtLeftSecond;
 
     public ItemView(@NonNull Context context) {
