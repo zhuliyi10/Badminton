@@ -49,6 +49,24 @@ Ihsan Maulana MUSTOFA=穆斯托法
 LEE Hyun Il=李炫一
 Mark CALJOUW=马克
 Victor SVENDSEN=斯文森
+ZHOU Ze Qi=周泽奇
+Koki WATANABE=渡边航贵
+Thomas ROUXEL=鲁克赛尔
+Ygor COELHO=奥得维拉
+LIN Yu Hsien=林祐贤
+Lucas CORVEE=科维
+Kai SCHAEFER=凯·舍费尔
+Xiaodong SHENG=盛晓东
+Lucas CLAERBOUT=克拉尔布特
+Timothy LAM=蒂莫西
+Luís Enrique PEÑALVER=佩纳尔弗
+Ajay JAYARAM=贾亚拉姆
+Sourabh VERMA=萨拉巴
+Toby PENTY=潘迪
+Lakshya SEN=卡什亚普
+Pablo ABIAN=阿维安
+Yu IGARASHI=五十岗优
+
 
 
 TAI Tzu Ying=戴资颖
@@ -103,6 +121,23 @@ Sabrina JAQUET=贾奎特
 LEE Ying Ying=李盈盈
 GAO Fang Jie=高昉洁
 Carolina MARIN=马琳
+Crystal PAN=潘欣欣
+Daniela MACIAS=马西亚斯
+Brittney TAM=布里特妮
+Sri Krishna Priya KUDARAVALLI=克里希纳
+Fabienne DEPREZ=德普莱兹
+Clara AZURMENDI=克拉拉
+AN Se Young=安洗莹
+HUNG Yi-Ting=洪怡婷
+Kristin KUUBA=库巴
+Kate FOO KUNE=凯特
+CHEN Su Yu=陈苏虞
+Martina REPISKA=马丁娜
+Julie Dawall JAKOBSEN=朱莉
+SIM Yu Jin=申玉静
+Anura PRABHUDESAI=阿努拉
+Jordan HART=哈特
+Porntip BURANAPRASERTSUK=蓬迪
 
 
 
@@ -211,6 +246,26 @@ WANG Chang=王昶
 Sean VENDY=文迪
 David DAUGAARD=大卫
 Frederik SØGAARD=莫滕森
+Alexander DUNN=亚历山大
+Adam HALL=亚当
+Jones Ralfy JANSEN=扬森
+Peter KAESBAUER=卡斯巴尔
+KAN Chao Yu=甘超宇
+Chi-Hung LIAO=廖启宏
+Lopez ANDRES=洛佩兹
+Luis Armando MONTOYA NAVARRO=路易斯·阿曼多
+Jacco ARENDS=阿伦斯
+Ruben JILLE=鲁本
+CHANG Ko-Chi=张凯量
+LU Chia Pin=陆家斌
+LIANG Weikeng=梁伟铿
+SHANG Yi Chen=商亦辰
+Mads CONRAD-PETERSEN=彼德森
+Duncan YAO=邓肯
+Bjarne GEISS=比亚内
+Jan Colin VÖLKER=科林
+Supak JOMKOH=苏帕克
+Wachirawit SOTHON=所通
 
 
 
@@ -315,6 +370,31 @@ CHANG Ching Hui=张净惠
 Virni PUTRI=普特里
 Anna Ching Yik CHEONG=安娜程奕翔
 LIM Chiew Sien=林秋仙
+Saori OZAKI=尾崎沙织
+Akane WATANABE=渡边茜
+CHEN Jia Yuan=陈嘉园
+CHEN Ying Ying=陈颖颖
+Alexandra BØJE=博尔
+Mette POULSEN=波尔森
+CHEN Xiao Fei=陈笑菲
+ZHANG Shu Xian=张殊贤
+Danica NISHIMURA=丹妮卡
+Akane ARAKI=荒木茜羽
+Riko IMAI=今井莉子
+Eva JANSSENS=伊娃
+Kilasu OSTERMEYER=奥丝黛梅叶
+Jenna GOZALI=珍纳·戈扎利
+Megumi TARUNO=樽野惠
+Eva LEE=李意恒
+Paula Lynn OBANANA=奥巴娜娜
+HUANG Jia=黄佳
+YU Xiao Han=于小含
+LI Zi Qing=李子晴
+TENG Chun Hsun=邓淳薰
+LEE Chih Chen=李志晨
+Julie MACPHERSON=朱莉
+Jenny MOORE=珍妮穆尔
+
 
 
 ZHENG Si Wei=郑思维
@@ -418,3 +498,10 @@ Thom GICQUEL=吉奎尔
 Ronan LABAR=拉巴尔
 Audrey MITTELHEISSER=奥德丽
 Debby SUSANTO=苏珊托
+Jenny MOORE=邱恺翔
+Breanna CHI=布雷纳·池
+Howard SHU=舒之颢
+CHANG Hsin Tien=张莘恬
+PO Li-Wei=柏礼维
+Callum HEMMING=卡勒姆
+Sattawat PONGNAIRAT=庞拉尔莱特
