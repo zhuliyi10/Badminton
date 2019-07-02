@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Describe : 赛事详情activity
@@ -75,6 +76,8 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
     MatchTabView tab;
     @BindView(R2.id.view_pager)
     ViewPager viewPager;
+    @BindView(R2.id.progress)
+    FrameLayout progress;
 
     public static void launch(Activity preActivity, String detailUrl, String matchClassify) {
         preActivity.startActivity(new Intent(preActivity, MatchDetailActivity.class).putExtra(KEY_DETAIL_URL, detailUrl).putExtra(KEY_MATCH_CLASSIFY, matchClassify));
@@ -143,6 +146,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
 
     @Override
     public void showMatchInfo(MatchInfoBean bean) {
+        progress.setVisibility(View.GONE);
         toolbarLayout.setTitle(bean.getMatchName());
         txtName.setText(bean.getMatchName());
         txtTime.setText(bean.getMatchDate());
@@ -152,6 +156,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
         ImageUtils.loadSvg(this, iconMatch, bean.getMatchIcon());
         ImageUtils.loadImage(this, imgBg, bean.getMatchBackground());
         initViewPager(bean);
+
     }
 
     private void initViewPager(MatchInfoBean bean) {
@@ -189,5 +194,6 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
         });
         tab.setSelectPos(0);
     }
+
 }
 

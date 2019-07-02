@@ -156,7 +156,7 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
             }
             element = head.select("div.info div.prize").first();
             if (element != null) {
-                bean.setMatchBonus(element.text());
+                bean.setMatchBonus(element.text().replace("PRIZE MONEY USD","奖金:$"));
             }
             element = head.select("div.logo-right img").first();
             if (element != null) {

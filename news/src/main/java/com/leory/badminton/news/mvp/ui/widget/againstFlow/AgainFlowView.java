@@ -89,7 +89,7 @@ public class AgainFlowView extends View {
         imgHeight = ScreenUtils.dp2px(getContext(), 8);
         lineWidth = ScreenUtils.dp2px(getContext(), 2);
         textPadding = ScreenUtils.dp2px(getContext(), 4);
-        itemHeight = ScreenUtils.dp2px(getContext(), 36);
+        itemHeight = ScreenUtils.dp2px(getContext(), 28);
 
         itemWidth = ScreenUtils.getScreenWidth(getContext()) / (colCount - 1) - ScreenUtils.dp2px(getContext(), 30);
         linePaint = new Paint();
