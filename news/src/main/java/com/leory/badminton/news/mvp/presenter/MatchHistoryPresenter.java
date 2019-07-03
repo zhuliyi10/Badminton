@@ -43,7 +43,8 @@ public class MatchHistoryPresenter extends BasePresenter<MatchDetailModel, Match
     @Named("history_url")
     String historyUrl;
     @Inject
-    HashMap<String, String> PlayerNameMap;
+    @Named("player_name")
+    HashMap<String, String> playerNameMap;
     @Inject
     public MatchHistoryPresenter(MatchDetailModel model, MatchDetailContract.MatchHistory rootView) {
         super(model, rootView);
@@ -153,7 +154,7 @@ public class MatchHistoryPresenter extends BasePresenter<MatchDetailModel, Match
 
     private String translatePlayerName(String key) {
         String playerName=key.replaceAll("\\[\\d+\\]","").trim();
-        String value = PlayerNameMap.get(playerName);
+        String value = playerNameMap.get(playerName);
         if (TextUtils.isEmpty(value)) {
             return key;
         } else {

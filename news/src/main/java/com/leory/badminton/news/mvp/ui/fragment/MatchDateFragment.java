@@ -40,6 +40,7 @@ import butterknife.BindView;
  */
 public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> implements MatchDetailContract.MatchDateView {
     private static final String KEY_TAB_DATE = "key_tab_date";
+    private static final String KEY_COUNTRY="key_country";
     @Inject
     List<MatchTabDateBean> dateBeans;
 
@@ -50,9 +51,10 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
     MatchTabView tabDate;
     private MatchDateAdapter dateAdapter;
 
-    public static MatchDateFragment newInstance(List<MatchTabDateBean> dateBeans) {
+    public static MatchDateFragment newInstance(List<MatchTabDateBean> dateBeans,String country) {
         MatchDateFragment fragment = new MatchDateFragment();
         Bundle args = new Bundle();
+        args.putString(KEY_COUNTRY,country);
         args.putSerializable(KEY_TAB_DATE, (Serializable) dateBeans);
         fragment.setArguments(args);
         return fragment;
@@ -63,6 +65,7 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
         ((MatchDetailComponent) component).buildMatchDateComponent()
                 .view(this)
                 .tabDates((List<MatchTabDateBean>) getArguments().getSerializable(KEY_TAB_DATE))
+                .country(getArguments().getString(KEY_COUNTRY))
                 .build()
                 .inject(this);
         return super.setupActivityComponent(component);

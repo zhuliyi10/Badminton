@@ -50,6 +50,14 @@ public class FileHashUtils {
     public static HashMap getCountry(){
         return readKeyValueTxtToMap(AppUtils.getApplication(),"tran_country.txt");
     }
+
+    /**
+     * 获取与中国北京时差
+     * @return
+     */
+    public static HashMap getTimeDiffer(){
+        return readKeyValueTxtToMap(AppUtils.getApplication(),"tran_time_differ.txt");
+    }
     /**
      * 从文件中获取key - value值
      * @param context

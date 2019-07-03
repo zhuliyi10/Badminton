@@ -90,7 +90,8 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
                 .view(this)
                 .detailUrl(getIntent().getStringExtra(KEY_DETAIL_URL))
                 .matchClassify(getIntent().getStringExtra(KEY_MATCH_CLASSIFY))
-                .hashMap(FileHashUtils.getPlayerName())
+                .playerMap(FileHashUtils.getPlayerName())
+                .countryMap(FileHashUtils.getCountry())
                 .appComponent((AppComponent) component)
                 .build();
         matchDetailComponent.inject(this);
@@ -161,7 +162,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
 
     private void initViewPager(MatchInfoBean bean) {
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(MatchDateFragment.newInstance(bean.getTabDateHeads()));
+        fragmentList.add(MatchDateFragment.newInstance(bean.getTabDateHeads(),bean.getCountry()));
         fragmentList.add(MatchAgainstChartFragment.newInstance());
         fragmentList.add(MatchHistoryFragment.newInstance(bean.getHistoryUrl()));
         fragmentList.add(MatchPlayersFragment.newInstance());
@@ -194,6 +195,8 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter> impl
         });
         tab.setSelectPos(0);
     }
+
+
 
 }
 

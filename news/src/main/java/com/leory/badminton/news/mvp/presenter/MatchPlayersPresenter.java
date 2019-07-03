@@ -40,7 +40,11 @@ import io.reactivex.schedulers.Schedulers;
 @FragmentScope
 public class MatchPlayersPresenter extends BasePresenter<MatchDetailContract.Model, MatchDetailContract.MatchPlayersView> {
     @Inject
-    HashMap<String, String> PlayerNameMap;
+    @Named("player_name")
+    HashMap<String, String> playerNameMap;
+    @Inject
+    @Named("country_name")
+    HashMap<String, String> countryNameMap;
     @Inject
     @Named("detail_url")
     String detailUrl;
@@ -108,7 +112,8 @@ public class MatchPlayersPresenter extends BasePresenter<MatchDetailContract.Mod
             Elements classifies = doc.select("div.rankings-content_tabpanel");
             if (classifies != null && classifies.size() == 2) {
                 MatchPlayerHeadBean headBean = new MatchPlayerHeadBean();
-                headBean.setName(classifies.get(0).select("h3").first().text());
+//                headBean.setName(classifies.get(0).select("h3").first().text());
+                headBean.setName("种子选手");
                 data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_HEAD, headBean));
 
                 MatchPlayerListBean listBean = new MatchPlayerListBean();
@@ -116,8 +121,9 @@ public class MatchPlayersPresenter extends BasePresenter<MatchDetailContract.Mod
                 data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_CONTENT, listBean));
 
                 headBean = new MatchPlayerHeadBean();
-                headBean.setName(classifies.get(1).select("h3").first().text());
-                headBean.setSecond(classifies.get(1).select("h5").first().text());
+//                headBean.setName(classifies.get(1).select("h3").first().text());
+//                headBean.setSecond(classifies.get(1).select("h5").first().text());
+                headBean.setName("所有运动员");
                 data.add(new MultiMatchPlayersBean(MultiMatchPlayersBean.TYPE_HEAD, headBean));
                 Elements countries = classifies.get(1).select("div.entry-player-country");
                 for (Element country : countries) {
@@ -142,14 +148,14 @@ public class MatchPlayersPresenter extends BasePresenter<MatchDetailContract.Mod
                         playerBean.setHead1(player.select("div.entry-player-image img").first().attr("src"));
                         playerBean.setName1(translatePlayerName(player.select("div.entry-player-name").first().text()));
                         playerBean.setFlag1(player.select("div.entry-player-flag img").first().attr("src"));
-                        playerBean.setCountry1(player.select("div.entry-player-flag span").first().text());
+                        playerBean.setCountry1(translateCountryName(player.select("div.entry-player-flag span").first().text()));
                     }
                     if (players.size() > 1) {
                         Element player = players.get(1);
                         playerBean.setHead2(player.select("div.entry-player-image img").first().attr("src"));
                         playerBean.setName2(translatePlayerName(player.select("div.entry-player-name").first().text()));
                         playerBean.setFlag2(player.select("div.entry-player-flag img").first().attr("src"));
-                        playerBean.setCountry2(player.select("div.entry-player-flag span").first().text());
+                        playerBean.setCountry2(translateCountryName(player.select("div.entry-player-flag span").first().text()));
                     }
                     data.add(playerBean);
                 }
@@ -175,11 +181,20 @@ public class MatchPlayersPresenter extends BasePresenter<MatchDetailContract.Mod
 
     private String translatePlayerName(String key) {
         String playerName = key.replaceAll("\\[\\d+\\]", "").trim();
-        String value = PlayerNameMap.get(playerName);
+        String value = playerNameMap.get(playerName);
         if (TextUtils.isEmpty(value)) {
             return key;
         } else {
             return key.replace(playerName, value);
+        }
+    }
+
+    private String translateCountryName(String key) {
+        String value = countryNameMap.get(key);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(key, value);
         }
     }
 }

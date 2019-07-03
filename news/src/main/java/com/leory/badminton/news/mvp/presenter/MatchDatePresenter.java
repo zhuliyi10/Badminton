@@ -2,6 +2,7 @@ package com.leory.badminton.news.mvp.presenter;
 
 import android.text.TextUtils;
 
+import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
 import com.leory.badminton.news.mvp.model.MatchDetailModel;
 import com.leory.badminton.news.mvp.model.bean.MatchDateBean;
@@ -16,11 +17,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -38,9 +44,15 @@ import io.reactivex.schedulers.Schedulers;
 @FragmentScope
 public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDetailContract.MatchDateView> {
     @Inject
+    @Named("player_name")
     HashMap<String, String> playerNameMap;
     @Inject
     List<MatchTabDateBean> dateBeans;
+    @Inject
+    @Named("country")
+    String country;
+
+    private HashMap<String, String> timeDifferMap;
 
     @Inject
     public MatchDatePresenter(MatchDetailModel model, MatchDetailContract.MatchDateView rootView) {
@@ -110,11 +122,14 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
                     String court = li.select("span.round-court").first().text();
                     if (TextUtils.isEmpty(court)) {
                         bean.setField("流水场");
+                    } else if (TextUtils.isDigitsOnly(court)) {
+                        bean.setField("场地 " + court);
                     } else {
-                        bean.setField(court.replace("Court","场地"));
+
+                        bean.setField(court.replace("Quaycentre", "场地").replace("Court", "场地"));
                     }
 
-                    bean.setTime(translateTime(li.select("div.time").first().text()));
+                    bean.setTime(getChineseTime(translateTime(li.select("div.time").first().text())));
 
                     //player1
                     Element player11 = li.select("div.player1-wrap").first();
@@ -189,7 +204,33 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
     }
 
     private String translateTime(String time) {
-        String temp=time.replace("Starting at", "开始于");
+        String temp = time.replace("Starting at", "开始于");
         return temp.replace("Followed by", "紧跟着");
+    }
+
+    private int getTimeDiffer() {
+        if (timeDifferMap == null) {
+            timeDifferMap = FileHashUtils.getTimeDiffer();
+        }
+        String value = timeDifferMap.get(country);
+        if (!TextUtils.isEmpty(value)) {
+            return Integer.parseInt(value);
+        }
+        return 0;
+    }
+
+    private String getChineseTime(String time) {
+        if (time == null) return time;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        try {
+            Date date = sdf.parse(time);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.HOUR_OF_DAY, -getTimeDiffer());
+            return sdf.format(calendar.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return time;
     }
 }

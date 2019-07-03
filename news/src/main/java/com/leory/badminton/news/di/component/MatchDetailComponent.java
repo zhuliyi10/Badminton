@@ -42,7 +42,9 @@ public interface MatchDetailComponent extends IComponent {
         @BindsInstance
         MatchDetailComponent.Builder matchClassify(@Named("match_classify") String matchClassify);
         @BindsInstance
-        MatchDetailComponent.Builder hashMap(HashMap<String,String>playerName);
+        MatchDetailComponent.Builder playerMap(@Named("player_name")HashMap<String,String>playerName);
+        @BindsInstance
+        MatchDetailComponent.Builder countryMap(@Named("country_name")HashMap<String,String>countryName);
         MatchDetailComponent.Builder appComponent(AppComponent appComponent);
 
         MatchDetailComponent build();

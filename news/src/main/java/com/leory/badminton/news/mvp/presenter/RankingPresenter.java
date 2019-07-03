@@ -42,8 +42,9 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
     private int lastPage = 0;
     private int pageNum = 25;
     private LinkedHashMap<String, String> weekMap = new LinkedHashMap<>();
-    private HashMap<String,String> countryMap;
-    private HashMap<String,String> playerNameMap;
+    private HashMap<String, String> countryMap;
+    private HashMap<String, String> playerNameMap;
+
     @Inject
     public RankingPresenter(RankingContract.Model model, RankingContract.View rootView) {
         super(model, rootView);
@@ -198,7 +199,14 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
                     bean.setRiseOrDrop(tdList.get(3).select("span").first().text());
                     bean.setWinAndLoss(tdList.get(4).text());
                     bean.setBonus(tdList.get(5).text());
-                    bean.setPoints(tdList.get(6).select("strong").first().text());
+                    String point = tdList.get(6).select("strong").first().text();
+                    if (point != null) {
+                        String[] points = point.split("/");
+                        if (points.length > 0) {
+                            bean.setPoints(points[0].trim());
+                        }
+                    }
+
                     bean.setPlayerId(tdList.get(7).select("div").first().attr("id"));
                     rankingList.add(bean);
                 }
@@ -212,33 +220,36 @@ public class RankingPresenter extends BasePresenter<RankingContract.Model, Ranki
 
     /**
      * 翻译国家
+     *
      * @param key
      * @return
      */
-    private String translateCountry(String key){
-        if(countryMap==null){
-            countryMap= FileHashUtils.getCountry();
+    private String translateCountry(String key) {
+        if (countryMap == null) {
+            countryMap = FileHashUtils.getCountry();
         }
-        String value=countryMap.get(key);
-        if(TextUtils.isEmpty(value)){
+        String value = countryMap.get(key);
+        if (TextUtils.isEmpty(value)) {
             return key;
-        }else {
+        } else {
             return value;
         }
     }
+
     /**
      * 翻译运动员名字
+     *
      * @param key
      * @return
      */
-    private String translatePlayerName(String key){
-        if(playerNameMap==null){
-            playerNameMap= FileHashUtils.getPlayerName();
+    private String translatePlayerName(String key) {
+        if (playerNameMap == null) {
+            playerNameMap = FileHashUtils.getPlayerName();
         }
-        String value=playerNameMap.get(key);
-        if(TextUtils.isEmpty(value)){
+        String value = playerNameMap.get(key);
+        if (TextUtils.isEmpty(value)) {
             return key;
-        }else {
+        } else {
             return value;
         }
     }

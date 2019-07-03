@@ -153,10 +153,14 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
             element = head.select("div.info h5").first();
             if (element != null) {
                 bean.setMatchSite(element.text());
+                String[] strings = element.text().split(",");
+                if (strings.length > 0) {
+                    bean.setCountry(strings[strings.length - 1].trim());
+                }
             }
             element = head.select("div.info div.prize").first();
             if (element != null) {
-                bean.setMatchBonus(element.text().replace("PRIZE MONEY USD","奖金:$"));
+                bean.setMatchBonus(element.text().replace("PRIZE MONEY USD", "奖金:$"));
             }
             element = head.select("div.logo-right img").first();
             if (element != null) {

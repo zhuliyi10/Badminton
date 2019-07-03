@@ -16,6 +16,7 @@ public class MatchInfoBean {
     private String matchIcon;//比赛图标
     private List<MatchTabDateBean> tabDateHeads;//赛程日期头部
     private String historyUrl;//历史url
+    private String country;//国家
 
     public String getMatchBackground() {
         return matchBackground;
@@ -79,5 +80,13 @@ public class MatchInfoBean {
 
     public void setHistoryUrl(String historyUrl) {
         this.historyUrl = historyUrl;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

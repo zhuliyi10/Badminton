@@ -7,6 +7,8 @@ import com.leory.commonlib.di.scope.FragmentScope;
 
 import java.util.List;
 
+import javax.inject.Named;
+
 import dagger.BindsInstance;
 import dagger.Subcomponent;
 
@@ -26,6 +28,8 @@ public interface MatchDateComponent {
         MatchDateComponent.Builder view(MatchDetailContract.MatchDateView view);
         @BindsInstance
         MatchDateComponent.Builder tabDates(List<MatchTabDateBean>tabDates);
+        @BindsInstance
+        MatchDateComponent.Builder country(@Named("country")String country);
         MatchDateComponent build();
     }
 }

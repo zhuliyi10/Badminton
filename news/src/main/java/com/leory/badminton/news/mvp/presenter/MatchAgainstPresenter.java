@@ -41,7 +41,8 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
     private List<List<AgainstFlowBean>> againstData;
     private String currentMatchSchedule;
     @Inject
-    HashMap<String, String> PlayerNameMap;
+    @Named("player_name")
+    HashMap<String, String> playerNameMap;
 
     @Inject
     @Named("detail_url")
@@ -377,7 +378,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
 
     private String translatePlayerName(String key) {
         String playerName=key.replaceAll("\\[\\d+\\]","").trim();
-        String value = PlayerNameMap.get(playerName);
+        String value = playerNameMap.get(playerName);
         if (TextUtils.isEmpty(value)) {
             return key;
         } else {
