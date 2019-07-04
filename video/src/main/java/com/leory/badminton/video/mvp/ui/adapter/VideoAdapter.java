@@ -93,7 +93,7 @@ public class VideoAdapter extends BaseAdapter<VideoBean> {
                 //获取剪贴板管理器：
                 ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                 // 创建普通字符型ClipData
-                ClipData mClipData = ClipData.newPlainText("Label", item.getVideourl());
+                ClipData mClipData = ClipData.newPlainText("Label", item.getTitle()+"\n"+item.getVideourl());
                 // 将ClipData内容放到系统剪贴板里。
                 cm.setPrimaryClip(mClipData);
                 return true;

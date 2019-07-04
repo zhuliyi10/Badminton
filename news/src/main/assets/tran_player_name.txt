@@ -68,7 +68,28 @@ Toby PENTY=潘迪
 Lakshya SEN=卡什亚普
 Pablo ABIAN=阿维安
 Yu IGARASHI=五十岗优
-
+HU Yun=胡贇
+Marc ZWIEBLER=兹维布勒
+QIAO Bin=乔斌
+Kenichi TAGO=田儿贤一
+WANG Zhengming=王睁茗
+Sho SASAKI=佐佐木翔
+Marc ZWIEBLER=兹维布勒
+WEI Nan=魏楠
+Taufik HIDAYAT=陶菲克
+Peter Hoeg GADE=彼得盖德
+CHEN Jin=陈金
+Simon SANTOSO=西蒙·桑托索
+Sony Dwi KUNCORO=索尼·昆科罗
+BAO Chunlai=鲍春来
+PARK Sung Hwan=朴成奂
+Tien Minh NGUYEN=阮天明
+Boonsak PONSANA=波萨那
+Choong Hann WONG=黄综翰
+CHAN Yan Kit=陈仁杰
+Chetan ANAND=切丹阿南
+DU Pengyu=杜鹏宇
+Takuma UEDA=上田拓马
 
 
 TAI Tzu Ying=戴资颖
@@ -268,8 +289,6 @@ Bjarne GEISS=比亚内
 Jan Colin VÖLKER=科林
 Supak JOMKOH=苏帕克
 Wachirawit SOTHON=所通
-
-
 
 Yuki FUKUSHIMA=福岛由纪
 Sayaka HIROTA=广田彩花

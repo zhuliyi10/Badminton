@@ -38,16 +38,16 @@ public class Ranking {
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("men.csv"), "UTF-8"));
             Date today = new Date();
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(today);
-
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            int dataNum=50;
+            Date setDate=df.parse("2016-09-01");
+            long betweenDay=(today.getTime()-setDate.getTime())/(1000*3600*24);
+            int dataNum= (int) (betweenDay/7)+1;
             calendar.add(Calendar.WEEK_OF_YEAR, -dataNum);
-            while (dataNum>=0) {
+            while (dataNum>0) {
                 calendar.add(Calendar.WEEK_OF_YEAR, 1);
                 System.out.print(dataNum);
                 System.out.print(" ");
-                System.out.print(calendar.get(Calendar.DAY_OF_YEAR));
+                System.out.print(df.format(calendar.getTime()));
                 System.out.print(" ");
                 System.out.println(calendar.get(Calendar.WEEK_OF_YEAR));
                 getHistoryData(calendar.get(Calendar.YEAR), calendar.get(Calendar.WEEK_OF_YEAR), df.format(calendar.getTime()));
