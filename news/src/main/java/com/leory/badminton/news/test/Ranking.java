@@ -31,19 +31,25 @@ public class Ranking {
     private static HashMap<String, String> countryMap;
     private static HashMap<String, String> playerNameMap;
     private static BufferedWriter out;
+    private static String type = "wd";
 
     public static void main(String[] args) {
-
         try {
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("men.csv"), "UTF-8"));
-            Date today = new Date();
-            Calendar calendar = Calendar.getInstance();
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(type + ".csv"), "UTF-8"));
+            out.write("name,type,value,date");
+            out.newLine();
+//            Date today = new Date();
+
+
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date setDate=df.parse("2016-09-01");
-            long betweenDay=(today.getTime()-setDate.getTime())/(1000*3600*24);
-            int dataNum= (int) (betweenDay/7)+1;
+            Date today = df.parse("2019-01-05");
+            Date setDate = df.parse("2017-01-05");
+            long betweenDay = (today.getTime() - setDate.getTime()) / (1000 * 3600 * 24);
+            int dataNum = (int) (betweenDay / 7) + 1;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(today);
             calendar.add(Calendar.WEEK_OF_YEAR, -dataNum);
-            while (dataNum>0) {
+            while (dataNum > 0) {
                 calendar.add(Calendar.WEEK_OF_YEAR, 1);
                 System.out.print(dataNum);
                 System.out.print(" ");
@@ -62,8 +68,20 @@ public class Ranking {
     }
 
     public static void getHistoryData(int year, int week, String date) throws IOException {
-        StringBuffer urlBuffer = new StringBuffer().append("https://bwfbadminton.cn/rankings/2/bwf-world-rankings/6/men-s-singles/")
-                .append(year).append("/").append(week).append("?rows=15&page_no=1");
+        String urlType = "null";
+        if (type.equals("ms")) {
+            urlType = "6/men-s-singles/";
+        } else if (type.equals("ws")) {
+            urlType = "7/women-s-singles/";
+        } else if (type.equals("md")) {
+            urlType = "8/men-s-doubles/";
+        } else if (type.equals("wd")) {
+            urlType = "9/women-s-doubles/";
+        } else if (type.equals("xd")) {
+            urlType = "10/mixed-doubles/";
+        }
+        StringBuffer urlBuffer = new StringBuffer().append("https://bwfbadminton.cn/rankings/2/bwf-world-rankings/")
+                .append(urlType).append(year).append("/").append(week).append("?rows=15&page_no=1");
         String result = sendGet(urlBuffer.toString());
         List<RankingBean> data = getRankingData(result);
         array2CSV(data, date);
@@ -203,11 +221,15 @@ public class Ranking {
 
     public static void array2CSV(List<RankingBean> data, String date) throws IOException {
         for (RankingBean bean : data) {
-            out.write(bean.getPlayerName());
+            if (bean.getPlayer2Name() != null) {
+                out.write(bean.getPlayerName() + "&" + bean.getPlayer2Name());
+            } else {
+                out.write(bean.getPlayerName());
+            }
             out.write(",");
             out.write(bean.getCountryName());
             out.write(",");
-            out.write(bean.getPoints().replace(",",""));
+            out.write(bean.getPoints().replace(",", ""));
             out.write(",");
             out.write(date);
             out.newLine();
