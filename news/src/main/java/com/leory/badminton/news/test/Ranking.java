@@ -42,8 +42,8 @@ public class Ranking {
 
 
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date today = df.parse("2019-01-05");
-            Date setDate = df.parse("2017-01-05");
+            Date today = df.parse("2019-07-05");
+            Date setDate = df.parse("2010-01-05");
             long betweenDay = (today.getTime() - setDate.getTime()) / (1000 * 3600 * 24);
             int dataNum = (int) (betweenDay / 7) + 1;
             Calendar calendar = Calendar.getInstance();
@@ -81,7 +81,7 @@ public class Ranking {
             urlType = "10/mixed-doubles/";
         }
         StringBuffer urlBuffer = new StringBuffer().append("https://bwfbadminton.cn/rankings/2/bwf-world-rankings/")
-                .append(urlType).append(year).append("/").append(week).append("?rows=15&page_no=1");
+                .append(urlType).append(year).append("/").append(week).append("?rows=10&page_no=1");
         String result = sendGet(urlBuffer.toString());
         List<RankingBean> data = getRankingData(result);
         array2CSV(data, date);

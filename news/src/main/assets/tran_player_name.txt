@@ -577,7 +577,10 @@ OU Dongni=区冬妮
 Naoko FUKUMAN=福万尚子
 Kurumi YONAO=与犹胡桃
 Rosyita Eka PUTRI SARI=罗西尔塔
-
+Nairoby Abigail JIMENEZ=内罗比
+Bermary Altagracia POLANCO MUNOZ=波兰科
+Emily KAN=艾米丽
+Vinson CHIU=邱文森
 
 
 ZHENG Si Wei=郑思维
@@ -688,3 +691,6 @@ CHANG Hsin Tien=张莘恬
 PO Li-Wei=柏礼维
 Callum HEMMING=卡勒姆
 Sattawat PONGNAIRAT=庞拉尔莱特
+Supissara PAEWSAMPRAN=素比莎拉·飘讪攀
+Cesar Adonis BRITO GONZALEZ=塞萨尔
+
