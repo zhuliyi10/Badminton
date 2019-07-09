@@ -90,6 +90,17 @@ CHAN Yan Kit=陈仁杰
 Chetan ANAND=切丹阿南
 DU Pengyu=杜鹏宇
 Takuma UEDA=上田拓马
+Brian Yang=布莱恩·杨
+Chia Hao LEE=李佳豪
+SUN Fei Xiang=孙飞翔
+LIN Chun-Yi=林俊易
+Lino MUNOZ=利诺·穆尼奥斯
+WENG Hong Yang=翁鸿阳
+LIU Hai Chao=刘海超
+Nicholas Robert Henson WALLER=尼古拉斯·罗伯特
+LI Shi Feng=李诗沣
+REN Peng Bo=任鹏嶓
+Emre LALE=埃姆雷•拉莱
 
 
 TAI Tzu Ying=戴资颖
@@ -192,7 +203,8 @@ HAN Li=韩利
 Lindaweni FANETRI=琳达韦尼
 Adrianti FIRDASARI=阿丽央蒂
 WANG Xin=汪鑫
-
+WANG Zhi Yi=王祉怡
+Alisa Juleisy ACOSTA=阿利萨
 
 Marcus Fernaldi GIDEON=费尔纳迪
 Kevin Sanjaya SUKAMULJO=苏卡穆约

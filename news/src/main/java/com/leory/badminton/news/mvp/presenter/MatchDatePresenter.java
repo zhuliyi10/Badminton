@@ -1,6 +1,7 @@
 package com.leory.badminton.news.mvp.presenter;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.MatchDetailContract;
@@ -98,7 +99,7 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d(TAG, "onError: ");
                     }
 
                     @Override
@@ -145,15 +146,23 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
                     }
                     //player2
                     Element player21 = li.select("div.player3-wrap").first();
+
                     if (player21 != null) {
-                        bean.setPlayer2(translatePlayerName(player21.select("div.player3").first().text()));
-                        bean.setFlag2(player21.select("div.flag img").attr("src"));
+                        Element player21Name = player21.select("div.player3").first();
+                        if (player21Name != null) {
+                            bean.setPlayer2(translatePlayerName(player21Name.text()));
+                            bean.setFlag2(player21.select("div.flag img").attr("src"));
+                        }
                     }
                     //player22
                     Element player22 = li.select("div.player4-wrap").first();
+
                     if (player22 != null) {
-                        bean.setPlayer22(translatePlayerName(player22.select("div.player4").first().text()));
-                        bean.setFlag22(player22.select("div.flag img").attr("src"));
+                        Element player22Name = player22.select("div.player4").first();
+                        if (player22Name != null) {
+                            bean.setPlayer22(translatePlayerName(player22Name.text()));
+                            bean.setFlag22(player22.select("div.flag img").attr("src"));
+                        }
                     }
 
 
