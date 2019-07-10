@@ -101,6 +101,8 @@ Nicholas Robert Henson WALLER=尼古拉斯·罗伯特
 LI Shi Feng=李诗沣
 REN Peng Bo=任鹏嶓
 Emre LALE=埃姆雷•拉莱
+Karan Rajan RAJARAJAN=卡兰·拉詹·拉贾拉詹
+Brian YANG=布莱恩·杨
 
 
 TAI Tzu Ying=戴资颖
@@ -593,7 +595,12 @@ Nairoby Abigail JIMENEZ=内罗比
 Bermary Altagracia POLANCO MUNOZ=波兰科
 Emily KAN=艾米丽
 Vinson CHIU=邱文森
-
+PENG Qin=彭沁
+DONG Wei Jie=龚伟杰
+GUO Xin Wa=郭新娃
+CHEN Long Zhu=陈龙珠
+HE Xin Ying=何欣颖
+KANG Yue=康月
 
 ZHENG Si Wei=郑思维
 HUANG Ya Qiong=黄雅琼
@@ -705,4 +712,11 @@ Callum HEMMING=卡勒姆
 Sattawat PONGNAIRAT=庞拉尔莱特
 Supissara PAEWSAMPRAN=素比莎拉·飘讪攀
 Cesar Adonis BRITO GONZALEZ=塞萨尔
-
+EOM Hye Won=严惠媛
+Howard SHU=舒之显
+Mathias CHRISTIANSEN=马蒂亚斯·克里斯蒂安森
+Phillip CHEW=菲利浦
+Ronan LABAR=罗南·拉巴尔
+Ben LANE=本·莱恩
+Jessica PUGH=杰西卡·皮尤
+Nelson JAVIER=纳尔逊·哈维尔
