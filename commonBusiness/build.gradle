@@ -2,6 +2,6 @@ apply plugin: 'com.android.library'
 apply from: "../common_build.gradle"
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':commonlib')
 }

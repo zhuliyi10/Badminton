@@ -1,5 +1,7 @@
 package com.leory.commonlib.http;
 
+import com.leory.commonlib.utils.ToastUtils;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -22,7 +24,8 @@ public abstract class RxHandlerSubscriber<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        errorListener.onError(e);
+        String errorMsg=errorListener.onError(e);
+        ToastUtils.showLong(errorMsg);
     }
 
     @Override

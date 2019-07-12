@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation project(':commonlib')
+    implementation project(':commonBusiness')
     if (!isBuildModule.toBoolean()) {
         implementation project(':video')
         implementation project(':news')

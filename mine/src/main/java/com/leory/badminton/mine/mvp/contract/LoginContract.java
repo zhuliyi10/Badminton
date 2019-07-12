@@ -1,6 +1,7 @@
 package com.leory.badminton.mine.mvp.contract;
 
 import com.leory.badminton.mine.mvp.model.bean.UserInfoBean;
+import com.leory.commonBusiness.http.BaseBusinessBean;
 import com.leory.commonlib.mvp.IModel;
 import com.leory.commonlib.mvp.IView;
 
@@ -16,6 +17,6 @@ public interface LoginContract {
         void loginSuccess(UserInfoBean bean);
     }
     interface  Model extends IModel{
-        Observable<String> login(String phone,String pwd);
+        Observable<BaseBusinessBean<UserInfoBean>> login(String phone, String pwd);
     }
 }

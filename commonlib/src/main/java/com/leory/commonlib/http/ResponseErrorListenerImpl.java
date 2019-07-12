@@ -20,7 +20,7 @@ import retrofit2.HttpException;
  */
 public class ResponseErrorListenerImpl implements ResponseErrorListener{
     @Override
-    public void onError(Throwable t) {
+    public String onError(Throwable t) {
         //这里不光只能打印错误, 还可以根据不同的错误做出不同的逻辑处理
         //这里只是对几个常用错误进行简单的处理, 展示这个类的用法, 在实际开发中请您自行对更多错误进行更严谨的处理
         String msg = "未知错误";
@@ -34,7 +34,7 @@ public class ResponseErrorListenerImpl implements ResponseErrorListener{
         } else if (t instanceof JsonParseException || t instanceof ParseException || t instanceof JSONException || t instanceof JsonIOException) {
             msg = "数据解析错误";
         }
-        ToastUtils.showLong(msg);
+        return msg;
     }
     private String convertStatusCode(HttpException httpException) {
         String msg;

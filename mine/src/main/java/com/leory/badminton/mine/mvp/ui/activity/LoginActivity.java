@@ -161,16 +161,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
     public void showMessage(@NonNull String message) {
         ToastUtils.showShort(message);
     }

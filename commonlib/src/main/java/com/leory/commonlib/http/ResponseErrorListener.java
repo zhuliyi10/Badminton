@@ -6,5 +6,5 @@ package com.leory.commonlib.http;
  * Date : 2019-05-14
  */
 public interface ResponseErrorListener {
-    void onError(Throwable t);
+    String onError(Throwable t);
 }

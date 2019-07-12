@@ -16,6 +16,7 @@
 package com.leory.commonlib.base;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -53,6 +54,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Inject
     @Nullable
     protected P presenter;
+    private ProgressDialog progressDialog;
 
     @NonNull
     @Override
@@ -61,6 +63,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     }
 
     private IComponent activityComponent;
+
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
@@ -70,7 +73,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtils.setDarkStatusBar(this, false, 0);
-        activityComponent=setupActivityComponent(AppUtils.obtainAppComponent());
+        activityComponent = setupActivityComponent(AppUtils.obtainAppComponent());
         try {
             int layoutResID = initView(savedInstanceState);
             //如果 initView 返回 0, 框架则不会调用 setContentView(), 当然也不会 Bind ButterKnife
@@ -129,7 +132,34 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         return component;
     }
 
-    public IComponent getActivityComponent(){
+    public IComponent getActivityComponent() {
         return activityComponent;
+    }
+
+
+    /**
+     * 显示loading
+     * @param text
+     */
+    public void showLoading(String text) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+        }
+        progressDialog.setTitle(text);
+        progressDialog.show();
+    }
+
+    /**
+     * 隐藏loading
+     */
+    public void showLoading() {
+        showLoading("加载中...");
+    }
+
+    public void hideLoading() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 }
