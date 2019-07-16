@@ -54,29 +54,47 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
     String country;
 
     private HashMap<String, String> timeDifferMap;
+    private List<MatchDateBean> currentData;
 
     @Inject
     public MatchDatePresenter(MatchDetailModel model, MatchDetailContract.MatchDateView rootView) {
         super(model, rootView);
     }
 
-    public void requestPosition(int pos) {
-        if (dateBeans != null && dateBeans.size() > pos) {
-            model.getMatchDate(dateBeans.get(pos).getLink())
-                    .subscribeOn(Schedulers.io())
-                    .doOnSubscribe(disposable -> rootView.showLoading()).subscribeOn(AndroidSchedulers.mainThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doFinally(() -> rootView.hideLoading())
-                    .compose(RxLifecycleUtils.bindToLifecycle(rootView))
-                    .subscribe(new RxHandlerSubscriber<String>() {
-
-                        @Override
-                        public void onNext(String o) {
-                            parseHtmlResult(o);
-                        }
-
-                    });
+    public void filter(String tag) {
+        if (currentData != null) {
+            if (tag.equals("国羽")) {
+                List<MatchDateBean> data = new ArrayList<>();
+                for (MatchDateBean bean : currentData) {
+                    if ((bean.getFlag1() != null && bean.getFlag1().contains("china"))
+                            || (bean.getFlag2() != null && bean.getFlag2().contains("china"))
+                            || (bean.getFlag12() != null && bean.getFlag12().contains("china"))
+                            || (bean.getFlag22() != null && bean.getFlag22().contains("china"))) {
+                        data.add(bean);
+                    }
+                }
+                rootView.showDateData(data);
+            } else {
+                rootView.showDateData(currentData);
+            }
         }
+    }
+
+    public void requestPosition(int pos) {
+        model.getMatchDate(dateBeans.get(pos).getLink())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> rootView.showLoading()).subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> rootView.hideLoading())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .subscribe(new RxHandlerSubscriber<String>() {
+
+                    @Override
+                    public void onNext(String o) {
+                        parseHtmlResult(o);
+                    }
+
+                });
     }
 
     private void parseHtmlResult(String html) {
@@ -94,6 +112,7 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
 
                     @Override
                     public void onNext(List<MatchDateBean> data) {
+                        currentData = data;
                         rootView.showDateData(data);
                     }
 
@@ -167,7 +186,7 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
 
 
                     bean.setVs(li.select("div.vs").first().text());
-                    bean.setScore(li.select("div.score").first().text());
+                    bean.setScore(li.select("div.score").first().text().replace("Retired", "退赛"));
                     Element durationElement = li.select("div.timer1 span").first();
                     if (durationElement != null) {
                         if ("0:00".equals(durationElement.text())) {

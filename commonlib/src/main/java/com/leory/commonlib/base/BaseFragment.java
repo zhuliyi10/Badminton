@@ -61,7 +61,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getActivity() instanceof BaseActivity) {
+        if (getActivity() instanceof BaseActivity && ((BaseActivity) getActivity()).getActivityComponent() != null) {
             setupActivityComponent(((BaseActivity) getActivity()).getActivityComponent());
         } else {
             setupActivityComponent(AppUtils.obtainAppComponent());

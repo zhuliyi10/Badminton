@@ -287,7 +287,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                         if (i % 128 == 66) {
                             Element element = trs.get(i).select("td div.draw-score").first();
                             if (element != null) {
-                                data.get(6).get(data.get(6).size() - 1).setScore(element.text());
+                                data.get(6).get(data.get(6).size() - 1).setScore(element.text().replace("Retired","退赛"));
                             }
                         }
                     }

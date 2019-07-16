@@ -40,7 +40,7 @@ import butterknife.BindView;
  */
 public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> implements MatchDetailContract.MatchDateView {
     private static final String KEY_TAB_DATE = "key_tab_date";
-    private static final String KEY_COUNTRY="key_country";
+    private static final String KEY_COUNTRY = "key_country";
     @Inject
     List<MatchTabDateBean> dateBeans;
 
@@ -51,10 +51,10 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
     MatchTabView tabDate;
     private MatchDateAdapter dateAdapter;
 
-    public static MatchDateFragment newInstance(List<MatchTabDateBean> dateBeans,String country) {
+    public static MatchDateFragment newInstance(List<MatchTabDateBean> dateBeans, String country) {
         MatchDateFragment fragment = new MatchDateFragment();
         Bundle args = new Bundle();
-        args.putString(KEY_COUNTRY,country);
+        args.putString(KEY_COUNTRY, country);
         args.putSerializable(KEY_TAB_DATE, (Serializable) dateBeans);
         fragment.setArguments(args);
         return fragment;
@@ -104,6 +104,18 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
         rcv.addItemDecoration(new MatchDateItemDecoration(getContext()));
         rcv.setAdapter(dateAdapter = new MatchDateAdapter(new ArrayList<>()));
         ConstraintLayout head = (ConstraintLayout) LayoutInflater.from(getContext()).inflate(R.layout.head_match_date, null);
+        TextView txtFilter = head.findViewById(R.id.txt_filter);
+        txtFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (txtFilter.getText().toString().equals("国羽")) {
+                    txtFilter.setText("全部");
+                } else {
+                    txtFilter.setText("国羽");
+                }
+                presenter.filter(txtFilter.getText().toString());
+            }
+        });
         tabDate = head.findViewById(R.id.tab_date);
         dateAdapter.addHeaderView(head);
     }
