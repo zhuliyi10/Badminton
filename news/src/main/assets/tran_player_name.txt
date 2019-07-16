@@ -103,6 +103,7 @@ REN Peng Bo=任鹏嶓
 Emre LALE=埃姆雷•拉莱
 Karan Rajan RAJARAJAN=卡兰·拉詹·拉贾拉詹
 Brian YANG=布莱恩·杨
+Yehezkiel Fritz MAINAKY=叶赫泽尔
 
 
 TAI Tzu Ying=戴资颖
@@ -601,6 +602,9 @@ GUO Xin Wa=郭新娃
 CHEN Long Zhu=陈龙珠
 HE Xin Ying=何欣颖
 KANG Yue=康月
+Vania Arianti SUKOCO=瓦尼亚
+Metya Inayah CINDIANI=玛蒂亚
+
 
 ZHENG Si Wei=郑思维
 HUANG Ya Qiong=黄雅琼

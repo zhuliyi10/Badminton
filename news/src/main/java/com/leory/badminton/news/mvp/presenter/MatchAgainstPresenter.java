@@ -331,7 +331,9 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                 element = td.select("div.draw-player1-wrap div.draw-name").first();
             }
             if (element != null) {
-                bean.setName1(translatePlayerName(element.text()));
+                if(!element.text().contains("Match Time")) {
+                    bean.setName1(translatePlayerName(element.text()));
+                }
             }
         }
     }
