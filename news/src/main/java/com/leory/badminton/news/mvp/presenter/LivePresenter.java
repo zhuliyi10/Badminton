@@ -1,6 +1,7 @@
 package com.leory.badminton.news.mvp.presenter;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.LiveContract;
@@ -9,6 +10,7 @@ import com.leory.badminton.news.mvp.model.bean.LiveDetailBean;
 import com.leory.commonlib.di.scope.FragmentScope;
 import com.leory.commonlib.http.RxHandlerSubscriber;
 import com.leory.commonlib.mvp.BasePresenter;
+import com.leory.commonlib.mvp.IView;
 import com.leory.commonlib.utils.LogUtils;
 import com.leory.commonlib.utils.RxLifecycleUtils;
 
@@ -50,6 +52,23 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
     }
 
     public void requestData() {
+        Observable.interval(0, 5, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Function<Long, ObservableSource<String>>() {
+                    @Override
+                    public ObservableSource<String> apply(Long aLong) throws Exception {
+                        return Observable.just("第"+String.valueOf(aLong)+"次发射");
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .subscribe(new RxHandlerSubscriber<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        Log.d(TAG, "onNext: "+s);
+                    }
+                });
         model.getLiveMatch()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> rootView.showLoading()).subscribeOn(AndroidSchedulers.mainThread())
@@ -167,7 +186,6 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
      * @param liveUrl
      */
     private void requestLive(String liveUrl) {
-
         Observable.interval(0, 5, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .flatMap(new Function<Long, ObservableSource<String>>() {

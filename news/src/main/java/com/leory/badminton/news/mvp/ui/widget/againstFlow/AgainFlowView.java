@@ -30,11 +30,15 @@ public class AgainFlowView extends View {
 
     private Paint linePaint;
     private Paint textPaint;
+    private Paint dividerPaint;
     private int lineColor;//线的颜色
     private int textColor;//文本的颜色
+    private int dividerTextColor;//分隔文字颜色
     private int textSize;//文字大小
+    private int dividerTextSize;//分隔文字大小
     private int lineWidth;//线宽
     private int itemHeight;//一项高度
+    private int dividerHeight;//分割线高度
     private int itemWidth;//一项宽度
     private int imgWidth;//图片的宽度
     private int imgHeight;//图片的高度
@@ -64,7 +68,7 @@ public class AgainFlowView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         int measureWidth = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
-        int measureHeight = itemHeight * itemCount * 2;
+        int measureHeight = itemHeight * itemCount * 2 + dividerHeight * 2;
         setMeasuredDimension(measureWidth, measureHeight);
 
 
@@ -78,26 +82,35 @@ public class AgainFlowView extends View {
 //        drawCol3(canvas);
         drawColLines(canvas);//画线
         drawText(canvas);//画文字
+        drawDivider(canvas);//画分隔线
 
     }
 
     private void init() {
         lineColor = getResources().getColor(R.color.deep_gray);
         textColor = getResources().getColor(R.color.txt_gray);
+        dividerTextColor = getResources().getColor(R.color.black);
         textSize = ScreenUtils.dp2px(getContext(), 11);
+        dividerTextSize = ScreenUtils.dp2px(getContext(), 14);
         imgWidth = ScreenUtils.dp2px(getContext(), 16);
         imgHeight = ScreenUtils.dp2px(getContext(), 8);
         lineWidth = ScreenUtils.dp2px(getContext(), 2);
         textPadding = ScreenUtils.dp2px(getContext(), 4);
         itemHeight = ScreenUtils.dp2px(getContext(), 28);
+        dividerHeight = ScreenUtils.dp2px(getContext(), 32);
 
         itemWidth = ScreenUtils.getScreenWidth(getContext()) / (colCount - 1) - ScreenUtils.dp2px(getContext(), 30);
         linePaint = new Paint();
         linePaint.setColor(lineColor);
         linePaint.setStrokeWidth(lineWidth);
         textPaint = new Paint();
+        textPaint.setAntiAlias(true);
         textPaint.setColor(textColor);
         textPaint.setTextSize(textSize);
+        dividerPaint = new Paint();
+        dividerPaint.setAntiAlias(true);
+        dividerPaint.setColor(dividerTextColor);
+        dividerPaint.setTextSize(dividerTextSize);
 
         mainHandler = new Handler(getContext().getMainLooper());
     }
@@ -214,6 +227,25 @@ public class AgainFlowView extends View {
     }
 
     /**
+     * 画分隔线
+     *
+     * @param canvas
+     */
+    private void drawDivider(Canvas canvas) {
+        if (itemCount > 4) {
+            int textWidth = getTextWidth(dividerPaint, "上半区");
+            canvas.drawText("上半区", (ScreenUtils.getScreenWidth(getContext()) - textWidth) / 2, dividerHeight / 2 + dividerTextSize, dividerPaint);
+            canvas.drawText("下半区", (ScreenUtils.getScreenWidth(getContext()) - textWidth) / 2, getMeasuredHeight() / 2 + dividerTextSize, dividerPaint);
+        }else if(itemCount==4){
+            int textWidth = getTextWidth(dividerPaint, "半决赛");
+            canvas.drawText("半决赛", (ScreenUtils.getScreenWidth(getContext()) - textWidth) / 2, dividerHeight / 2 + dividerTextSize, dividerPaint);
+        }else if(itemCount==2){
+            int textWidth = getTextWidth(dividerPaint, "决赛");
+            canvas.drawText("决赛", (ScreenUtils.getScreenWidth(getContext()) - textWidth) / 2, dividerHeight / 2 + dividerTextSize, dividerPaint);
+        }
+    }
+
+    /**
      * 画文字
      *
      * @param canvas
@@ -223,43 +255,84 @@ public class AgainFlowView extends View {
             for (int col = 0; col < colCount; col++) {
                 if (col < againstData.size()) {
                     List<AgainstFlowBean> rowData = againstData.get(col);
-                    for (int i = 0; i < itemCount / (int) (Math.pow(2, col)); i++) {
+                    int currentColNum = itemCount / (int) (Math.pow(2, col));
+                    for (int i = 0; i < currentColNum; i++) {
                         if (rowData.size() > i) {
                             AgainstFlowBean bean = rowData.get(i);
                             if (!bean.isDouble()) {
                                 if (bean.getName1() != null) {
-
-                                    canvas.drawText(bean.getName1(), itemWidth * col + textPadding + imgWidth, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
+                                    float x = itemWidth * col + textPadding + imgWidth;
+                                    float y = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding;
+                                    if (i >= currentColNum / 2 && itemCount > 4) {
+                                        y += dividerHeight * 2;
+                                    } else {
+                                        y += dividerHeight;
+                                    }
+                                    canvas.drawText(bean.getName1(), x, y, textPaint);
 
                                     if (bean.getBitmap1() != null) {
                                         float left = itemWidth * col + textPadding;
                                         float right = left + imgWidth;
                                         float top = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - imgHeight;
                                         float bottom = top + imgHeight;
+                                        if (i >= currentColNum / 2 && itemCount > 4) {
+                                            top += dividerHeight * 2;
+                                            bottom += dividerHeight * 2;
+                                        } else {
+                                            top += dividerHeight;
+                                            bottom += dividerHeight;
+                                        }
                                         RectF dst = new RectF(left, top, right, bottom);
                                         canvas.drawBitmap(bean.getBitmap1(), null, dst, textPaint);
                                     }
                                 }
                             } else {
                                 if (bean.getName1() != null) {
-
-                                    canvas.drawText(bean.getName1(), itemWidth * col + textPadding + imgWidth, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - textSize, textPaint);
+                                    float x = itemWidth * col + textPadding + imgWidth;
+                                    float y = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - textSize;
+                                    if (i >= currentColNum / 2 && itemCount > 4) {
+                                        y += dividerHeight * 2;
+                                    } else {
+                                        y += dividerHeight;
+                                    }
+                                    canvas.drawText(bean.getName1(), x, y, textPaint);
                                     if (bean.getBitmap1() != null) {
                                         float left = itemWidth * col + textPadding;
                                         float right = left + imgWidth;
                                         float top = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - textSize - imgHeight;
                                         float bottom = top + imgHeight;
+                                        if (i >= currentColNum / 2 && itemCount > 4) {
+                                            top += dividerHeight * 2;
+                                            bottom += dividerHeight * 2;
+                                        } else {
+                                            top += dividerHeight;
+                                            bottom += dividerHeight;
+                                        }
                                         RectF dst = new RectF(left, top, right, bottom);
                                         canvas.drawBitmap(bean.getBitmap1(), null, dst, textPaint);
                                     }
                                 }
                                 if (bean.getName2() != null) {
-                                    canvas.drawText(bean.getName2(), itemWidth * col + textPadding + imgWidth, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding, textPaint);
+                                    float x = itemWidth * col + textPadding + imgWidth;
+                                    float y = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding;
+                                    if (i >= currentColNum / 2 && itemCount > 4) {
+                                        y += dividerHeight * 2;
+                                    } else {
+                                        y += dividerHeight;
+                                    }
+                                    canvas.drawText(bean.getName2(), x, y, textPaint);
                                     if (bean.getBitmap2() != null) {
                                         float left = itemWidth * col + textPadding;
                                         float right = left + imgWidth;
                                         float top = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) - textPadding - imgHeight;
                                         float bottom = top + imgHeight;
+                                        if (i >= currentColNum / 2 && itemCount > 4) {
+                                            top += dividerHeight * 2;
+                                            bottom += dividerHeight * 2;
+                                        } else {
+                                            top += dividerHeight;
+                                            bottom += dividerHeight;
+                                        }
                                         RectF dst = new RectF(left, top, right, bottom);
                                         canvas.drawBitmap(bean.getBitmap2(), null, dst, textPaint);
                                     }
@@ -267,7 +340,15 @@ public class AgainFlowView extends View {
                             }
                             if (col != 0 && !TextUtils.isEmpty(bean.getScore())) {
                                 if (bean.getScore() != null) {
-                                    canvas.drawText(bean.getScore(), itemWidth * col + textPadding, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) + textPadding + textSize, textPaint);
+                                    float x = itemWidth * col + textPadding;
+                                    float y = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1) + textPadding + textSize;
+                                    if (i >= currentColNum / 2 && itemCount > 4) {
+                                        y += dividerHeight * 2;
+                                    } else {
+                                        y += dividerHeight;
+                                    }
+                                    canvas.drawText(bean.getScore(), x, y, textPaint);
+
                                 }
                             }
                         }
@@ -285,13 +366,37 @@ public class AgainFlowView extends View {
      */
     private void drawColLines(Canvas canvas) {
         for (int col = 0; col < colCount; col++) {//画列数
-
-            for (int i = 0; i < itemCount / (int) (Math.pow(2, col)); i++) {
+            int currentColNum = itemCount / (int) (Math.pow(2, col));
+            for (int i = 0; i < currentColNum; i++) {
                 if (col != 0) {//画竖线
-                    canvas.drawLine(itemWidth * col, itemHeight * (int) Math.pow(2, col - 1) + itemHeight * i * (int) Math.pow(2, col + 1), itemWidth * col, itemHeight * (int) Math.pow(2, col - 1) + itemHeight * i * (int) Math.pow(2, col + 1) + itemHeight * (int) Math.pow(2, col), linePaint);
+                    float startX = itemWidth * col;
+                    float stopX = startX;
+                    float startY = itemHeight * (int) Math.pow(2, col - 1) + itemHeight * i * (int) Math.pow(2, col + 1);
+                    float stopY = itemHeight * (int) Math.pow(2, col - 1) + itemHeight * i * (int) Math.pow(2, col + 1) + itemHeight * (int) Math.pow(2, col);
+
+                    if (i >= currentColNum / 2 && itemCount > 4) {
+                        startY += dividerHeight * 2;
+                        stopY += dividerHeight * 2;
+                    } else {
+                        startY += dividerHeight;
+                        stopY += dividerHeight;
+                    }
+                    canvas.drawLine(startX, startY, stopX, stopY, linePaint);
+
                 }
                 //画横线
-                canvas.drawLine(itemWidth * col, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1), itemWidth * col + itemWidth, itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1), linePaint);
+                float startX = itemWidth * col;
+                float stopX = itemWidth * col + itemWidth;
+                float startY = itemHeight * (int) Math.pow(2, col) + itemHeight * i * (int) Math.pow(2, col + 1);
+                float stopY = startY;
+                if (i >= currentColNum / 2 && itemCount > 4) {
+                    startY += dividerHeight * 2;
+                    stopY += dividerHeight * 2;
+                } else {
+                    startY += dividerHeight;
+                    stopY += dividerHeight;
+                }
+                canvas.drawLine(startX, startY, stopX, stopY, linePaint);
             }
         }
     }
@@ -316,4 +421,17 @@ public class AgainFlowView extends View {
         }
     }
 
+    //3. 精确计算文字宽度
+    private int getTextWidth(Paint paint, String str) {
+        int iRet = 0;
+        if (str != null && str.length() > 0) {
+            int len = str.length();
+            float[] widths = new float[len];
+            paint.getTextWidths(str, widths);
+            for (int j = 0; j < len; j++) {
+                iRet += (int) Math.ceil(widths[j]);
+            }
+        }
+        return iRet;
+    }
 }

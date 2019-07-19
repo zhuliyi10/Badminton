@@ -25,6 +25,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -232,8 +234,12 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
     }
 
     private String translateTime(String time) {
-        String temp = time.replace("Starting at", "开始于");
-        return temp.replace("Followed by", "紧跟着");
+        String temp = time.replace("AM","").replace("PM","");
+        if(temp.contains("Starting at")) {
+            temp=temp.replace("Starting at", "").trim();
+            temp+=" 开始";
+        }
+        return temp.replace("Followed by", "接着").trim();
     }
 
     private int getTimeDiffer() {
@@ -249,16 +255,22 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
 
     private String getChineseTime(String time) {
         if (time == null) return time;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        try {
-            Date date = sdf.parse(time);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            calendar.add(Calendar.HOUR_OF_DAY, -getTimeDiffer());
-            return sdf.format(calendar.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Matcher m=Pattern.compile("\\d+:\\d+").matcher(time);
+        if(m.find()){
+            String hs = m.group();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            try {
+                Date date = sdf.parse(hs);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.add(Calendar.HOUR_OF_DAY, -getTimeDiffer());
+                String newHs= sdf.format(calendar.getTime());
+                return time.replace(hs,newHs);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+
         return time;
     }
 }

@@ -62,7 +62,7 @@ public class NewMainFragment extends BaseFragment {
         fragmentList.add(new LiveFragment());
         fragmentList.add(new MatchFragment());
         fragmentList.add(new RankingFragment());
-        fragmentList.add(new LiveFragment());
+        fragmentList.add(new RankingFragment());
         indicatorPagerAdapter = new IndicatorPagerAdapter(getChildFragmentManager(), fragmentList);
         viewPager.setAdapter(indicatorPagerAdapter);
         viewPager.setOffscreenPageLimit(4);
