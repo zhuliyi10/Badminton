@@ -234,7 +234,7 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
     }
 
     private String translateTime(String time) {
-        String temp = time.replace("AM","").replace("PM","");
+        String temp = time;
         if(temp.contains("Starting at")) {
             temp=temp.replace("Starting at", "").trim();
             temp+=" 开始";
@@ -254,7 +254,9 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
     }
 
     private String getChineseTime(String time) {
+
         if (time == null) return time;
+        time=time.replace("AM","");
         Matcher m=Pattern.compile("\\d+:\\d+").matcher(time);
         if(m.find()){
             String hs = m.group();
@@ -263,6 +265,13 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
                 Date date = sdf.parse(hs);
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
+                if(time.contains("PM")){
+                    time=time.replace("PM","");
+
+                    if(calendar.get(Calendar.HOUR_OF_DAY)<12) {
+                        calendar.add(Calendar.HOUR_OF_DAY, 12);
+                    }
+                }
                 calendar.add(Calendar.HOUR_OF_DAY, -getTimeDiffer());
                 String newHs= sdf.format(calendar.getTime());
                 return time.replace(hs,newHs);
