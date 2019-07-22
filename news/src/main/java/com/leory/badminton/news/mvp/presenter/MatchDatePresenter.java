@@ -239,7 +239,7 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
             temp=temp.replace("Starting at", "").trim();
             temp+=" 开始";
         }
-        return temp.replace("Followed by", "接着").trim();
+        return temp.replace("Followed by", "").replace("Not before","").trim();
     }
 
     private int getTimeDiffer() {
