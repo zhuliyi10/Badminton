@@ -15,5 +15,6 @@
         </activity>
         <activity android:name=".mvp.ui.activity.MatchDetailActivity"/>
         <activity android:name=".mvp.ui.activity.PlayerDetailActivity"/>
+        <activity android:name=".mvp.ui.activity.HandOffRecordActivity"/>
     </application>
 </manifest>

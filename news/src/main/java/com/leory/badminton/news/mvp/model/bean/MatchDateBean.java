@@ -6,21 +6,34 @@ package com.leory.badminton.news.mvp.model.bean;
  * Date : 2019-06-06
  */
 public class MatchDateBean {
+    private String matchId;
     private String type;//类型
     private String time;//时间
 
     private String field;//场地
     private String player1;
+    private String player1Url;
     private String player12;
+    private String player12Url;
     private String flag1;
     private String flag12;
     private String player2;
+    private String player2Url;
     private String player22;
+    private String player22Url;
     private String flag2;
     private String flag22;
     private String vs;//"-"
     private String duration;//时长
     private String score;//比分
+
+    public String getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(String matchId) {
+        this.matchId = matchId;
+    }
 
     public String getType() {
         return type;
@@ -132,5 +145,37 @@ public class MatchDateBean {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public String getPlayer1Url() {
+        return player1Url;
+    }
+
+    public void setPlayer1Url(String player1Url) {
+        this.player1Url = player1Url;
+    }
+
+    public String getPlayer12Url() {
+        return player12Url;
+    }
+
+    public void setPlayer12Url(String player12Url) {
+        this.player12Url = player12Url;
+    }
+
+    public String getPlayer2Url() {
+        return player2Url;
+    }
+
+    public void setPlayer2Url(String player2Url) {
+        this.player2Url = player2Url;
+    }
+
+    public String getPlayer22Url() {
+        return player22Url;
+    }
+
+    public void setPlayer22Url(String player22Url) {
+        this.player22Url = player22Url;
     }
 }

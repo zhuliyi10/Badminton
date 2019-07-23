@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.leory.commonlib.widget.XSDToolbar
+        android:id="@+id/toolbar"
+        app:title_text="交手记录"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <android.support.v7.widget.RecyclerView
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:id="@+id/rcv"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</android.support.constraint.ConstraintLayout>

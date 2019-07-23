@@ -26,5 +26,7 @@ public interface MatchApi {
     @GET
     Observable<String>getMatchDate(@Url String url,@Query("ajaxTmt")String ajaxTmt);//获取比赛赛程
     @GET
+    Observable<String>getMatchDate(@Url String url,@Query("match")String match,@Query("ajax")String ajax,@Query("stab")String stab);//获取比赛赛程
+    @GET
     Observable<String>getMatchPlayers(@Url String url,@Query("tab")String tab);//获取参赛运动员
 }

@@ -52,23 +52,6 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
     }
 
     public void requestData() {
-        Observable.interval(0, 5, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .flatMap(new Function<Long, ObservableSource<String>>() {
-                    @Override
-                    public ObservableSource<String> apply(Long aLong) throws Exception {
-                        return Observable.just("第"+String.valueOf(aLong)+"次发射");
-                    }
-                })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
-                .subscribe(new RxHandlerSubscriber<String>() {
-                    @Override
-                    public void onNext(String s) {
-                        Log.d(TAG, "onNext: "+s);
-                    }
-                });
         model.getLiveMatch()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> rootView.showLoading()).subscribeOn(AndroidSchedulers.mainThread())
@@ -196,8 +179,8 @@ public class LivePresenter extends BasePresenter<LiveContract.Model, LiveContrac
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
-                .subscribe(new RxHandlerSubscriber<String>() {
+//                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .subscribe(new RxHandlerSubscriber<String>(compositeDisposable) {
                     @Override
                     public void onNext(String s) {
                         parseLiveDetail(s);

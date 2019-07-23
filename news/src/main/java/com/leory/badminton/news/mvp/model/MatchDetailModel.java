@@ -20,6 +20,8 @@ public class MatchDetailModel extends BaseModel implements MatchDetailContract.M
 
     private String ajaxTmt = "bwfdraw";
     private String bwfdate = "bwfdate";
+    private String ajax="bwfstats";
+    private String stab="result";
 
     @Inject
     public MatchDetailModel(IRepositoryManager repositoryManager) {
@@ -39,6 +41,11 @@ public class MatchDetailModel extends BaseModel implements MatchDetailContract.M
     @Override
     public Observable<String> getMatchDate(String url) {
         return repositoryManager.obtainRetrofitService(MatchApi.class).getMatchDate(url, bwfdate);
+    }
+
+    @Override
+    public Observable<String> getMatchDate(String url, String match) {
+        return repositoryManager.obtainRetrofitService(MatchApi.class).getMatchDate(url, match,ajax,stab);
     }
 
     @Override

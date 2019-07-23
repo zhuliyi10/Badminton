@@ -16,4 +16,7 @@ public interface PlayerApi {
 
     @GET
     Observable<String> getPlayerMatch(@Url String url, @Query("year") String year);//获取运动员赛果
+
+    @GET
+    Observable<String> getHandOffRecords(@Url String url);//获取运动员交手记录
 }

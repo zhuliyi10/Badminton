@@ -79,6 +79,14 @@ public class MatchTabView extends LinearLayout {
             tv.setSelected(i == pos);
         }
     }
+    public int getSelectPos() {
+        for (int i = 0; i < getChildCount(); i++) {
+            TextView tv = (TextView) getChildAt(i);
+            tv.isSelected();
+            return i;
+        }
+        return 0;
+    }
 
     public View getSelectView() {
         for (int i = 0; i < getChildCount(); i++) {

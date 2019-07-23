@@ -32,6 +32,7 @@ public interface MatchDetailContract {
 
     interface MatchDateView extends IView {
         void showDateData(List<MatchDateBean> data);//显示日期赛事
+        void toHistoryDetail(String handOffUrl);//跳到交手战绩
     }
 
     interface MatchHistory extends IView {
@@ -48,6 +49,7 @@ public interface MatchDetailContract {
         Observable<String> getMatchDetail(String url);
 
         Observable<String> getMatchDate(String url);
+        Observable<String> getMatchDate(String url,String match);
 
         Observable<String> getMatchHistory(String url);
 
