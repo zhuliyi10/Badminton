@@ -19,7 +19,7 @@ public class RankingBean {
     private String points;//积分
     private String bonus;//奖金
     private String winAndLoss;//胜负
-    private String riseOrDrop;//升降
+    private int riseOrDrop;//升降
 
     public String getPlayerId() {
         return playerId;
@@ -93,11 +93,11 @@ public class RankingBean {
         this.winAndLoss = winAndLoss;
     }
 
-    public String getRiseOrDrop() {
+    public int getRiseOrDrop() {
         return riseOrDrop;
     }
 
-    public void setRiseOrDrop(String riseOrDrop) {
+    public void setRiseOrDrop(int riseOrDrop) {
         this.riseOrDrop = riseOrDrop;
     }
 

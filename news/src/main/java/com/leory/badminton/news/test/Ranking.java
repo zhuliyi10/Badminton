@@ -161,7 +161,13 @@ public class Ranking {
                         bean.setPlayer2Name(translatePlayerName(players.get(1).select("a").first().text()));
                         bean.setPlayer2Url(players.get(1).select("a").first().attr("href"));
                     }
-                    bean.setRiseOrDrop(tdList.get(3).select("span").first().text());
+                    bean.setRiseOrDrop(Integer.parseInt(tdList.get(3).select("span").first().text()));
+                    Element arrowElement=tdList.get(3).select("img").first();
+                    if(arrowElement!=null){
+                        if(arrowElement.attr("href").contains("arrow-down")){//为负
+                            bean.setRiseOrDrop(0-bean.getRiseOrDrop());
+                        }
+                    }
                     bean.setWinAndLoss(tdList.get(4).text());
                     bean.setBonus(tdList.get(5).text());
                     String point = tdList.get(6).select("strong").first().text();

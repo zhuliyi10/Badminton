@@ -1,6 +1,8 @@
 package com.leory.badminton.news.mvp.ui.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -32,6 +34,16 @@ public class RankingAdapter extends BaseAdapter<RankingBean> {
         ImageUtils.loadImage(mContext, helper.getView(R.id.img_country_flag), item.getCountryFlagUrl());
         helper.setText(R.id.player_name, item.getPlayerName());
         helper.setText(R.id.points, item.getPoints());
+        if(item.getRiseOrDrop()>0){
+            helper.setText(R.id.txt_raise,"+"+item.getRiseOrDrop());
+            helper.setTextColor(R.id.txt_raise, Color.RED);
+        }else if(item.getRiseOrDrop()==0){
+            helper.setText(R.id.txt_raise,""+item.getRiseOrDrop());
+            helper.setTextColor(R.id.txt_raise, ContextCompat.getColor(mContext,R.color.txt_gray));
+        }else {
+            helper.setText(R.id.txt_raise,""+item.getRiseOrDrop());
+            helper.setTextColor(R.id.txt_raise, Color.GREEN);
+        }
         if (helper.getAdapterPosition() % 2 == 0) {
             helper.itemView.setBackgroundResource(R.color.white);
         } else {
