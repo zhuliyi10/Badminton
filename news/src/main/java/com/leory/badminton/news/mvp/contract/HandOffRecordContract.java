@@ -1,5 +1,6 @@
 package com.leory.badminton.news.mvp.contract;
 
+import com.leory.badminton.news.mvp.model.bean.HandOffBean;
 import com.leory.commonlib.mvp.IModel;
 import com.leory.commonlib.mvp.IView;
 
@@ -12,7 +13,7 @@ import io.reactivex.Observable;
  */
 public interface HandOffRecordContract {
     interface View extends IView {
-
+        void showHandOffView(HandOffBean bean);//显示交手记录
     }
     interface Model extends IModel{
         Observable<String> getHandOffRecords(String url);//获取交手记录

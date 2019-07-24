@@ -82,8 +82,9 @@ public class MatchTabView extends LinearLayout {
     public int getSelectPos() {
         for (int i = 0; i < getChildCount(); i++) {
             TextView tv = (TextView) getChildAt(i);
-            tv.isSelected();
-            return i;
+            if(tv.isSelected()) {
+                return i;
+            }
         }
         return 0;
     }

@@ -11,6 +11,7 @@ import com.leory.badminton.news.R;
 import com.leory.badminton.news.R2;
 import com.leory.badminton.news.di.component.DaggerHandOffRecordComponent;
 import com.leory.badminton.news.mvp.contract.HandOffRecordContract;
+import com.leory.badminton.news.mvp.model.bean.HandOffBean;
 import com.leory.badminton.news.mvp.presenter.HandOffRecordPresenter;
 import com.leory.commonlib.base.BaseActivity;
 import com.leory.commonlib.base.delegate.IComponent;
@@ -64,5 +65,10 @@ public class HandOffRecordActivity extends BaseActivity<HandOffRecordPresenter> 
     @Override
     public void showMessage(@NonNull String message) {
         ToastUtils.showShort(message);
+    }
+
+    @Override
+    public void showHandOffView(HandOffBean bean) {
+
     }
 }
