@@ -1,5 +1,8 @@
 package com.leory.badminton.news.mvp.presenter;
 
+import android.text.TextUtils;
+
+import com.leory.badminton.news.app.utils.FileHashUtils;
 import com.leory.badminton.news.mvp.contract.HandOffRecordContract;
 import com.leory.badminton.news.mvp.model.bean.HandOffBean;
 import com.leory.badminton.news.mvp.model.bean.MatchInfoBean;
@@ -15,6 +18,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,7 +42,7 @@ import retrofit2.HttpException;
 public class HandOffRecordPresenter extends BasePresenter<HandOffRecordContract.Model, HandOffRecordContract.View> {
 
     private String handOffUrl;
-
+    private HashMap<String, String> playerNameMap;
     @Inject
     public HandOffRecordPresenter(HandOffRecordContract.Model model, HandOffRecordContract.View rootView, String handOffUrl) {
         super(model, rootView);
@@ -127,12 +131,12 @@ public class HandOffRecordPresenter extends BasePresenter<HandOffRecordContract.
                 if (player1s.size() > 0) {
                     bean.setPlayer1HeadUrl(player1s.get(0).select("div.img-player img").attr("src"));
                     bean.setPlayer1Flag(player1s.get(0).select("div.flag img").attr("src"));
-                    bean.setPlayer1Name(player1s.get(0).select("div.name a").text());
+                    bean.setPlayer1Name(translatePlayerName(player1s.get(0).select("div.name a").text()));
                 }
                 if (player1s.size() > 1) {
                     bean.setPlayer12HeadUrl(player1s.get(1).select("div.img-player img").attr("src"));
                     bean.setPlayer12Flag(player1s.get(1).select("div.flag img").attr("src"));
-                    bean.setPlayer12Name(player1s.get(1).select("div.name a").text());
+                    bean.setPlayer12Name(translatePlayerName(player1s.get(1).select("div.name a").text()));
                 }
             }
             Elements player2s = headElement.select("div.info-player2");
@@ -140,12 +144,12 @@ public class HandOffRecordPresenter extends BasePresenter<HandOffRecordContract.
                 if (player2s.size() > 0) {
                     bean.setPlayer2HeadUrl(player2s.get(0).select("div.img-player img").attr("src"));
                     bean.setPlayer2Flag(player2s.get(0).select("div.flag img").attr("src"));
-                    bean.setPlayer2Name(player2s.get(0).select("div.name a").text());
+                    bean.setPlayer2Name(translatePlayerName(player2s.get(0).select("div.name a").text()));
                 }
                 if (player2s.size() > 1) {
                     bean.setPlayer22HeadUrl(player2s.get(1).select("div.img-player img").attr("src"));
                     bean.setPlayer22Flag(player2s.get(1).select("div.flag img").attr("src"));
-                    bean.setPlayer22Name(player2s.get(1).select("div.name a").text());
+                    bean.setPlayer22Name(translatePlayerName(player2s.get(1).select("div.name a").text()));
                 }
             }
             Elements rankings=headElement.select("div.title-rank");
@@ -167,7 +171,7 @@ public class HandOffRecordPresenter extends BasePresenter<HandOffRecordContract.
                     recordBean.setMatchName(record.select("div.tmt-name").text());
                     recordBean.setScore(record.select("span.score").text());
                     String result=record.select("div.player-result-score").text().trim();
-                    if("W".equals(result)){
+                    if(result.contains("W")){
                         recordBean.setLeftWin(true);
                     }else {
                         recordBean.setLeftWin(false);
@@ -175,8 +179,31 @@ public class HandOffRecordPresenter extends BasePresenter<HandOffRecordContract.
                     recordList.add(recordBean);
                 }
                 bean.setRecordList(recordList);
+                int player1Win=0,player2Win=0;
+                for (HandOffBean.Record record:recordList){
+                    if(record.isLeftWin()){
+                        player1Win++;
+                    }else {
+                        player2Win++;
+                    }
+                }
+                bean.setPlayer1Win(String.valueOf(player1Win));
+                bean.setPlayer2Win(String.valueOf(player2Win));
             }
         }
         return bean;
+    }
+
+    private String translatePlayerName(String key) {
+        if(playerNameMap==null){
+            playerNameMap= FileHashUtils.getPlayerName();
+        }
+        String playerName = key.replaceAll("\\[\\d+\\]", "").trim();
+        String value = playerNameMap.get(playerName);
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(playerName, value);
+        }
     }
 }
