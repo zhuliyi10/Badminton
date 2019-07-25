@@ -43,11 +43,13 @@ public class HandOffRecordPresenter extends BasePresenter<HandOffRecordContract.
 
     private String handOffUrl;
     private HashMap<String, String> playerNameMap;
+    private HashMap<String, String> matchNameMap;
     @Inject
     public HandOffRecordPresenter(HandOffRecordContract.Model model, HandOffRecordContract.View rootView, String handOffUrl) {
         super(model, rootView);
         this.handOffUrl = handOffUrl;
         requestData();
+        LogUtils.d(TAG,handOffUrl);
     }
 
     private void requestData() {
@@ -168,7 +170,7 @@ public class HandOffRecordPresenter extends BasePresenter<HandOffRecordContract.
                 for (Element record:records){
                     HandOffBean.Record recordBean=new HandOffBean.Record();
                     recordBean.setDate(record.select("div.h2h_result_date").text());
-                    recordBean.setMatchName(record.select("div.tmt-name").text());
+                    recordBean.setMatchName(translateMatchName(record.select("div.tmt-name").text()));
                     recordBean.setScore(record.select("span.score").text());
                     String result=record.select("div.player-result-score").text().trim();
                     if(result.contains("W")){
@@ -204,6 +206,19 @@ public class HandOffRecordPresenter extends BasePresenter<HandOffRecordContract.
             return key;
         } else {
             return key.replace(playerName, value);
+        }
+    }
+
+    private String translateMatchName(String key) {
+        if (matchNameMap == null) {
+            matchNameMap = FileHashUtils.getMatchName();
+        }
+        String matchNameNotYear = key.replaceAll("\\d+", "").trim();
+        String value = matchNameMap.get(matchNameNotYear.toUpperCase());
+        if (TextUtils.isEmpty(value)) {
+            return key;
+        } else {
+            return key.replace(matchNameNotYear, value);
         }
     }
 }

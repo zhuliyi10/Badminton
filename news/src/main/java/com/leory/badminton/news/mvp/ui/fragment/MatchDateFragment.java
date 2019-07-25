@@ -86,12 +86,12 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
                 @Override
                 public void onClick(TextView tv, int position) {
                     tabDate.setSelectPos(position);
-                    presenter.requestPosition(position,null);
+                    presenter.requestPosition(position, null);
                 }
             });
 
             tabDate.setSelectPos(0);
-            presenter.requestPosition(0,null);
+            presenter.requestPosition(0, null);
         }
 
     }
@@ -109,7 +109,7 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
         dateAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                presenter.requestPosition(tabDate.getSelectPos(),dateAdapter.getData().get(position).getMatchId());
+                presenter.requestPosition(tabDate.getSelectPos(), dateAdapter.getData().get(position).getMatchId());
             }
         });
         ConstraintLayout head = (ConstraintLayout) LayoutInflater.from(getContext()).inflate(R.layout.head_match_date, null);
@@ -132,12 +132,13 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
     @Override
     public void showLoading() {
         progress.setVisibility(View.VISIBLE);
-        dateAdapter.clear();
+        rcv.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
         progress.setVisibility(View.GONE);
+        rcv.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -152,8 +153,8 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
 
     @Override
     public void toHistoryDetail(String handOffUrl) {
-        if(!TextUtils.isEmpty(handOffUrl)){
-            HandOffRecordActivity.launch(getActivity(),handOffUrl);
+        if (!TextUtils.isEmpty(handOffUrl)) {
+            HandOffRecordActivity.launch(getActivity(), handOffUrl);
         }
     }
 }

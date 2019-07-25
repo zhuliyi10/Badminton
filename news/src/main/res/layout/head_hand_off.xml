@@ -37,6 +37,7 @@
 
                     <TextView
                         android:id="@+id/player11_name"
+                        android:textColor="@color/white"
                         android:layout_gravity="right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -70,6 +71,7 @@
                         android:layout_gravity="right"
                         android:id="@+id/player12_name"
                         android:text="player12"
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -82,12 +84,14 @@
             </LinearLayout>
             <TextView
                 android:text="排名1"
+                android:textColor="@color/white"
                 android:id="@+id/player1_rank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
         <TextView
             android:text="VS"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
@@ -122,6 +126,7 @@
                     <TextView
                         android:id="@+id/player21_name"
                         android:text="player21"
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -151,6 +156,7 @@
                     <TextView
                         android:id="@+id/player22_name"
                         android:text="player22"
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -159,6 +165,7 @@
             </LinearLayout>
             <TextView
                 android:text="排名2"
+                android:textColor="@color/white"
                 android:id="@+id/player2_rank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -166,8 +173,8 @@
     </LinearLayout>
     <TextView
         android:id="@+id/title_record"
-        android:textColor="@color/black"
         android:text="历史战绩"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -181,7 +188,7 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/score1"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text="5"
             android:gravity="right"
             android:layout_weight="1"
@@ -189,7 +196,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <TextView
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text=":"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
@@ -199,7 +206,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/score2"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text="0"
             android:gravity="left"
             android:layout_weight="1"

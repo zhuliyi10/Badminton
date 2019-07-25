@@ -114,14 +114,16 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
 
                     @Override
                     public void onNext(List<MatchDateBean> data) {
-                        currentData = data;
-                        rootView.showDateData(data);
                         if (match != null && data != null) {
                             for (MatchDateBean bean : data) {
                                 if (match.equals(bean.getMatchId())) {
                                     rootView.toHistoryDetail(getHandOffUrl(bean));
                                 }
                             }
+                        }
+                        if (match == null) {
+                            currentData = data;
+                            rootView.showDateData(data);
                         }
                     }
 
