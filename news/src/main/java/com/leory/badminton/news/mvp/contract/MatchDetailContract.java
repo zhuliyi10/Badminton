@@ -33,6 +33,7 @@ public interface MatchDetailContract {
     interface MatchDateView extends IView {
         void showDateData(List<MatchDateBean> data);//显示日期赛事
         void toHistoryDetail(String handOffUrl);//跳到交手战绩
+        String getFilterText();//获取过虑文字
     }
 
     interface MatchHistory extends IView {

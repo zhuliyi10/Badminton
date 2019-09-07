@@ -52,6 +52,8 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
     @BindView(R2.id.progress)
     FrameLayout progress;
     MatchTabView tabDate;
+    TextView txtFilter;
+    TextView txtState;
     private MatchDateAdapter dateAdapter;
 
     public static MatchDateFragment newInstance(List<MatchTabDateBean> dateBeans, String country) {
@@ -109,11 +111,13 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
         dateAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                txtFilter.setText("全部");
+                txtState.setText("场地");
                 presenter.requestPosition(tabDate.getSelectPos(), dateAdapter.getData().get(position).getMatchId());
             }
         });
         ConstraintLayout head = (ConstraintLayout) LayoutInflater.from(getContext()).inflate(R.layout.head_match_date, null);
-        TextView txtFilter = head.findViewById(R.id.txt_filter);
+        txtFilter = head.findViewById(R.id.txt_filter);
         txtFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +126,19 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
                 } else {
                     txtFilter.setText("国羽");
                 }
-                presenter.filter(txtFilter.getText().toString());
+                presenter.filter(txtFilter.getText().toString(), txtState.getText().toString());
+            }
+        });
+        txtState = head.findViewById(R.id.txt_state);
+        txtState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (txtState.getText().toString().equals("场地")) {
+                    txtState.setText("时间");
+                } else {
+                    txtState.setText("场地");
+                }
+                presenter.filter(txtFilter.getText().toString(), txtState.getText().toString());
             }
         });
         tabDate = head.findViewById(R.id.tab_date);
@@ -156,5 +172,10 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
         if (!TextUtils.isEmpty(handOffUrl)) {
             HandOffRecordActivity.launch(getActivity(), handOffUrl);
         }
+    }
+
+    @Override
+    public String getFilterText() {
+        return txtState.getText().toString();
     }
 }

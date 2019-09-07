@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -213,12 +215,17 @@ public class HandOffRecordPresenter extends BasePresenter<HandOffRecordContract.
         if (matchNameMap == null) {
             matchNameMap = FileHashUtils.getMatchName();
         }
+        Matcher m = Pattern.compile("\\d+").matcher(key);
+        String year="";
+        if (m.find()) {
+            year=m.group();
+        }
         String matchNameNotYear = key.replaceAll("\\d+", "").trim();
         String value = matchNameMap.get(matchNameNotYear.toUpperCase());
         if (TextUtils.isEmpty(value)) {
             return key;
         } else {
-            return key.replace(matchNameNotYear, value);
+            return year+value;
         }
     }
 }

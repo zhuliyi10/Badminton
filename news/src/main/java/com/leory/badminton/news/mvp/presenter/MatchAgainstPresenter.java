@@ -92,7 +92,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                     enType = "xd";
                 }
 
-                if ("Grade 1 - Individual Tournaments".equals(matchClassify)) {
+                if ("第一级别 个人赛".equals(matchClassify)) {
                     requestUrl = detailUrl + "draw/" + enType;
                 } else {
                     requestUrl = detailUrl + "result/draw/" + enType;
@@ -217,7 +217,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                         if (i % 4 == 0) {//比分
                             Element element = trs.get(i).select("td div.draw-score").first();
                             if (element != null) {
-                                data.get(1).get(data.get(1).size() - 1).setScore(element.text());
+                                data.get(1).get(data.get(1).size() - 1).setScore(translateScore(element.text()));
                             }
                         }
                     }
@@ -231,7 +231,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                         if (i % 8 == 6) {
                             Element element = trs.get(i).select("td div.draw-score").first();
                             if (element != null) {
-                                data.get(2).get(data.get(2).size() - 1).setScore(element.text());
+                                data.get(2).get(data.get(2).size() - 1).setScore(translateScore(element.text()));
                             }
                         }
                     }
@@ -245,7 +245,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                         if (i % 16 == 10) {
                             Element element = trs.get(i).select("td div.draw-score").first();
                             if (element != null) {
-                                data.get(3).get(data.get(3).size() - 1).setScore(element.text());
+                                data.get(3).get(data.get(3).size() - 1).setScore(translateScore(element.text()));
                             }
                         }
                     }
@@ -259,7 +259,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                         if (i % 32 == 18) {
                             Element element = trs.get(i).select("td div.draw-score").first();
                             if (element != null) {
-                                data.get(4).get(data.get(4).size() - 1).setScore(element.text());
+                                data.get(4).get(data.get(4).size() - 1).setScore(translateScore(element.text()));
                             }
                         }
                     }
@@ -273,7 +273,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                         if (i % 64 == 34) {
                             Element element = trs.get(i).select("td div.draw-score").first();
                             if (element != null) {
-                                data.get(5).get(data.get(5).size() - 1).setScore(element.text());
+                                data.get(5).get(data.get(5).size() - 1).setScore(translateScore(element.text()));
                             }
                         }
                     }
@@ -287,7 +287,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                         if (i % 128 == 66) {
                             Element element = trs.get(i).select("td div.draw-score").first();
                             if (element != null) {
-                                data.get(6).get(data.get(6).size() - 1).setScore(element.text().replace("Retired","退赛"));
+                                data.get(6).get(data.get(6).size() - 1).setScore(translateScore(element.text()));
                             }
                         }
                     }
@@ -298,6 +298,10 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
 
 
         return data;
+    }
+
+    private String translateScore(String score){
+        return score.replace("Walkover","退赛").replace("Retired", "退赛");
     }
 
 
@@ -331,7 +335,7 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
                 element = td.select("div.draw-player1-wrap div.draw-name").first();
             }
             if (element != null) {
-                if(!element.text().contains("Match Time")) {
+                if (!element.text().contains("Match Time")) {
                     bean.setName1(translatePlayerName(element.text()));
                 }
             }
@@ -372,19 +376,22 @@ public class MatchAgainstPresenter extends BasePresenter<MatchDetailContract.Mod
     private List<String> getMatchSchedules(int count) {
         List<String> data = new ArrayList<>();
         String[] schedules = new String[]{"1/32决赛", "1/16决赛", "1/8决赛", "1/4决赛", "半决赛", "决赛"};
-        for (int i = schedules.length - count; i > 0 && i < schedules.length; i++) {
+        for (int i = schedules.length - count; i >=0 && i < schedules.length; i++) {
             data.add(schedules[i]);
         }
         return data;
     }
 
     private String translatePlayerName(String key) {
-        String playerName=key.replaceAll("\\[\\d+\\]","").trim();
+        if (key.contains("Qualification")||key.contains("Bye")) {
+            return null;
+        }
+        String playerName = key.replaceAll("\\[\\d+\\]", "").trim();
         String value = playerNameMap.get(playerName);
         if (TextUtils.isEmpty(value)) {
             return key;
         } else {
-            return key.replace(playerName,value);
+            return key.replace(playerName, value);
         }
     }
 }

@@ -31,7 +31,7 @@ public class Ranking {
     private static HashMap<String, String> countryMap;
     private static HashMap<String, String> playerNameMap;
     private static BufferedWriter out;
-    private static String type = "wd";
+    private static String type = "xd";
 
     public static void main(String[] args) {
         try {
@@ -42,8 +42,8 @@ public class Ranking {
 
 
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date today = df.parse("2019-07-05");
-            Date setDate = df.parse("2010-01-05");
+            Date today = df.parse("2019-08-01");
+            Date setDate = df.parse("2018-01-01");
             long betweenDay = (today.getTime() - setDate.getTime()) / (1000 * 3600 * 24);
             int dataNum = (int) (betweenDay / 7) + 1;
             Calendar calendar = Calendar.getInstance();

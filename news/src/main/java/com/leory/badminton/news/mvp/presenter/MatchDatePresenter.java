@@ -63,23 +63,46 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
         super(model, rootView);
     }
 
-    public void filter(String tag) {
+    public void filter(String filter,String state) {
         if (currentData != null) {
-            if (tag.equals("国羽")) {
-                List<MatchDateBean> data = new ArrayList<>();
+            List<MatchDateBean> tempData = new ArrayList<>();
+            if (filter.equals("国羽")) {
                 for (MatchDateBean bean : currentData) {
                     if ((bean.getFlag1() != null && bean.getFlag1().contains("china"))
                             || (bean.getFlag2() != null && bean.getFlag2().contains("china"))
                             || (bean.getFlag12() != null && bean.getFlag12().contains("china"))
                             || (bean.getFlag22() != null && bean.getFlag22().contains("china"))) {
-                        data.add(bean);
+                        tempData.add(bean);
                     }
                 }
-                rootView.showDateData(data);
             } else {
-                rootView.showDateData(currentData);
+                for (MatchDateBean bean :currentData){
+                    tempData.add(bean);
+                }
             }
+            rootView.showDateData(sort(state,tempData));
         }
+    }
+    public List<MatchDateBean> sort(String state,List<MatchDateBean>data){
+
+            if (state.equals("时间")) {
+                List<MatchDateBean> all = new ArrayList<>();
+                List<MatchDateBean> finishList = new ArrayList<>();
+                List<MatchDateBean> unFinishList = new ArrayList<>();
+                for (MatchDateBean bean : data) {
+                    if(bean.getDuration().contains("时长")){
+                        finishList.add(bean);
+                    }else {
+                        unFinishList.add(bean);
+                    }
+                }
+                all.addAll(finishList);
+                all.addAll(unFinishList);
+                return all;
+            }else {
+                return data;
+            }
+
     }
 
     public void requestPosition(int pos, String match) {
@@ -159,7 +182,7 @@ public class MatchDatePresenter extends BasePresenter<MatchDetailModel, MatchDet
                         bean.setField("场地 " + court);
                     } else {
 
-                        bean.setField(court.replace("Quaycentre", "场地").replace("Court", "场地"));
+                        bean.setField(court.replace("Quaycentre", "场地").replace("court", "场地").replace("Court", "场地"));
                     }
 
                     bean.setTime(getChineseTime(translateTime(li.select("div.time").first().text())));

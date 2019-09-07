@@ -157,6 +157,12 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
                 if (strings.length > 0) {
                     bean.setCountry(strings[strings.length - 1].trim());
                 }
+            } else {
+                element = head.select("div.info h4").first();
+                String[] temp=element.text().split(",");
+                if(temp.length>1){
+                    bean.setCountry(temp[1].trim());
+                }
             }
             element = head.select("div.info div.prize").first();
             if (element != null) {
@@ -168,6 +174,9 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
             }
 
             Element ul = doc.select("ul#ajaxTabsResults").first();
+            if (ul == null) {
+                ul = doc.select("ul#ajaxTabs").first();
+            }
             if (ul != null) {
                 Elements lis = ul.select("li");
                 if (lis != null) {
@@ -184,6 +193,9 @@ public class MatchDetailPresenter extends BasePresenter<MatchDetailContract.Mode
             }
 
             Element li = doc.select("ul#ajaxTabsTmt li").first();
+            if (li == null) {
+                li=doc.select("ul#ajaxTabs li").first();
+            }
             if (li != null) {
                 bean.setHistoryUrl(li.select("a").first().attr("href"));
             }
