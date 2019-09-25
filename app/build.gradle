@@ -5,16 +5,20 @@ if (isBuildModule.toBoolean()) {
 
 }
 apply from: "../common_build.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 android {
 }
 
 dependencies {
     implementation project(':commonlib')
     implementation project(':commonBusiness')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     if (!isBuildModule.toBoolean()) {
         implementation project(':video')
         implementation project(':news')
         implementation project(':circle')
         implementation project(':mine')
     }
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
