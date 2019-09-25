@@ -4,6 +4,7 @@ if (isBuildModule.toBoolean()) {
     apply plugin: 'com.android.library'
 }
 apply from: "../common_build.gradle"
+
 android {
     sourceSets {
         main {
@@ -20,4 +21,5 @@ dependencies {
     implementation project(':commonlib')
     implementation project(':thirdParties')
     implementation project(':commonBusiness')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
