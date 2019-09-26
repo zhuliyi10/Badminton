@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.leory.badminton.news.R
 import com.leory.badminton.news.di.component.MatchDetailComponent
 import com.leory.badminton.news.mvp.contract.MatchDetailContract
@@ -20,7 +21,6 @@ import com.leory.badminton.news.mvp.ui.widget.decoration.MatchDateItemDecoration
 import com.leory.commonlib.base.BaseLazyLoadFragment
 import com.leory.commonlib.base.delegate.IComponent
 import kotlinx.android.synthetic.main.fragment_match_date.*
-import kotlinx.android.synthetic.main.head_match_date.*
 import java.io.Serializable
 import java.util.*
 import javax.inject.Inject
@@ -35,7 +35,8 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
     lateinit var dateBeans: MutableList<MatchTabDateBean>
     lateinit var tabDate: MatchTabView
     private lateinit var dateAdapter: MatchDateAdapter
-
+    private lateinit var txt_filter: TextView
+    private lateinit var txt_state: TextView
     override fun setupActivityComponent(component: IComponent): IComponent {
         (component as MatchDetailComponent).buildMatchDateComponent()
                 .view(this)
@@ -79,6 +80,8 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
             presenter?.requestPosition(tabDate.selectPos, dateAdapter.data[position].matchId)
         }
         val head = LayoutInflater.from(context).inflate(R.layout.head_match_date, null) as ConstraintLayout
+        txt_filter = head.findViewById(R.id.txt_filter)
+        txt_state = head.findViewById(R.id.txt_state)
         dateAdapter.addHeaderView(head)
 
         txt_filter.setOnClickListener {
