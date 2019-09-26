@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.fragment_mine_main.*
 @Route(path = RouterHub.MINE_MINEMAINFRAGMENT)
 class MineMainFragment : BaseFragment<MinePresenter>(), MineContract.View {
 
-
     override fun setupActivityComponent(component: IComponent): IComponent {
         DaggerMineComponent.builder()
                 .appComponent(component as AppComponent)

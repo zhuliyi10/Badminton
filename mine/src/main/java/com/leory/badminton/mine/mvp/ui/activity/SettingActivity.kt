@@ -28,7 +28,7 @@ class SettingActivity : BaseActivity<IPresenter>() {
 
     private fun onViewClicked(view: View) {
         if (view.id == R.id.btn_logout) {
-            AccountSp.putLoginState(false)
+            AccountSp.loginState = false
             finish()
         }
     }

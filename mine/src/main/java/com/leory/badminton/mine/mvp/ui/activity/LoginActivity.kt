@@ -53,8 +53,8 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
     }
 
     override fun loginSuccess(bean: UserInfoBean) {
-        AccountSp.putUserInfoBean(bean)
-        AccountSp.putLoginState(true)
+        AccountSp.userInfoBean = bean
+        AccountSp.loginState = true
         showMessage("登陆成功")
         finish()
     }
@@ -75,7 +75,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         UMShareAPI.get(this).onSaveInstanceState(outState)
     }
 
-    fun onViewClicked(view: View) {
+    private fun onViewClicked(view: View) {
         when {
             view.id == R.id.wechat -> getThirdPartiesInfo(SHARE_MEDIA.WEIXIN)
             view.id == R.id.qq -> getThirdPartiesInfo(SHARE_MEDIA.QQ)
@@ -100,7 +100,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
 
             override fun onComplete(share_media: SHARE_MEDIA, i: Int, map: Map<String, String>) {
                 LogUtils.d(TAG, map.toString())
-                var bean = AccountSp.getUserInfoBean()
+                var bean = AccountSp.userInfoBean
                 if (bean == null) {
                     bean = UserInfoBean()
                     bean.wechatUid = map["uid"]
@@ -114,8 +114,8 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
                     bean.wechatUid = map["uid"]
                 }
                 bean.shareMedia = share_media
-                AccountSp.putUserInfoBean(bean)
-                AccountSp.putLoginState(true)
+                AccountSp.userInfoBean = bean
+                AccountSp.loginState = true
                 showMessage("登陆成功")
                 finish()
             }

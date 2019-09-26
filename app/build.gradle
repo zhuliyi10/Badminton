@@ -5,6 +5,7 @@ if (isBuildModule.toBoolean()) {
 
 }
 apply from: "../common_build.gradle"
+apply plugin: 'kotlin-kapt'
 android {
 }
 

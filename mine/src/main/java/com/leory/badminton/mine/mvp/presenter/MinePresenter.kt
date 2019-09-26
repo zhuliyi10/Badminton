@@ -23,7 +23,7 @@ class MinePresenter @Inject constructor(model: MineContract.Model, rootView: Min
     }
 
     fun updateLoginState() {
-        val loginState = AccountSp.getLoginState()
-        rootView.showLoginState(loginState, AccountSp.getUserInfoBean())
+        val loginState = AccountSp.loginState
+        rootView.showLoginState(loginState, AccountSp.userInfoBean)
     }
 }
