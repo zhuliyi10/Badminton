@@ -5,6 +5,10 @@ if (isBuildModule.toBoolean()) {
 }
 apply from: "../common_build.gradle"
 apply plugin: 'kotlin-kapt'
+kapt {
+    generateStubs = true
+}
+
 android {
     sourceSets {
         main {

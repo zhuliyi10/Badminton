@@ -170,7 +170,7 @@ public class MatchDateFragment extends BaseLazyLoadFragment<MatchDatePresenter> 
     @Override
     public void toHistoryDetail(String handOffUrl) {
         if (!TextUtils.isEmpty(handOffUrl)) {
-            HandOffRecordActivity.launch(getActivity(), handOffUrl);
+            HandOffRecordActivity.Companion.launch(getActivity(), handOffUrl);
         }
     }
 
