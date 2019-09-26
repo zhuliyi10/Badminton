@@ -21,20 +21,20 @@ abstract class VideoBindModule {
 }
 
 
-@Module(includes = [VideoBindModule::class])
+@Module
 class VideoModule {
-//    @ActivityScope
-//    @Provides
-//    fun provideMorePopBeans(): List<MorePopBean> {
-//        val list = ArrayList<MorePopBean>()
-//        list.add(MorePopBean("全部"))
-//        list.add(MorePopBean("少于1分钟"))
-//        list.add(MorePopBean("大于1分钟"))
-//        list.add(MorePopBean("小于10分钟"))
-//        list.add(MorePopBean("大于10分钟"))
-//        list.add(MorePopBean("小于30分钟"))
-//        list.add(MorePopBean("大于30分钟"))
-//        return list
-//    }
+    @ActivityScope
+    @Provides
+    fun provideMorePopBeans(): List<MorePopBean> {
+        val list = ArrayList<MorePopBean>()
+        list.add(MorePopBean("全部"))
+        list.add(MorePopBean("少于1分钟"))
+        list.add(MorePopBean("大于1分钟"))
+        list.add(MorePopBean("小于10分钟"))
+        list.add(MorePopBean("大于10分钟"))
+        list.add(MorePopBean("小于30分钟"))
+        list.add(MorePopBean("大于30分钟"))
+        return list
+    }
 
 }

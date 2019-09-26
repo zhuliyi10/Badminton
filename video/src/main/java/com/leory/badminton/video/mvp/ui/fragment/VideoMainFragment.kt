@@ -21,6 +21,7 @@ import com.leory.commonlib.widget.morePop.MorePopBean
 import com.leory.interactions.RouterHub
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import kotlinx.android.synthetic.main.fragment_video_main.*
+import javax.inject.Inject
 
 /**
  * Describe : 视频首页
@@ -31,32 +32,24 @@ import kotlinx.android.synthetic.main.fragment_video_main.*
 class VideoMainFragment : BaseFragment<VideoPresenter>(), VideoListContract.View {
 
 
-    private val morePopBeans: List<MorePopBean> by lazy {
-        listOf(MorePopBean("全部"),
-                MorePopBean("少于1分钟"),
-                MorePopBean("大于1分钟"),
-                MorePopBean("少于10分钟"),
-                MorePopBean("大于10分钟"),
-                MorePopBean("少于30分钟"),
-                MorePopBean("大于30分钟"))
-    }
+    @Inject
+    lateinit var morePopBeans: MutableList<MorePopBean>
 
-
-    private var videoAdapter: VideoAdapter? = null
+    private lateinit var videoAdapter: VideoAdapter
 
     override fun startLoadMore() {
 
     }
 
     override fun endLoadMore() {
-        refreshLayout!!.finishLoadMore()
+        refreshLayout.finishLoadMore()
     }
 
     override fun showVideoList(data: List<VideoBean>, refresh: Boolean) {
         if (refresh) {
-            videoAdapter!!.setNewData(data)
+            videoAdapter.setNewData(data)
         } else {
-            videoAdapter!!.addData(data)
+            videoAdapter.addData(data)
         }
     }
 
@@ -108,7 +101,7 @@ class VideoMainFragment : BaseFragment<VideoPresenter>(), VideoListContract.View
                             }
                             //如果滑出去了上面和下面就是否，和今日头条一样
                             GSYVideoManager.releaseAllVideos()
-                            videoAdapter!!.notifyDataSetChanged()
+                            videoAdapter.notifyDataSetChanged()
                         }
                     }
                 }

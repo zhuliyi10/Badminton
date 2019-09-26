@@ -5,10 +5,6 @@ if (isBuildModule.toBoolean()) {
 }
 apply from: "../common_build.gradle"
 apply plugin: 'kotlin-kapt'
-kapt {
-    generateStubs = true
-}
-
 android {
     sourceSets {
         main {
@@ -26,5 +22,8 @@ dependencies {
     implementation project(':thirdParties')
     implementation project(':commonBusiness')
     kapt rootProject.ext.dependencies["dagger2-compiler"]
+    kapt rootProject.ext.dependencies["glide-compiler"]
+    kapt rootProject.ext.dependencies["butterknife-compiler"]
+    kapt rootProject.ext.dependencies["arouter-compiler"]
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
