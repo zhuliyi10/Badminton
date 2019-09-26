@@ -55,9 +55,9 @@ class RankingFragment : BaseLazyLoadFragment<RankingPresenter>(), RankingContrac
         adapter.setOnItemChildClickListener { _, view, position ->
             val rankingBean = adapter.data[position]
             if (view.id == R.id.player_name) {
-                PlayerDetailActivity.launch(activity, rankingBean.playerUrl)
+                PlayerDetailActivity.launch(activity!!, rankingBean.playerUrl)
             } else if (view.id == R.id.player2_name) {
-                PlayerDetailActivity.launch(activity, rankingBean.player2Url)
+                PlayerDetailActivity.launch(activity!!, rankingBean.player2Url)
             }
         }
         refreshLayout.setOnLoadMoreListener(this)
@@ -66,7 +66,7 @@ class RankingFragment : BaseLazyLoadFragment<RankingPresenter>(), RankingContrac
     }
 
     override fun lazyLoadData() {
-        presenter!!.firstInit()
+        presenter?.firstInit()
     }
 
     override fun startLoadMore() {
@@ -79,9 +79,9 @@ class RankingFragment : BaseLazyLoadFragment<RankingPresenter>(), RankingContrac
 
     override fun showRankingData(refresh: Boolean, data: List<RankingBean>) {
         if (refresh) {
-            adapter!!.setNewData(data)
+            adapter.setNewData(data)
         } else {
-            adapter!!.addData(data)
+            adapter.addData(data)
         }
     }
 

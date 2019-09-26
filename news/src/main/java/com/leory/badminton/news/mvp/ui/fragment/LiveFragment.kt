@@ -76,7 +76,7 @@ class LiveFragment : BaseLazyLoadFragment<LivePresenter>(), LiveContract.View {
         txt_country.text = bean.country
         ImageUtils.loadImage(context, image_flag, bean.countryFlag)
         ImageUtils.loadSvg(context, match_icon, bean.matchIcon)
-        item_live.setOnClickListener { MatchDetailActivity.launch(activity, bean.detailUrl, "") }
+        item_live.setOnClickListener { MatchDetailActivity.launch(activity!!, bean.detailUrl, "") }
     }
 
     override fun showLiveDetail(data: List<LiveDetailBean>) {
