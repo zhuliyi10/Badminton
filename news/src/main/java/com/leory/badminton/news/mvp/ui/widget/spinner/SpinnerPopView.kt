@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.PopupWindow
-import butterknife.ButterKnife
 import butterknife.OnClick
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leory.badminton.news.R
@@ -26,7 +25,6 @@ import kotlinx.android.synthetic.main.item_spinner_pop.view.*
 
 class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
-
     private var window: PopupWindow? = null
     private var listener: OnSelectListener? = null
     private var data: List<String>? = null
@@ -34,13 +32,13 @@ class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: Attribut
     private var change = true
     internal var adapter: SpinnerPopAdapter? = null
     private var prohibit: Boolean = false//是否禁止弹出
-
     /**
      * 获取获取的名称
      * @return
      */
-    val selectName: String
-        get() = txt_name.text.toString()
+    val selectName: String  by lazy {
+        txt_name.text.toString()
+    }
 
 
     init {
@@ -48,8 +46,7 @@ class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     private fun init() {
-        val root = LayoutInflater.from(context).inflate(R.layout.view_spinner_pop, this)
-        ButterKnife.bind(this, root)
+        LayoutInflater.from(context).inflate(R.layout.view_spinner_pop, this)
     }
 
     /**

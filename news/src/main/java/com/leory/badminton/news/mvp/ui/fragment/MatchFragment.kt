@@ -60,8 +60,7 @@ class MatchFragment : BaseLazyLoadFragment<MatchPresenter>(), MatchContract.View
             }
         })
         rcv.layoutManager = LinearLayoutManager(context)
-        adapter = MatchSectionAdapter(ArrayList())
-        rcv.adapter = adapter
+        rcv.adapter = MatchSectionAdapter(ArrayList()).also { adapter = it }
         adapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { baseQuickAdapter, view, position ->
             if (!adapter.data[position].isHeader) {
                 val matchUrl = adapter.data[position].t.matchUrl

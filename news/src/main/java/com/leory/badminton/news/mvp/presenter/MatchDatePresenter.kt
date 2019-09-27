@@ -97,21 +97,21 @@ class MatchDatePresenter @Inject constructor(@Named("player_name")
     }
 
     fun requestPosition(pos: Int, match: String?) {
-        if (match != null) {
-            model.getMatchDate(dateBeans?.let { it[pos].link } ?: "", match)
-                    .subscribeOn(Schedulers.io())
-                    .doOnSubscribe { rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doFinally { rootView.hideLoading() }
-                    .compose(RxLifecycleUtils.bindToLifecycle(rootView))
-                    .subscribe(object : RxHandlerSubscriber<String>() {
 
-                        override fun onNext(o: String) {
-                            parseHtmlResult(o, match)
-                        }
+        model.getMatchDate(dateBeans?.let { it[pos].link } ?: "", match ?: "")
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally { rootView.hideLoading() }
+                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .subscribe(object : RxHandlerSubscriber<String>() {
 
-                    })
-        }
+                    override fun onNext(o: String) {
+                        parseHtmlResult(o, match)
+                    }
+
+                })
+
     }
 
     private fun parseHtmlResult(html: String, match: String?) {

@@ -4,7 +4,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -59,10 +59,13 @@ android {
     }
     dependencies {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
-//        kapt rootProject.ext.dependencies["dagger2-compiler"]
         annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
         annotationProcessor rootProject.ext.dependencies["glide-compiler"]
         annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
         annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
+        kapt rootProject.ext.dependencies["dagger2-compiler"]
+        kapt rootProject.ext.dependencies["glide-compiler"]
+        kapt rootProject.ext.dependencies["butterknife-compiler"]
+        kapt rootProject.ext.dependencies["arouter-compiler"]
     }
 }
