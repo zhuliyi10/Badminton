@@ -46,7 +46,7 @@ class PlayerMatchFragment : BaseLazyLoadFragment<PlayerMatchPresenter>(), Player
 
     override fun initData(savedInstanceState: Bundle?) {
         rcv.layoutManager = LinearLayoutManager(context)
-        rcv.addItemDecoration(MatchDateItemDecoration(context))
+        rcv.addItemDecoration(MatchDateItemDecoration(context!!))
         adapter = PlayerMatchAdapter(ArrayList())
         rcv.adapter = adapter
     }

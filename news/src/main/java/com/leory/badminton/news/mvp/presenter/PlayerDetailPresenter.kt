@@ -29,7 +29,7 @@ class PlayerDetailPresenter @Inject constructor(model: PlayerContract.Model, roo
         BasePresenter<PlayerContract.Model, PlayerContract.View>(model, rootView) {
 
     private val playerNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.getPlayerName() as HashMap<String, String>
+        FileHashUtils.playerName as HashMap<String, String>
     }
 
     init {

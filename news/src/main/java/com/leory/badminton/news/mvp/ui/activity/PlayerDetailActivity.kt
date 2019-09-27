@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.View
+import android.widget.TextView
 import com.leory.badminton.news.R
 import com.leory.badminton.news.app.listener.AppBarStateChangeListener
 import com.leory.badminton.news.di.component.DaggerPlayerDetailComponent
@@ -17,6 +18,7 @@ import com.leory.badminton.news.mvp.presenter.PlayerDetailPresenter
 import com.leory.badminton.news.mvp.ui.adapter.TabPagerAdapter
 import com.leory.badminton.news.mvp.ui.fragment.PlayerInfoFragment
 import com.leory.badminton.news.mvp.ui.fragment.PlayerMatchFragment
+import com.leory.badminton.news.mvp.ui.widget.MatchTabView
 import com.leory.commonlib.base.BaseActivity
 import com.leory.commonlib.base.delegate.IComponent
 import com.leory.commonlib.di.component.AppComponent
@@ -35,7 +37,7 @@ class PlayerDetailActivity : BaseActivity<PlayerDetailPresenter>(), PlayerContra
     companion object {
         private val KEY_PLAYER_URL = "key_player_url"
         @JvmStatic
-        fun launch(preActivity: Activity, url: String) {
+        fun launch(preActivity: Activity, url: String?) {
             preActivity.startActivity(Intent(preActivity, PlayerDetailActivity::class.java).putExtra(KEY_PLAYER_URL, url))
         }
     }
@@ -118,11 +120,14 @@ class PlayerDetailActivity : BaseActivity<PlayerDetailPresenter>(), PlayerContra
         view_pager.adapter = TabPagerAdapter(supportFragmentManager, fragmentList)
         view_pager.offscreenPageLimit = 2
         val tabs = arrayOf("个人资料", "赛果", "历史排名")
-        tab.initData(Arrays.asList(*tabs))
-        tab.setOnChildClickListener { tv, position ->
-            tab.selectPos = position
-            view_pager.currentItem = position
-        }
+        tab.initData(listOf(*tabs))
+
+        tab.setOnChildClickListener(object : MatchTabView.OnChildClickListener {
+            override fun onClick(tv: TextView, position: Int) {
+                tab.selectPos = position
+                view_pager.currentItem = position
+            }
+        })
         tab.selectPos = 0
     }
 

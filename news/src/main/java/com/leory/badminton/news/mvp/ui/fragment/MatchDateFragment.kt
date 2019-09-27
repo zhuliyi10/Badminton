@@ -31,6 +31,7 @@ import javax.inject.Inject
  * Date : 2019-06-06
  */
 class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetailContract.MatchDateView {
+
     @Inject
     lateinit var dateBeans: MutableList<MatchTabDateBean>
     lateinit var tabDate: MatchTabView
@@ -40,8 +41,8 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
     override fun setupActivityComponent(component: IComponent): IComponent {
         (component as MatchDetailComponent).buildMatchDateComponent()
                 .view(this)
-                .tabDates(arguments?.getSerializable(KEY_TAB_DATE) as List<MatchTabDateBean>)
-                .country(arguments?.getString(KEY_COUNTRY))
+                .tabDates(arguments?.getSerializable(KEY_TAB_DATE) as MutableList<MatchTabDateBean>)
+                .country(arguments?.getString(KEY_COUNTRY) ?: "")
                 .build()
                 .inject(this)
         return super.setupActivityComponent(component)
@@ -51,13 +52,15 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
         if (dateBeans != null && dateBeans.isNotEmpty()) {
             val names = ArrayList<String>()
             for (bean in dateBeans) {
-                names.add(bean.name)
+                bean.name?.apply { names.add(this) }
             }
             tabDate.initData(names)
-            tabDate.setOnChildClickListener { tv, position ->
-                tabDate.selectPos = position
-                presenter?.requestPosition(position, null)
-            }
+            tabDate.setOnChildClickListener(object : MatchTabView.OnChildClickListener {
+                override fun onClick(tv: TextView, position: Int) {
+                    tabDate.selectPos = position
+                    presenter?.requestPosition(position, null)
+                }
+            })
 
             tabDate.selectPos = 0
             presenter?.requestPosition(0, null)
@@ -71,10 +74,10 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
 
     override fun initData(savedInstanceState: Bundle?) {
         rcv.layoutManager = LinearLayoutManager(context)
-        rcv.addItemDecoration(MatchDateItemDecoration(context))
+        rcv.addItemDecoration(MatchDateItemDecoration(context!!))
         dateAdapter = MatchDateAdapter(ArrayList())
         rcv.adapter = dateAdapter
-        dateAdapter.setOnItemClickListener { adapter, view, position ->
+        dateAdapter.setOnItemClickListener { _, _, position ->
             txt_filter.text = "全部"
             txt_state.text = "场地"
             presenter?.requestPosition(tabDate.selectPos, dateAdapter.data[position].matchId)
@@ -122,21 +125,19 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
         dateAdapter.setNewData(data)
     }
 
-    override fun toHistoryDetail(handOffUrl: String) {
+    override fun toHistoryDetail(handOffUrl: String?) {
         if (!TextUtils.isEmpty(handOffUrl)) {
             HandOffRecordActivity.launch(activity!!, handOffUrl)
         }
     }
 
-    override fun getFilterText(): String {
-        return txt_state.text.toString()
-    }
+    override val filterText: String by lazy { txt_state.text.toString() }
 
     companion object {
         private const val KEY_TAB_DATE = "key_tab_date"
         private const val KEY_COUNTRY = "key_country"
         @JvmStatic
-        fun newInstance(dateBeans: List<MatchTabDateBean>, country: String): MatchDateFragment {
+        fun newInstance(dateBeans: List<MatchTabDateBean>?, country: String?): MatchDateFragment {
             val fragment = MatchDateFragment()
             val args = Bundle()
             args.putString(KEY_COUNTRY, country)

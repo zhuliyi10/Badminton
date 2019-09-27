@@ -14,9 +14,6 @@ import com.leory.commonlib.utils.LogUtils
 import com.leory.commonlib.utils.RxLifecycleUtils
 
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
-import org.jsoup.select.Elements
 
 import java.util.ArrayList
 import java.util.HashMap
@@ -24,11 +21,9 @@ import java.util.HashMap
 import javax.inject.Inject
 
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -41,10 +36,10 @@ class MatchPresenter @Inject constructor(model: MatchContract.Model, rootView: M
         BasePresenter<MatchContract.Model, MatchContract.View>(model, rootView) {
 
     private val matchCategoryMap: HashMap<String, String> by lazy {
-        FileHashUtils.getMatchCategory() as HashMap<String, String>
+        FileHashUtils.matchCategory as HashMap<String, String>
     }
     private val matchNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.getMatchName() as HashMap<String, String>
+        FileHashUtils.matchName as HashMap<String, String>
     }
 
     fun requestData(year: String, finish: String) {

@@ -12,6 +12,7 @@ import com.leory.badminton.news.mvp.model.bean.RankingBean
 import com.leory.badminton.news.mvp.presenter.RankingPresenter
 import com.leory.badminton.news.mvp.ui.activity.PlayerDetailActivity
 import com.leory.badminton.news.mvp.ui.adapter.RankingAdapter
+import com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
 import com.leory.commonlib.base.BaseLazyLoadFragment
 import com.leory.commonlib.base.delegate.IComponent
 import com.leory.commonlib.di.component.AppComponent
@@ -88,22 +89,30 @@ class RankingFragment : BaseLazyLoadFragment<RankingPresenter>(), RankingContrac
     override fun showWeekData(data: List<String>) {
         activity!!.runOnUiThread {
             spinner_week.initData(data)
-            spinner_week.setOnSelectListener { pos, name -> presenter!!.selectData(true, spinner_type.selectName, name) }
+            spinner_week.setOnSelectListener(object : SpinnerPopView.OnSelectListener {
+                override fun onItemClick(pos: Int, name: String) {
+                    presenter?.selectData(true, spinner_type.selectName, name)
+                }
+            })
             spinner_type.initData(listOf(*RANKING_TYPES))
-            spinner_type.setOnSelectListener { pos, name -> presenter!!.selectData(true, name, spinner_week.selectName) }
-            refreshLayout!!.setEnableLoadMore(true)
+            spinner_type.setOnSelectListener(object : SpinnerPopView.OnSelectListener {
+                override fun onItemClick(pos: Int, name: String) {
+                    presenter?.selectData(true, name, spinner_week.selectName)
+                }
+            })
+            refreshLayout.setEnableLoadMore(true)
         }
 
     }
 
     override fun showLoading() {
-        progressBar!!.visibility = View.VISIBLE
-        rcv!!.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+        rcv.visibility = View.GONE
     }
 
     override fun hideLoading() {
-        progressBar!!.visibility = View.GONE
-        rcv!!.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
+        rcv.visibility = View.VISIBLE
     }
 
     override fun showMessage(message: String) {

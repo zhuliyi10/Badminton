@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.View
+import android.widget.TextView
 import com.leory.badminton.news.R
 import com.leory.badminton.news.app.listener.AppBarStateChangeListener
 import com.leory.badminton.news.app.utils.FileHashUtils
@@ -19,6 +20,7 @@ import com.leory.badminton.news.mvp.ui.fragment.MatchAgainstChartFragment
 import com.leory.badminton.news.mvp.ui.fragment.MatchDateFragment
 import com.leory.badminton.news.mvp.ui.fragment.MatchHistoryFragment
 import com.leory.badminton.news.mvp.ui.fragment.MatchPlayersFragment
+import com.leory.badminton.news.mvp.ui.widget.MatchTabView
 import com.leory.commonlib.base.BaseActivity
 import com.leory.commonlib.base.delegate.IComponent
 import com.leory.commonlib.di.component.AppComponent
@@ -37,7 +39,7 @@ class MatchDetailActivity : BaseActivity<MatchDetailPresenter>(), MatchDetailCon
         const val KEY_MATCH_CLASSIFY = "key_match_classify"
 
         @JvmStatic
-        fun launch(preActivity: Activity, detailUrl: String, matchClassify: String) {
+        fun launch(preActivity: Activity, detailUrl: String?, matchClassify: String?) {
             preActivity.startActivity(Intent(preActivity, MatchDetailActivity::class.java).putExtra(KEY_DETAIL_URL, detailUrl).putExtra(KEY_MATCH_CLASSIFY, matchClassify))
         }
     }
@@ -47,8 +49,8 @@ class MatchDetailActivity : BaseActivity<MatchDetailPresenter>(), MatchDetailCon
                 .view(this)
                 .detailUrl(intent.getStringExtra(KEY_DETAIL_URL))
                 .matchClassify(intent.getStringExtra(KEY_MATCH_CLASSIFY))
-                .playerMap(FileHashUtils.getPlayerName() as HashMap<String, String>?)
-                .countryMap(FileHashUtils.getCountry() as HashMap<String, String>?)
+                .playerMap(FileHashUtils.playerName as HashMap<String, String>)
+                .countryMap(FileHashUtils.country as HashMap<String, String>)
                 .appComponent(component as AppComponent)
                 .build()
         matchDetailComponent.inject(this)
@@ -125,11 +127,14 @@ class MatchDetailActivity : BaseActivity<MatchDetailPresenter>(), MatchDetailCon
         view_pager.adapter = TabPagerAdapter(supportFragmentManager, fragmentList)
         view_pager.offscreenPageLimit = 4
         val tabs = arrayOf("赛程", "对阵", "历史", "运动员")
-        tab.initData(Arrays.asList(*tabs))
-        tab.setOnChildClickListener { tv, position ->
-            tab.selectPos = position
-            view_pager.currentItem = position
-        }
+        tab.initData(listOf(*tabs))
+
+        tab.setOnChildClickListener(object : MatchTabView.OnChildClickListener {
+            override fun onClick(tv: TextView, position: Int) {
+                tab.selectPos = position
+                view_pager.currentItem = position
+            }
+        })
         tab.selectPos = 0
     }
 

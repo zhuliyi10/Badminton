@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.leory.badminton.news.R
 import com.leory.badminton.news.di.component.MatchDetailComponent
 import com.leory.badminton.news.mvp.contract.MatchDetailContract
@@ -31,6 +32,7 @@ class MatchPlayersFragment : BaseLazyLoadFragment<MatchPlayersPresenter>(), Matc
             return MatchPlayersFragment()
         }
     }
+
     lateinit var tab: MatchTabView
     lateinit var adapter: MatchPlayersAdapter
 
@@ -44,11 +46,14 @@ class MatchPlayersFragment : BaseLazyLoadFragment<MatchPlayersPresenter>(), Matc
 
     override fun lazyLoadData() {
         val types = arrayOf("男单", "女单", "男双", "女双", "混双")
-        tab.initData(Arrays.asList(*types))
-        tab.setOnChildClickListener { tv, position ->
-            tab.selectPos = position
-            presenter?.requestData(types[position])
-        }
+        tab.initData(listOf(*types))
+        tab.setOnChildClickListener(object : MatchTabView.OnChildClickListener {
+            override fun onClick(tv: TextView, position: Int) {
+                tab.selectPos = position
+                presenter?.requestData(types[position])
+            }
+        })
+
         tab.selectPos = 0
         presenter?.requestData(types[0])
     }
@@ -59,7 +64,7 @@ class MatchPlayersFragment : BaseLazyLoadFragment<MatchPlayersPresenter>(), Matc
 
     override fun initData(savedInstanceState: Bundle?) {
         rcv.layoutManager = LinearLayoutManager(context)
-        rcv.addItemDecoration(MatchDateItemDecoration(context))
+        rcv.addItemDecoration(MatchDateItemDecoration(context!!))
         val head = LayoutInflater.from(context).inflate(R.layout.head_match_players, null) as ConstraintLayout
         tab = head.findViewById(R.id.tab)
         adapter = MatchPlayersAdapter(ArrayList<MultiMatchPlayersBean<*>>())

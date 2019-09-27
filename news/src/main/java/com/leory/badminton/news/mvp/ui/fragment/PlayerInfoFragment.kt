@@ -20,7 +20,9 @@ import kotlinx.android.synthetic.main.fragment_player_info.*
 class PlayerInfoFragment : BaseLazyLoadFragment<IPresenter>() {
 
     override fun lazyLoadData() {
-        val infoBean = arguments?.getSerializable(KEY_PLAYER_INFO) as PlayerInfoBean
+        val infoBean = arguments?.let {
+            it.getSerializable(KEY_PLAYER_INFO)?.let { it -> it as PlayerInfoBean } ?: null
+        }
         if (infoBean != null) {
             txt_stats.text = infoBean.stats
         }

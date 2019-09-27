@@ -31,13 +31,13 @@ class LivePresenter @Inject constructor(model: LiveContract.Model, rootView: Liv
         BasePresenter<LiveContract.Model, LiveContract.View>(model, rootView) {
 
     private val matchNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.getMatchName() as HashMap<String, String>
+        FileHashUtils.matchName
     }
     private val monthMap: HashMap<String, String> by lazy {
-        FileHashUtils.getMonth() as HashMap<String, String>
+        FileHashUtils.month
     }
     private val playerNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.getPlayerName() as HashMap<String, String>
+        FileHashUtils.playerName
     }
 
     fun requestData() {

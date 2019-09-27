@@ -30,10 +30,10 @@ constructor(model: RankingContract.Model, rootView: RankingContract.View) : Base
     private val pageNum = 25
     private val weekMap = LinkedHashMap<String, String>()
     private val countryMap: HashMap<String, String> by lazy {
-        FileHashUtils.getCountry() as HashMap<String, String>
+        FileHashUtils.country as HashMap<String, String>
     }
     private val playerNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.getPlayerName() as HashMap<String, String>
+        FileHashUtils.playerName as HashMap<String, String>
     }
 
     /**

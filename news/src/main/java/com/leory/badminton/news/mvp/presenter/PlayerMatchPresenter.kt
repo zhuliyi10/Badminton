@@ -28,10 +28,10 @@ class PlayerMatchPresenter @Inject constructor(model: PlayerContract.Model, root
         BasePresenter<PlayerContract.Model, PlayerContract.MatchView>(model, rootView) {
 
     private val matchNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.getMatchName() as HashMap<String, String>
+        FileHashUtils.matchName as HashMap<String, String>
     }
     private val playerNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.getPlayerName() as HashMap<String, String>
+        FileHashUtils.playerName as HashMap<String, String>
     }
 
     fun requestData(year: String?) {

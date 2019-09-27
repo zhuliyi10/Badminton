@@ -27,7 +27,7 @@ class MatchHistoryFragment : BaseLazyLoadFragment<MatchHistoryPresenter>(), Matc
         private const val KEY_HISTORY_URL = "key_history_url"
 
         @JvmStatic
-        fun newInstance(historyUrl: String): MatchHistoryFragment {
+        fun newInstance(historyUrl: String?): MatchHistoryFragment {
             val fragment = MatchHistoryFragment()
             val args = Bundle()
             args.putString(KEY_HISTORY_URL, historyUrl)
@@ -42,7 +42,7 @@ class MatchHistoryFragment : BaseLazyLoadFragment<MatchHistoryPresenter>(), Matc
     override fun setupActivityComponent(component: IComponent): IComponent {
         (component as MatchDetailComponent).buildMatchHistoryComponent()
                 .view(this)
-                .historyUrl(arguments?.getString(KEY_HISTORY_URL))
+                .historyUrl(arguments?.getString(KEY_HISTORY_URL)?:"")
                 .build()
                 .inject(this)
         return super.setupActivityComponent(component)
@@ -58,8 +58,8 @@ class MatchHistoryFragment : BaseLazyLoadFragment<MatchHistoryPresenter>(), Matc
 
     override fun initData(savedInstanceState: Bundle?) {
         rcv.layoutManager = LinearLayoutManager(context)
-        rcv.addItemDecoration(MatchDateItemDecoration(context))
-        adapter = MatchHistoryAdapter(ArrayList<MultiMatchHistoryBean<*>>())
+        rcv.addItemDecoration(MatchDateItemDecoration(context!!))
+        adapter = MatchHistoryAdapter(ArrayList())
         rcv.adapter = adapter
     }
 

@@ -31,10 +31,10 @@ import javax.inject.Named
 class MatchDetailPresenter @Inject
 constructor(model: MatchDetailContract.Model, rootView: MatchDetailContract.View, @param:Named("detail_url") internal var detailUrl: String?, @param:Named("match_classify") internal var matchClassify: String) : BasePresenter<MatchDetailContract.Model, MatchDetailContract.View>(model, rootView) {
     private val matchNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.getMatchName() as HashMap<String, String>
+        FileHashUtils.matchName
     }
     private val monthMap: HashMap<String, String> by lazy {
-        FileHashUtils.getMonth() as HashMap<String, String>
+        FileHashUtils.month
     }
     /**
      * 是否是团体赛
