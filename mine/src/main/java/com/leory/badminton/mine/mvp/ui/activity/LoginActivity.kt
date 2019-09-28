@@ -52,7 +52,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         ToastUtils.showShort(message)
     }
 
-    override fun loginSuccess(bean: UserInfoBean) {
+    override fun loginSuccess(bean: UserInfoBean?) {
         AccountSp.userInfoBean = bean
         AccountSp.loginState = true
         showMessage("登陆成功")

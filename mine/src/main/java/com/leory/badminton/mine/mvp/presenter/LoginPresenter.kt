@@ -23,7 +23,8 @@ class LoginPresenter @Inject constructor(model: LoginContract.Model, rootView: L
         model.login(phone, pwd)
                 .compose<BaseBusinessBean<UserInfoBean>>(RxUtils.applySchedulersDelayFinal<BaseBusinessBean<UserInfoBean>>(rootView))
                 .subscribe(object : RxBusinessHandlerSubscriber<UserInfoBean>() {
-                    override fun onSuccess(data: UserInfoBean) {
+
+                    override fun onSuccess(data: UserInfoBean?) {
                         rootView.loginSuccess(data)
                     }
 

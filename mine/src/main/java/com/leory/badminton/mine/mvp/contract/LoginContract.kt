@@ -14,7 +14,7 @@ import io.reactivex.Observable
  */
 interface LoginContract {
     interface View : IView {
-        fun loginSuccess(bean: UserInfoBean)
+        fun loginSuccess(bean: UserInfoBean?)
     }
 
     interface Model : IModel {
