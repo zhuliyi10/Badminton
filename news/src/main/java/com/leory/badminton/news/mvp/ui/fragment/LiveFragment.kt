@@ -31,7 +31,9 @@ import java.util.*
 class LiveFragment : BaseLazyLoadFragment<LivePresenter>(), LiveContract.View {
 
 
-    private lateinit var liveDetailAdapter: LiveDetailAdapter
+    private val liveDetailAdapter: LiveDetailAdapter by lazy {
+        LiveDetailAdapter(ArrayList())
+    }
 
 
     override fun setupActivityComponent(component: IComponent): IComponent {
@@ -49,7 +51,6 @@ class LiveFragment : BaseLazyLoadFragment<LivePresenter>(), LiveContract.View {
 
     override fun initData(savedInstanceState: Bundle?) {
         rcv.layoutManager = LinearLayoutManager(context)
-        liveDetailAdapter = LiveDetailAdapter(ArrayList())
         rcv.adapter = liveDetailAdapter
     }
 

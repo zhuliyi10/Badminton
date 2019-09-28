@@ -29,7 +29,9 @@ import java.util.*
 class MatchFragment : BaseLazyLoadFragment<MatchPresenter>(), MatchContract.View {
 
 
-    private lateinit var adapter: MatchSectionAdapter
+    private val adapter: MatchSectionAdapter by lazy {
+        MatchSectionAdapter(ArrayList())
+    }
 
     override fun setupActivityComponent(component: IComponent): IComponent {
         DaggerMatchComponent.builder()
@@ -60,7 +62,7 @@ class MatchFragment : BaseLazyLoadFragment<MatchPresenter>(), MatchContract.View
             }
         })
         rcv.layoutManager = LinearLayoutManager(context)
-        rcv.adapter = MatchSectionAdapter(ArrayList()).also { adapter = it }
+        rcv.adapter = adapter
         adapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { baseQuickAdapter, view, position ->
             if (!adapter.data[position].isHeader) {
                 val matchUrl = adapter.data[position].t.matchUrl

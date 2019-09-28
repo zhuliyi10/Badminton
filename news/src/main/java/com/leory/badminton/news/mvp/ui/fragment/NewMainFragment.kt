@@ -46,7 +46,7 @@ class NewMainFragment : BaseFragment<IPresenter>() {
     override fun initData(savedInstanceState: Bundle?) {
         StatusBarUtils.setDarkStatusBar(activity, true, R.color.colorPrimary)//进来没有执行onPageSelected回调，这里要设置一下
         fragmentList.add(LiveFragment())
-        fragmentList.add(RankingFragment())
+        fragmentList.add(MatchFragment())
         fragmentList.add(RankingFragment())
         fragmentList.add(RankingFragment())
         indicatorPagerAdapter = IndicatorPagerAdapter(childFragmentManager, fragmentList)

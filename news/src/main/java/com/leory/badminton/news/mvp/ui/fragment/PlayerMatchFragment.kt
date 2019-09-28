@@ -25,8 +25,16 @@ import java.util.*
  */
 @FragmentScope
 class PlayerMatchFragment : BaseLazyLoadFragment<PlayerMatchPresenter>(), PlayerContract.MatchView {
+    companion object {
+        @JvmStatic
+        fun newInstance(): PlayerMatchFragment {
+            return PlayerMatchFragment()
+        }
+    }
 
-    lateinit var adapter: PlayerMatchAdapter
+    val adapter: PlayerMatchAdapter by lazy {
+        PlayerMatchAdapter(ArrayList())
+    }
 
     override fun setupActivityComponent(component: IComponent): IComponent {
         (component as PlayerDetailComponent).buildPlayerMatchComponent()
@@ -47,7 +55,6 @@ class PlayerMatchFragment : BaseLazyLoadFragment<PlayerMatchPresenter>(), Player
     override fun initData(savedInstanceState: Bundle?) {
         rcv.layoutManager = LinearLayoutManager(context)
         rcv.addItemDecoration(MatchDateItemDecoration(context!!))
-        adapter = PlayerMatchAdapter(ArrayList())
         rcv.adapter = adapter
     }
 
@@ -67,11 +74,5 @@ class PlayerMatchFragment : BaseLazyLoadFragment<PlayerMatchPresenter>(), Player
         adapter.setNewData(data)
     }
 
-    companion object {
-
-        fun newInstance(): PlayerMatchFragment {
-            return PlayerMatchFragment()
-        }
-    }
 
 }

@@ -33,7 +33,9 @@ class RankingFragment : BaseLazyLoadFragment<RankingPresenter>(), RankingContrac
         val RANKING_TYPES = arrayOf("男单", "女单", "男双", "女双", "混双")
     }
 
-    private lateinit var adapter: RankingAdapter
+    private val adapter: RankingAdapter by lazy {
+        RankingAdapter(ArrayList())
+    }
 
 
     override fun setupActivityComponent(component: IComponent): IComponent {
@@ -51,7 +53,6 @@ class RankingFragment : BaseLazyLoadFragment<RankingPresenter>(), RankingContrac
 
     override fun initData(savedInstanceState: Bundle?) {
         rcv.layoutManager = LinearLayoutManager(context)
-        adapter = RankingAdapter(ArrayList())
         rcv.adapter = adapter
         adapter.setOnItemChildClickListener { _, view, position ->
             val rankingBean = adapter.data[position]

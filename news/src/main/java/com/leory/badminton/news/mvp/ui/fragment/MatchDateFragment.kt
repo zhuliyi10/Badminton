@@ -35,7 +35,9 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
     @Inject
     lateinit var dateBeans: MutableList<MatchTabDateBean>
     lateinit var tabDate: MatchTabView
-    private lateinit var dateAdapter: MatchDateAdapter
+    private val dateAdapter: MatchDateAdapter by lazy {
+        MatchDateAdapter(ArrayList())
+    }
     private lateinit var txt_filter: TextView
     private lateinit var txt_state: TextView
     override fun setupActivityComponent(component: IComponent): IComponent {
@@ -75,7 +77,6 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
     override fun initData(savedInstanceState: Bundle?) {
         rcv.layoutManager = LinearLayoutManager(context)
         rcv.addItemDecoration(MatchDateItemDecoration(context!!))
-        dateAdapter = MatchDateAdapter(ArrayList())
         rcv.adapter = dateAdapter
         dateAdapter.setOnItemClickListener { _, _, position ->
             txt_filter.text = "全部"
@@ -85,6 +86,7 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
         val head = LayoutInflater.from(context).inflate(R.layout.head_match_date, null) as ConstraintLayout
         txt_filter = head.findViewById(R.id.txt_filter)
         txt_state = head.findViewById(R.id.txt_state)
+        tabDate = head.findViewById(R.id.tab_date)
         dateAdapter.addHeaderView(head)
 
         txt_filter.setOnClickListener {
@@ -103,7 +105,7 @@ class MatchDateFragment : BaseLazyLoadFragment<MatchDatePresenter>(), MatchDetai
             }
             presenter?.filter(txt_filter.text.toString(), txt_state.text.toString())
         }
-        tabDate = head.findViewById(R.id.tab_date)
+
 
     }
 

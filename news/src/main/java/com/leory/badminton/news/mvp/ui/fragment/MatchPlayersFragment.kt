@@ -34,7 +34,9 @@ class MatchPlayersFragment : BaseLazyLoadFragment<MatchPlayersPresenter>(), Matc
     }
 
     lateinit var tab: MatchTabView
-    lateinit var adapter: MatchPlayersAdapter
+    val adapter: MatchPlayersAdapter by lazy {
+        MatchPlayersAdapter(ArrayList())
+    }
 
     override fun setupActivityComponent(component: IComponent): IComponent {
         (component as MatchDetailComponent).buildMatchPlayersComponent()
@@ -67,7 +69,6 @@ class MatchPlayersFragment : BaseLazyLoadFragment<MatchPlayersPresenter>(), Matc
         rcv.addItemDecoration(MatchDateItemDecoration(context!!))
         val head = LayoutInflater.from(context).inflate(R.layout.head_match_players, null) as ConstraintLayout
         tab = head.findViewById(R.id.tab)
-        adapter = MatchPlayersAdapter(ArrayList<MultiMatchPlayersBean<*>>())
         rcv.adapter = adapter
         adapter.addHeaderView(head)
     }
@@ -86,7 +87,7 @@ class MatchPlayersFragment : BaseLazyLoadFragment<MatchPlayersPresenter>(), Matc
     }
 
     override fun showPlayersData(data: List<MultiMatchPlayersBean<*>>) {
-        adapter!!.setNewData(data)
+        adapter.setNewData(data)
     }
 
 

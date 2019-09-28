@@ -117,7 +117,7 @@ class MatchDetailActivity : BaseActivity<MatchDetailPresenter>(), MatchDetailCon
             }
 
             override fun onPageSelected(i: Int) {
-                tab!!.selectPos = i
+                tab.selectPos = i
             }
 
             override fun onPageScrollStateChanged(i: Int) {

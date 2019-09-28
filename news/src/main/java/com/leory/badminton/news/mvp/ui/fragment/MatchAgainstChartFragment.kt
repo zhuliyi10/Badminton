@@ -24,6 +24,12 @@ import java.util.*
  */
 
 class MatchAgainstChartFragment : BaseLazyLoadFragment<MatchAgainstPresenter>(), MatchDetailContract.MatchAgainView, SpinnerPopView.OnSelectListener {
+    companion object {
+        @JvmStatic
+        fun newInstance(): MatchAgainstChartFragment {
+            return MatchAgainstChartFragment()
+        }
+    }
     private val matchType = arrayOf("男单", "女单", "男双", "女双", "混双")
 
     override fun lazyLoadData() {
@@ -88,10 +94,5 @@ class MatchAgainstChartFragment : BaseLazyLoadFragment<MatchAgainstPresenter>(),
         presenter?.requestData(name)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(): MatchAgainstChartFragment {
-            return MatchAgainstChartFragment()
-        }
-    }
+
 }

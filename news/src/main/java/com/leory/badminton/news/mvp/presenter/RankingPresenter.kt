@@ -30,10 +30,10 @@ constructor(model: RankingContract.Model, rootView: RankingContract.View) : Base
     private val pageNum = 25
     private val weekMap = LinkedHashMap<String, String>()
     private val countryMap: HashMap<String, String> by lazy {
-        FileHashUtils.country as HashMap<String, String>
+        FileHashUtils.country
     }
     private val playerNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.playerName as HashMap<String, String>
+        FileHashUtils.playerName
     }
 
     /**
@@ -51,16 +51,17 @@ constructor(model: RankingContract.Model, rootView: RankingContract.View) : Base
      */
     fun selectData(refresh: Boolean, rankingType: String, week: String) {
         var concatType: String? = null
-        if (RANKING_TYPES[0] == rankingType) {//男单
-            concatType = "6/men-s-singles/"
-        } else if (RANKING_TYPES[1] == rankingType) {//女单
-            concatType = "7/women-s-singles/"
-        } else if (RANKING_TYPES[2] == rankingType) {//男双
-            concatType = "8/men-s-doubles/"
-        } else if (RANKING_TYPES[3] == rankingType) {//女双
-            concatType = "9/women-s-doubles/"
-        } else if (RANKING_TYPES[4] == rankingType) {//混双
-            concatType = "10/mixed-doubles/"
+        when (rankingType) {
+            RANKING_TYPES[0] -> //男单
+                concatType = "6/men-s-singles/"
+            RANKING_TYPES[1] -> //女单
+                concatType = "7/women-s-singles/"
+            RANKING_TYPES[2] -> //男双
+                concatType = "8/men-s-doubles/"
+            RANKING_TYPES[3] -> //女双
+                concatType = "9/women-s-doubles/"
+            RANKING_TYPES[4] -> //混双
+                concatType = "10/mixed-doubles/"
         }
         var concatWeek = weekMap[week]
         if (concatWeek != null) concatWeek = concatWeek.replace("--", "/")

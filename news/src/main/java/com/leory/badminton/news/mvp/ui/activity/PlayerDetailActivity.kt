@@ -35,7 +35,7 @@ import java.util.*
 @ActivityScope
 class PlayerDetailActivity : BaseActivity<PlayerDetailPresenter>(), PlayerContract.View {
     companion object {
-        private val KEY_PLAYER_URL = "key_player_url"
+        private const val KEY_PLAYER_URL = "key_player_url"
         @JvmStatic
         fun launch(preActivity: Activity, url: String?) {
             preActivity.startActivity(Intent(preActivity, PlayerDetailActivity::class.java).putExtra(KEY_PLAYER_URL, url))

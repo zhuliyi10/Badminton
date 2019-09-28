@@ -37,7 +37,9 @@ class MatchHistoryFragment : BaseLazyLoadFragment<MatchHistoryPresenter>(), Matc
     }
 
 
-    private lateinit var adapter: MatchHistoryAdapter
+    private val adapter: MatchHistoryAdapter by lazy {
+        MatchHistoryAdapter(ArrayList())
+    }
 
     override fun setupActivityComponent(component: IComponent): IComponent {
         (component as MatchDetailComponent).buildMatchHistoryComponent()
@@ -59,7 +61,6 @@ class MatchHistoryFragment : BaseLazyLoadFragment<MatchHistoryPresenter>(), Matc
     override fun initData(savedInstanceState: Bundle?) {
         rcv.layoutManager = LinearLayoutManager(context)
         rcv.addItemDecoration(MatchDateItemDecoration(context!!))
-        adapter = MatchHistoryAdapter(ArrayList())
         rcv.adapter = adapter
     }
 

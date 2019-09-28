@@ -29,7 +29,7 @@ class PlayerDetailPresenter @Inject constructor(model: PlayerContract.Model, roo
         BasePresenter<PlayerContract.Model, PlayerContract.View>(model, rootView) {
 
     private val playerNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.playerName as HashMap<String, String>
+        FileHashUtils.playerName
     }
 
     init {
@@ -40,7 +40,7 @@ class PlayerDetailPresenter @Inject constructor(model: PlayerContract.Model, roo
         if (playerUrl != null) {
             model.getPlayerDetail(playerUrl)
                     .subscribeOn(Schedulers.io())
-                    .doOnSubscribe { disposable -> rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally { rootView.hideLoading() }
                     .compose(RxLifecycleUtils.bindToLifecycle(rootView))

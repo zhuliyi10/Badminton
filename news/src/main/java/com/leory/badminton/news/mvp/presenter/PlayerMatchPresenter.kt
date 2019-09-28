@@ -28,10 +28,10 @@ class PlayerMatchPresenter @Inject constructor(model: PlayerContract.Model, root
         BasePresenter<PlayerContract.Model, PlayerContract.MatchView>(model, rootView) {
 
     private val matchNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.matchName as HashMap<String, String>
+        FileHashUtils.matchName
     }
     private val playerNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.playerName as HashMap<String, String>
+        FileHashUtils.playerName
     }
 
     fun requestData(year: String?) {
@@ -39,7 +39,7 @@ class PlayerMatchPresenter @Inject constructor(model: PlayerContract.Model, root
             val requestUrl = "$playerUrl/tournament-results/"
             model.getPlayerMatches(requestUrl, year)
                     .subscribeOn(Schedulers.io())
-                    .doOnSubscribe { disposable -> rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally { rootView.hideLoading() }
                     .compose(RxLifecycleUtils.bindToLifecycle(rootView))

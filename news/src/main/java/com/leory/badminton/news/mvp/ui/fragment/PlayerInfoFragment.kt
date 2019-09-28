@@ -18,6 +18,17 @@ import kotlinx.android.synthetic.main.fragment_player_info.*
  */
 @FragmentScope
 class PlayerInfoFragment : BaseLazyLoadFragment<IPresenter>() {
+    companion object {
+        private const val KEY_PLAYER_INFO = "key_player_info"
+        @JvmStatic
+        fun newInstance(bean: PlayerInfoBean?): PlayerInfoFragment {
+            val fragment = PlayerInfoFragment()
+            val args = Bundle()
+            args.putSerializable(KEY_PLAYER_INFO, bean)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun lazyLoadData() {
         val infoBean = arguments?.let {
@@ -36,15 +47,5 @@ class PlayerInfoFragment : BaseLazyLoadFragment<IPresenter>() {
 
     }
 
-    companion object {
-        private val KEY_PLAYER_INFO = "key_player_info"
-        @JvmStatic
-        fun newInstance(bean: PlayerInfoBean?): PlayerInfoFragment {
-            val fragment = PlayerInfoFragment()
-            val args = Bundle()
-            args.putSerializable(KEY_PLAYER_INFO, bean)
-            fragment.arguments = args
-            return fragment
-        }
-    }
+
 }

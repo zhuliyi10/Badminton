@@ -2,7 +2,6 @@ package com.leory.badminton.news.mvp.presenter
 
 import android.graphics.Color
 import android.text.TextUtils
-
 import com.leory.badminton.news.app.utils.FileHashUtils
 import com.leory.badminton.news.mvp.contract.MatchContract
 import com.leory.badminton.news.mvp.model.bean.MatchItemBean
@@ -12,19 +11,14 @@ import com.leory.commonlib.http.RxHandlerSubscriber
 import com.leory.commonlib.mvp.BasePresenter
 import com.leory.commonlib.utils.LogUtils
 import com.leory.commonlib.utils.RxLifecycleUtils
-
-import org.jsoup.Jsoup
-
-import java.util.ArrayList
-import java.util.HashMap
-
-import javax.inject.Inject
-
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.jsoup.Jsoup
+import java.util.*
+import javax.inject.Inject
 
 /**
  * Describe :赛事presenter
@@ -36,24 +30,21 @@ class MatchPresenter @Inject constructor(model: MatchContract.Model, rootView: M
         BasePresenter<MatchContract.Model, MatchContract.View>(model, rootView) {
 
     private val matchCategoryMap: HashMap<String, String> by lazy {
-        FileHashUtils.matchCategory as HashMap<String, String>
+        FileHashUtils.matchCategory
     }
     private val matchNameMap: HashMap<String, String> by lazy {
-        FileHashUtils.matchName as HashMap<String, String>
+        FileHashUtils.matchName
     }
 
     fun requestData(year: String, finish: String) {
-        val state: String
-        if ("全部" == finish) {
-            state = "all"
-        } else if ("已完成" == finish) {
-            state = "completed"
-        } else {
-            state = "remaining"
+        val state: String = when (finish) {
+            "全部" -> "all"
+            "已完成" -> "completed"
+            else -> "remaining"
         }
         model.getMatchList(year, state)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { disposable -> rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(rootView))
                 .subscribe(object : RxHandlerSubscriber<String>() {
@@ -77,7 +68,7 @@ class MatchPresenter @Inject constructor(model: MatchContract.Model, rootView: M
     private fun parseHtmlResult(html: String) {
         Observable.just(html)
 
-                .flatMap{ Observable.just(getMatchData(html)) }
+                .flatMap { Observable.just(getMatchData(html)) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally { rootView.hideLoading() }
