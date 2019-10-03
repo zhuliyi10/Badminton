@@ -18,6 +18,7 @@ import com.leory.commonlib.base.delegate.IComponent
 import com.leory.commonlib.di.component.AppComponent
 import com.leory.commonlib.utils.ToastUtils
 import com.leory.commonlib.widget.morePop.MorePopBean
+import com.leory.commonlib.widget.morePop.MorePopView
 import com.leory.interactions.RouterHub
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import kotlinx.android.synthetic.main.fragment_video_main.*
@@ -68,11 +69,16 @@ class VideoMainFragment : BaseFragment<VideoPresenter>(), VideoListContract.View
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        toolbar.addMorePopView(morePopBeans) { pos, name ->
-            presenter!!.setSelectPos(pos)
-            showMessage(name)
-        }
-        toolbar.morePopView!!.setSelectStateChange(true)
+
+        toolbar.addMorePopView(morePopBeans, object : MorePopView.OnSelectListener {
+            override fun onItemClick(pos: Int, name: String?) {
+                presenter?.setSelectPos(pos)
+                showMessage(name ?: "")
+            }
+
+        })
+
+        toolbar.morePopView?.setSelectStateChange(true)
         rcv.layoutManager = LinearLayoutManager(context)
         videoAdapter = VideoAdapter(ArrayList())
         rcv.adapter = videoAdapter
