@@ -64,7 +64,7 @@ class MatchAgainstChartFragment : BaseLazyLoadFragment<MatchAgainstPresenter>(),
     override fun hideLoading() {
         if (progress != null) {
             progress.visibility = View.GONE
-            againstFlow!!.visibility = View.VISIBLE
+            againstFlow.visibility = View.VISIBLE
         }
     }
 

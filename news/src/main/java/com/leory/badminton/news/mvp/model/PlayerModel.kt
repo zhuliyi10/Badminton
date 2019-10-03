@@ -26,6 +26,6 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
 
     override fun getPlayerMatches(url: String, year: String?): Observable<String> {
         return repositoryManager.obtainRetrofitService(PlayerApi::class.java)
-                .getPlayerMatch(url, year!!)
+                .getPlayerMatch(url, year)
     }
 }

@@ -9,13 +9,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.PopupWindow
-import butterknife.OnClick
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leory.badminton.news.R
-import com.leory.badminton.news.R2
 import com.leory.commonlib.utils.ScreenUtils
 import com.leory.commonlib.widget.morePop.MorePopBean
-import kotlinx.android.synthetic.main.item_spinner_pop.view.*
+import kotlinx.android.synthetic.main.item_spinner_pop.view.txt_name
+import kotlinx.android.synthetic.main.view_spinner_pop.view.*
 
 /**
  * Describe : 通用选择的弹出框
@@ -23,14 +22,40 @@ import kotlinx.android.synthetic.main.item_spinner_pop.view.*
  * Date : 2019-05-19
  */
 
-class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
+    : FrameLayout(context, attrs) {
 
-    private var window: PopupWindow? = null
+
     private var listener: OnSelectListener? = null
     private var data: List<String>? = null
     private var selectPos = 0
     private var change = true
-    internal var adapter: SpinnerPopAdapter? = null
+    private val adapter: SpinnerPopAdapter by lazy {
+        SpinnerPopAdapter(data, change)
+    }
+    private val window: PopupWindow by lazy {
+        val contentView = LayoutInflater.from(context).inflate(R.layout.pop_spinner_list, null, true)
+        val rcv = contentView.findViewById<RecyclerView>(R.id.rcv)
+        rcv.layoutManager = LinearLayoutManager(context)
+
+        adapter.setSelectPos(selectPos)
+        rcv.adapter = adapter
+        //这句是为了防止弹出菜单获取焦点之后，点击activity的其他组件没有响应
+        adapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { baseQuickAdapter, view, position ->
+            val item = adapter.data[position]
+            if (listener != null) {
+                window.dismiss()
+                adapter.setSelectPos(position)
+                setSelectPos(position)
+                adapter.notifyDataSetChanged()
+                listener!!.onItemClick(position, item)
+            }
+        }
+        PopupWindow(contentView, width, ViewGroup.LayoutParams.WRAP_CONTENT, true).also {
+            it.setBackgroundDrawable(BitmapDrawable())
+            it.showAsDropDown(this, 0, ScreenUtils.dp2px(context, 8f))
+        }
+    }
     private var prohibit: Boolean = false//是否禁止弹出
     /**
      * 获取获取的名称
@@ -42,11 +67,12 @@ class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: Attribut
 
 
     init {
-        init()
-    }
-
-    private fun init() {
         LayoutInflater.from(context).inflate(R.layout.view_spinner_pop, this)
+        root.setOnClickListener {
+            if (!prohibit) {
+                popSelectList()
+            }
+        }
     }
 
     /**
@@ -55,7 +81,6 @@ class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: Attribut
      *
      * @param data
      */
-    @JvmOverloads
     fun initData(data: List<String>, selectPos: Int = 0) {
         this.data = data
         setSelectPos(selectPos)
@@ -65,9 +90,7 @@ class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: Attribut
      * 更新状态
      */
     fun refreshView() {
-        if (adapter != null) {
-            adapter!!.notifyDataSetChanged()
-        }
+        adapter.notifyDataSetChanged()
     }
 
     /**
@@ -99,32 +122,7 @@ class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     private fun popSelectList() {
-        if (window == null) {
-
-            val contentView = LayoutInflater.from(context).inflate(R.layout.pop_spinner_list, null, true)
-            val rcv = contentView.findViewById<RecyclerView>(R.id.rcv)
-            rcv.layoutManager = LinearLayoutManager(context)
-            adapter = SpinnerPopAdapter(data, change)
-            adapter!!.setSelectPos(selectPos)
-            rcv.adapter = adapter
-            window = PopupWindow(contentView, width, ViewGroup.LayoutParams.WRAP_CONTENT, true)
-            //这句是为了防止弹出菜单获取焦点之后，点击activity的其他组件没有响应
-            window!!.setBackgroundDrawable(BitmapDrawable())
-            window!!.showAsDropDown(this, 0, ScreenUtils.dp2px(context, 8f))
-            adapter!!.onItemClickListener = BaseQuickAdapter.OnItemClickListener { baseQuickAdapter, view, position ->
-                val item = adapter!!.data[position]
-                if (listener != null) {
-                    window!!.dismiss()
-                    adapter!!.setSelectPos(position)
-                    setSelectPos(position)
-                    adapter!!.notifyDataSetChanged()
-                    listener!!.onItemClick(position, item)
-                }
-            }
-        } else {
-            window!!.showAsDropDown(this, 0, ScreenUtils.dp2px(context, 8f))
-        }
-
+        window.showAsDropDown(this, 0, ScreenUtils.dp2px(context, 8f))
     }
 
 
@@ -135,13 +133,6 @@ class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: Attribut
         this.prohibit = prohibit
     }
 
-    @OnClick(R2.id.root)
-    fun onViewClicked() {
-        if (!prohibit) {
-            popSelectList()
-        }
-    }
-
     interface OnSelectListener {
         fun onItemClick(pos: Int, name: String)
     }
@@ -150,8 +141,4 @@ class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: Attribut
         private val TAG = SpinnerPopView::class.java.simpleName
     }
 }
-/**
- * 初始化列表数据，实体类[MorePopBean]
- *
- * @param data
- */
+

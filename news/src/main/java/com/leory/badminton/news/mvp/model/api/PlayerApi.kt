@@ -15,7 +15,7 @@ interface PlayerApi {
     fun getPlayerDetail(@Url url: String): Observable<String> //获取运动员详情
 
     @GET
-    fun getPlayerMatch(@Url url: String, @Query("year") year: String): Observable<String> //获取运动员赛果
+    fun getPlayerMatch(@Url url: String, @Query("year") year: String?): Observable<String> //获取运动员赛果
 
     @GET
     fun getHandOffRecords(@Url url: String): Observable<String> //获取运动员交手记录
