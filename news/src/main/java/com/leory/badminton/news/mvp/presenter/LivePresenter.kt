@@ -10,6 +10,8 @@ import com.leory.commonlib.http.RxHandlerSubscriber
 import com.leory.commonlib.mvp.BasePresenter
 import com.leory.commonlib.utils.LogUtils
 import com.leory.commonlib.utils.RxLifecycleUtils
+import com.trello.rxlifecycle2.android.ActivityEvent
+import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -47,7 +49,7 @@ class LivePresenter @Inject constructor(model: LiveContract.Model, rootView: Liv
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally { rootView.hideLoading() }
-                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .compose(RxLifecycleUtils.bindUntilEvent(rootView,FragmentEvent.DESTROY))
                 .subscribe(object : RxHandlerSubscriber<String>() {
                     override fun onNext(s: String) {
                         parseHtmlData(s)
@@ -62,7 +64,7 @@ class LivePresenter @Inject constructor(model: LiveContract.Model, rootView: Liv
                 .flatMap { Observable.just(getLiveData(html)) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .compose(RxLifecycleUtils.bindUntilEvent(rootView,FragmentEvent.DESTROY))
                 .subscribe(object : Observer<LiveBean> {
                     override fun onSubscribe(d: Disposable) {
 
@@ -159,7 +161,7 @@ class LivePresenter @Inject constructor(model: LiveContract.Model, rootView: Liv
                 }
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                //                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .compose(RxLifecycleUtils.bindUntilEvent(rootView,FragmentEvent.DESTROY))
                 .subscribe(object : RxHandlerSubscriber<String>(compositeDisposable) {
                     override fun onNext(s: String) {
                         parseLiveDetail(s)
@@ -173,7 +175,7 @@ class LivePresenter @Inject constructor(model: LiveContract.Model, rootView: Liv
                 .flatMap { Observable.just(getLiveDetails(html)) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(rootView))
+                .compose(RxLifecycleUtils.bindUntilEvent(rootView,FragmentEvent.DESTROY))
                 .subscribe(object : Observer<List<LiveDetailBean>> {
                     override fun onSubscribe(d: Disposable) {
 
