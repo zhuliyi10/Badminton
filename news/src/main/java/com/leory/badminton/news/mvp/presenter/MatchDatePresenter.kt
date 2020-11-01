@@ -96,8 +96,13 @@ class MatchDatePresenter @Inject constructor(@Named("player_name")
 
     }
 
+    private var nextMin=60
     fun requestPosition(pos: Int, match: String?) {
-
+        nextMin = if(pos==0){
+            45
+        }else{
+            60
+        }
         model.getMatchDate(dateBeans?.let { it[pos].link } ?: "", match ?: "")
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
@@ -170,11 +175,24 @@ class MatchDatePresenter @Inject constructor(@Named("player_name")
                     } else if (TextUtils.isDigitsOnly(court)) {
                         bean.field = "场地 $court"
                     } else {
+                        bean.field=court.replace("Minoru Yoneyama","场地1").replace("M Yoneyama Court","场地1")
+                                .replace("Quaycentre", "场地").replace("court", "场地").replace("Court", "场地")
 
-                        bean.field = court.replace("Quaycentre", "场地").replace("court", "场地").replace("Court", "场地")
                     }
 
+                    bean.field?.apply {
+                        bean.field=replace(" ","")
+                    }
+
+
                     bean.time = getChineseTime(translateTime(li.select("div.time").first().text()))
+                    bean.time?.apply {
+                        val strs=split(".")
+                        if(strs.size>1){
+                            bean.time=strs[1].trim()
+                        }
+                    }
+
 
                     //player1
                     val player11 = li.select("div.player1-wrap").first()
@@ -252,7 +270,36 @@ class MatchDatePresenter @Inject constructor(@Named("player_name")
             }
         }
 
-        return data
+        val result=ArrayList<MatchDateBean>()
+        val court1=data.filter { it.field=="场地1" }
+        addNextTime(court1)
+        result.addAll(court1)
+        val court2=data.filter { it.field=="场地2" }
+        addNextTime(court2)
+        result.addAll(court2)
+        val court3=data.filter { it.field=="场地3" }
+        addNextTime(court3)
+        result.addAll(court3)
+        val court4=data.filter { it.field=="场地4" }
+        addNextTime(court4)
+        result.addAll(court4)
+        val court5=data.filter { it.field=="场地5" }
+        addNextTime(court5)
+        result.addAll(court5)
+        val courtN=data.filter { it.field=="流水场" }
+        addNextTime(courtN)
+        result.addAll(courtN)
+
+        return result
+    }
+    private fun addNextTime(data:List<MatchDateBean>){
+        for (index in data.indices){
+            if(index>0) {
+                if (data[index].time.isNullOrEmpty()){
+                    data[index].time=estimateNextTime(data[index-1].time)
+                }
+            }
+        }
     }
 
     private fun translateType(type: String): String {
@@ -315,6 +362,25 @@ class MatchDatePresenter @Inject constructor(@Named("player_name")
         }
 
         return time
+    }
+    private fun estimateNextTime(lastTime: String?):String{
+        val m = Pattern.compile("\\d+:\\d+").matcher(lastTime)
+        if (m.find()) {
+            val hs = m.group()
+            val sdf = SimpleDateFormat("HH:mm")
+            try {
+                val date = sdf.parse(hs)
+                val calendar = Calendar.getInstance()
+                calendar.time = date
+                calendar.add(Calendar.MINUTE, nextMin)
+                return sdf.format(calendar.time)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+
+        }
+        return ""
+
     }
 
     private fun getParam(url: String?, name: String): String? {

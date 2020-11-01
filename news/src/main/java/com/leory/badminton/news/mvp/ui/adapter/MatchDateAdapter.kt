@@ -7,6 +7,7 @@ import com.leory.badminton.news.R
 import com.leory.badminton.news.mvp.model.bean.MatchDateBean
 import com.leory.commonlib.base.BaseAdapter
 import com.leory.commonlib.utils.ImageUtils
+import kotlinx.android.synthetic.main.item_match_date.view.*
 
 /**
  * Describe : 赛事赛程adapter
@@ -17,14 +18,10 @@ class MatchDateAdapter(data: List<MatchDateBean>?) : BaseAdapter<MatchDateBean>(
 
     override fun convert(helper: BaseViewHolder, item: MatchDateBean) {
         val position = helper.adapterPosition
-        if (position % 2 == 0) {
-            helper.itemView.setBackgroundColor(mContext.resources.getColor(R.color.white))
-        } else {
-            helper.itemView.setBackgroundColor(mContext.resources.getColor(R.color.bg_gray))
-        }
+
         helper.setText(R.id.txt_type, item.type)
         helper.setText(R.id.txt_time, item.time)
-        helper.setText(R.id.txt_field, item.field)
+        helper.setText(R.id.txt_court, item.field)
         helper.setText(R.id.txt_duration, item.duration)
         helper.setText(R.id.txt_player1, item.player1)
         helper.setText(R.id.txt_player2, item.player2)
@@ -32,6 +29,20 @@ class MatchDateAdapter(data: List<MatchDateBean>?) : BaseAdapter<MatchDateBean>(
         ImageUtils.loadImage(mContext, helper.getView(R.id.img_flag2), item.flag2)
         helper.setText(R.id.vs, item.vs)
         helper.setText(R.id.txt_score, item.score)
+
+        helper.itemView.apply {
+
+            if(item.score.isNullOrEmpty()){
+                txt_score.visibility=View.GONE
+            }else{
+                txt_score.visibility=View.VISIBLE
+            }
+            if (position > 1 && item.field == data[position - 2].field) {
+                txt_court.visibility = View.GONE
+            } else {
+                txt_court.visibility = View.VISIBLE
+            }
+        }
 
         if ("男单" == item.type || "女单" == item.type) {
             helper.getView<View>(R.id.player12).visibility = View.GONE

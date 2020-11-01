@@ -48,7 +48,7 @@ class MatchFragment : BaseLazyLoadFragment<MatchPresenter>(), MatchContract.View
 
     override fun initData(savedInstanceState: Bundle?) {
         val years = arrayOf("2020", "2019", "2018", "2017", "2016", "2015", "2014")
-        spinner_year.initData(Arrays.asList(*years), 1)
+        spinner_year.initData(Arrays.asList(*years), 0)
         spinner_year.setOnSelectListener(object : SpinnerPopView.OnSelectListener {
             override fun onItemClick(pos: Int, name: String) {
                 presenter?.requestData(name, spinner_finish.selectName)
@@ -58,7 +58,7 @@ class MatchFragment : BaseLazyLoadFragment<MatchPresenter>(), MatchContract.View
         spinner_finish.initData(listOf(*finishes), 2)
         spinner_finish.setOnSelectListener(object : SpinnerPopView.OnSelectListener {
             override fun onItemClick(pos: Int, name: String) {
-                presenter?.requestData(spinner_finish.selectName, name)
+                presenter?.requestData(spinner_year.selectName, name)
             }
         })
         rcv.layoutManager = LinearLayoutManager(context)

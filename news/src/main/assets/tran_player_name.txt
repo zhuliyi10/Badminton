@@ -184,7 +184,7 @@ Mugdha AGREY=阿格瑞
 Sabrina JAQUET=贾奎特
 LEE Ying Ying=李盈盈
 GAO Fang Jie=高昉洁
-Carolina MARIN=马琳
+Carolina MARIN=马林
 Crystal PAN=潘欣欣
 Daniela MACIAS=马西亚斯
 Brittney TAM=布里特妮
@@ -449,6 +449,8 @@ LOH Kean Hean=骆建贤
 Arun GEORGE=乔治
 Sanyam SHUKLA=舒克拉
 Dominik STIPSITS=什蒂普希奇
+Joel EIPE=伊普
+Rasmus KJÆR=拉斯马斯
 
 
 
@@ -686,6 +688,8 @@ Amalie MAGELUND=克拉夫
 Freja RAVN=弗利亚
 Kati-Kreet MARRAN=凯蒂-克雷特
 Helina RÜÜTEL=赫莉娜
+Christine BUSCH=克莉斯汀·布施
+Amalie SCHULZ=阿美莱
 
 
 
@@ -815,3 +819,4 @@ Pawel SMILOWSKI=帕维尔
 Magdalena SWIERCZYNSKA=马格达莱纳·斯维尔琴
 Jakub BITMAN=比特曼
 Bahaedeen Ahmad ALSHANNIK=阿沙尼克
+Julien MAIO=马尤

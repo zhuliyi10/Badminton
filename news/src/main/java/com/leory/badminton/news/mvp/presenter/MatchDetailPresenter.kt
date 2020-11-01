@@ -49,10 +49,12 @@ constructor(model: MatchDetailContract.Model, rootView: MatchDetailContract.View
     }
 
     private fun requestMatchInfo() {
-        if (detailUrl != null) {
-            var requestUrl = detailUrl!! + "results/podium/"
-            if (isGroup) {
-                requestUrl = detailUrl!! + "podium"
+        detailUrl?.apply {
+            var requestUrl = this + "results/podium/"
+            if (this.contains("bwfworldtourfinals")){//年终总决赛
+                requestUrl=this+"results/"
+            }else if (isGroup) {//团体赛
+                requestUrl = this + "podium"
             }
             model.getMatchInfo(requestUrl)
                     .subscribeOn(Schedulers.io())

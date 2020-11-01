@@ -126,6 +126,7 @@ Denmark=丹麦
 Egypt=埃及
 England=英格兰
 Hong Kong=中国香港
+Hong Kong China=中国香港
 Korea=韩国
 Malaysia=马来西亚
 New Zealand=新西兰

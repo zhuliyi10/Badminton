@@ -13,7 +13,7 @@ ext {
             rxlifecycle2SdkVersion: "2.2.2",
             retorfitVersion       : "2.4.0",
             glideVersion          : "4.6.1",
-            butterknifeVersion    : "8.8.1"
+            butterknifeVersion    : "9.0.0"
     ]
 
     dependencies = [

@@ -37,8 +37,9 @@ class PlayerDetailPresenter @Inject constructor(model: PlayerContract.Model, roo
     }
 
     private fun requestData() {
-        if (playerUrl != null) {
-            model.getPlayerDetail(playerUrl)
+
+        playerUrl?.apply {
+            model.getPlayerDetail(playerUrl.replace("bwfworldtour.bwfbadminton.com", "bwfbadminton.cn"))
                     .subscribeOn(Schedulers.io())
                     .doOnSubscribe { rootView.showLoading() }.subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -52,6 +53,8 @@ class PlayerDetailPresenter @Inject constructor(model: PlayerContract.Model, roo
 
                     })
         }
+
+
     }
 
     private fun parseHtmlResult(html: String) {

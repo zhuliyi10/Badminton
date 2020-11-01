@@ -3,6 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
+        android:id="@+id/spinner_year"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/spinner_type"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical|right"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" />
+    <com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
+        android:id="@+id/spinner_type"
+        app:layout_constraintLeft_toRightOf="@+id/spinner_year"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical|right"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv"
@@ -10,7 +30,7 @@
         android:layout_height="0dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_year" />
 
     <FrameLayout
         android:id="@+id/progress"

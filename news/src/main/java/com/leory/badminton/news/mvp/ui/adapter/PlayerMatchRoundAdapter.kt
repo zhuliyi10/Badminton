@@ -8,6 +8,7 @@ import com.leory.badminton.news.R
 import com.leory.badminton.news.mvp.model.bean.PlayerMatchBean
 import com.leory.commonlib.base.BaseAdapter
 import com.leory.commonlib.utils.ImageUtils
+import kotlinx.android.synthetic.main.item_player_match_round.view.*
 
 /**
  * Describe : 运动员赛果比赛adapter
@@ -17,7 +18,9 @@ import com.leory.commonlib.utils.ImageUtils
 class PlayerMatchRoundAdapter(data: List<PlayerMatchBean.ResultRound>?) : BaseAdapter<PlayerMatchBean.ResultRound>(R.layout.item_player_match_round, data) {
 
     override fun convert(helper: BaseViewHolder, item: PlayerMatchBean.ResultRound) {
+
         helper.setText(R.id.txt_round, item.round)
+        helper.setText(R.id.txt_round2, item.round)
         helper.setText(R.id.txt_duration, item.duration)
         helper.setText(R.id.txt_player1, item.player1)
         helper.setText(R.id.txt_player2, item.player2)
@@ -25,6 +28,18 @@ class PlayerMatchRoundAdapter(data: List<PlayerMatchBean.ResultRound>?) : BaseAd
         ImageUtils.loadImage(mContext, helper.getView(R.id.img_flag2), item.flag2)
         helper.setText(R.id.vs, "vs")
         helper.setText(R.id.txt_score, item.score)
+        helper.itemView.apply {
+            txt_match.text=item.matchName
+            if(item.isShort){
+                txt_match.visibility=View.VISIBLE
+                txt_round.visibility=View.GONE
+                txt_round2.visibility=View.VISIBLE
+            }else{
+                txt_match.visibility=View.GONE
+                txt_round2.visibility=View.GONE
+                txt_round.visibility=View.VISIBLE
+            }
+        }
 
         val player12 = helper.getView<LinearLayout>(R.id.player12)
         val player22 = helper.getView<LinearLayout>(R.id.player22)

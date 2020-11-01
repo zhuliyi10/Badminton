@@ -12,6 +12,7 @@ import com.leory.badminton.news.mvp.model.bean.PlayerMatchBean
 import com.leory.badminton.news.mvp.presenter.PlayerMatchPresenter
 import com.leory.badminton.news.mvp.ui.adapter.PlayerMatchAdapter
 import com.leory.badminton.news.mvp.ui.widget.decoration.MatchDateItemDecoration
+import com.leory.badminton.news.mvp.ui.widget.spinner.SpinnerPopView
 import com.leory.commonlib.base.BaseLazyLoadFragment
 import com.leory.commonlib.base.delegate.IComponent
 import com.leory.commonlib.di.scope.FragmentScope
@@ -56,6 +57,20 @@ class PlayerMatchFragment : BaseLazyLoadFragment<PlayerMatchPresenter>(), Player
         rcv.layoutManager = LinearLayoutManager(context)
         rcv.addItemDecoration(MatchDateItemDecoration(context!!))
         rcv.adapter = adapter
+        val years = arrayOf("2020", "2019", "2018")
+        spinner_year.initData(listOf(*years), 0)
+        spinner_year.setOnSelectListener(object : SpinnerPopView.OnSelectListener {
+            override fun onItemClick(pos: Int, name: String) {
+                presenter?.requestData(spinner_year.selectName)
+            }
+        })
+        val types = arrayOf("全部", "精简")
+        spinner_type.initData(listOf(*types), 0)
+        spinner_type.setOnSelectListener(object : SpinnerPopView.OnSelectListener {
+            override fun onItemClick(pos: Int, name: String) {
+                presenter?.setIsShort(pos == 1)
+            }
+        })
     }
 
     override fun showLoading() {

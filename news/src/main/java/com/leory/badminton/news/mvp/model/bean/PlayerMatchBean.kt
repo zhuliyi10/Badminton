@@ -15,6 +15,7 @@ class PlayerMatchBean {
         var category: String? = null
         var date: String? = null
         var bonus: String? = null
+        var isShort:Boolean=false//是否简洁
     }
 
     class ResultRound {
@@ -30,5 +31,7 @@ class PlayerMatchBean {
         var vs: String? = null//"-"
         var duration: String? = null//时长
         var score: String? = null//比分
+        var matchName : String? = null//比赛名称
+        var isShort:Boolean=false//是否简洁
     }
 }

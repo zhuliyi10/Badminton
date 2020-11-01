@@ -1,15 +1,18 @@
 package com.leory.badminton.news.mvp.ui.adapter
 
 
+import android.app.Activity
 import android.view.View
 import android.widget.ImageView
 
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leory.badminton.news.R
 import com.leory.badminton.news.mvp.model.bean.MatchPlayerBean
+import com.leory.badminton.news.mvp.ui.activity.PlayerDetailActivity
 import com.leory.commonlib.base.BaseAdapter
 import com.leory.commonlib.image.ImageConfig
 import com.leory.commonlib.utils.AppUtils
+import kotlinx.android.synthetic.main.item_match_player.view.*
 
 /**
  * Describe : 参赛运动员adapter
@@ -33,6 +36,14 @@ class MatchPlayerAdapter(data: List<MatchPlayerBean>?) : BaseAdapter<MatchPlayer
             helper.getView<View>(R.id.player2).visibility = View.GONE
         }
 
+        helper.itemView.apply {
+            player1.setOnClickListener {
+                PlayerDetailActivity.launch(mContext as Activity,item.url1)
+            }
+            player2.setOnClickListener {
+                PlayerDetailActivity.launch(mContext as Activity,item.url2)
+            }
+        }
     }
 
     private fun loadImg(imageView: ImageView, url: String?) {

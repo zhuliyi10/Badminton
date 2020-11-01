@@ -125,6 +125,7 @@ class MatchPlayersPresenter @Inject constructor(model: MatchDetailContract.Model
                     val playerBean = MatchPlayerBean()
                     if (players.size > 0) {
                         val player = players[0]
+                        playerBean.url1=player.attr("href")
                         playerBean.head1 = player.select("div.entry-player-image img").first().attr("src")
                         playerBean.name1 = translatePlayerName(player.select("div.entry-player-name").first().text())
                         playerBean.flag1 = player.select("div.entry-player-flag img").first().attr("src")
@@ -132,6 +133,7 @@ class MatchPlayersPresenter @Inject constructor(model: MatchDetailContract.Model
                     }
                     if (players.size > 1) {
                         val player = players[1]
+                        playerBean.url2=player.attr("href")
                         playerBean.head2 = player.select("div.entry-player-image img").first().attr("src")
                         playerBean.name2 = translatePlayerName(player.select("div.entry-player-name").first().text())
                         playerBean.flag2 = player.select("div.entry-player-flag img").first().attr("src")

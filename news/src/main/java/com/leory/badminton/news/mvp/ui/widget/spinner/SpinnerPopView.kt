@@ -61,9 +61,8 @@ class SpinnerPopView @JvmOverloads constructor(context: Context, attrs: Attribut
      * 获取获取的名称
      * @return
      */
-    val selectName: String  by lazy {
-        txt_name.text.toString()
-    }
+    var selectName: String=""
+        get() = txt_name.text.toString()
 
 
     init {
